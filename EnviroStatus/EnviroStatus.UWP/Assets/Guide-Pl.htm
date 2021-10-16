@@ -1,0 +1,64 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Language" content="pl">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style type="text/css">
+.center {
+				text-align: center;
+}
+</style>
+</head>
+<body>
+    <p>Aplikacja pokazująca smutną prawdę o skażeniu powietrza.</p>
+    <p>Jej zadaniem jest zebranie danych z różnych źródeł, są to:</p>
+    <!-- gwiazdka, i br, zeby nie bylo zmniejszenia tekstu -->
+    * GIOŚ, czyli Główny Inspektorat Ochrony Środowiska - jego sensory mierzą wiele parametrów powietrza<br />
+    * Airly, którego sensory mierzą jedynie zapylenie ('PeeMy')<br />
+    * DarkSky, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. UV index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną (i te dane prezentuję)<br />
+    * IMGW hydrologiczne, podaje stan wód<br />
+    * IMGW meteo, w tym dane o wietrze<br />
+    * radioactiveathome, sensory uczestniczące w tym projekcie mierzą promieniowanie tła<br />
+    * Foreca, z której biorę dane o najzimniejszym oraz najcieplejszym miejscu na świecie
+    <p>
+        Uwzględniane są czujniki odległe co najwyżej 10 km (Airly, GIOS, IMGW meteo), 25 km (IMGW hydro) lub 50 km (radioactive).
+    </p>
+
+    <p>
+        Ze względów technicznych, dane z trzech pierwszych ściągane są za pomocą API,
+        zaś z pozostałych przez symulację strony.
+        Ze względu zaś na warunki udostępniania danych przez Airly oraz DarkSky,
+        należy sobie założyć na ich portalu konto.
+        W ten sposob uzyskany API key należy wpisać w Ustawieniach aplikacji (bez niego aplikacja nie dostanie się do ich pomiarów)
+    </p>
+    <p>
+        W Szczegółach parametru można zobaczyć <a href='https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'>zalecenia WHO</a>,
+        a także <a href="http://prawo.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20120001031">poziomy wedle prawa polskiego</a>,
+        które jest niemal równoważne obowiązującej <a href="https://eur-lex.europa.eu/legal-content/PL/ALL/?uri=CELEX:32008L0050">Dyrektywie UE.</a>
+        Aplikacja oznacza wykrzyknikami przekroczenie albo zaleceń WHO (uzupełnione unijnym limitem benzenu),
+        albo limitów UE. Gdy wzorcem jest WHO, to jeden wykrzyknik oznacza przekroczenie normy rocznej, dwa - normy dziennej, trzy - dwukrotne przekroczenie normy dziennej.
+        Gdy wzorcem jest UE, to jeden wykrzyknik oznacza przekroczenie poziomu dopuszczalnego (docelowego),
+        dwa - przekroczenie poziomu informowania, a trzy - poziomu alarmowania.
+    </p>
+    <p>
+        Aplikacja pozwala stworzyć listę lokalizacji - pod podaną nazwą, zapamiętywane są współrzędne
+        oraz lista znalezionych czujników. Aplikacja nie sprawdza później, czy nie zostały zainstalowane
+        nowe czujniki; można jednak zawsze powtórzyć wyszukanie czujników wedle GPS i ponownie zapisać
+        miejsce używając tej samej nazwy.
+    </p>
+    <p>
+        Dodatkowo, aplikacja przelicza jaka byłaby wilgotność w pomieszczeniu o podanej kubaturze,
+        gdyby całkowicie wymienić powietrze, i zmienić temperaturę (np. w zimie - podgrzać);
+        oraz ile wody należałoby dodać by wilgotność była w zalecanym zakresie (40-60 %).
+        Efekty przeliczeń prezentowane są po wywołaniu menu kontekstowego dla pomiaru wilgotności.
+    </p>
+    <p>
+        Aplikacja tworzy także własny pomiar (wyliczany): temperaturę odczuwalną.
+        Ale to nie jest rzeczywista temperatura odczuwalna, bo aplikacja korzysta tylko z temperatury i wilgotności,
+        pomija efekt wiatru oraz nasłonecznienia.
+    </p>
+
+
+
+    <p>Miłego używania :)</p>
+</body></html>

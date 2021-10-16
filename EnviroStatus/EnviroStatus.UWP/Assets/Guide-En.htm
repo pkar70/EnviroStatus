@@ -1,0 +1,61 @@
+﻿<html>
+<head>
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <p>This app shows (sad) truth about air pollution in your vincinity.</p>
+    <p>It simply collects (merges) data from different sources:</p>
+    <!-- gwiazdka, i br, zeby nie bylo zmniejszenia tekstu -->
+    * GIOS, polish government's agency - sensors takes many measurements<br />
+    * DarkSky, although it is weather forecast service and not a sensors network, but it also presents official weather alerts, and e.g. UV index, cloud coverage, visibility, dew point and apparent temperature<br />
+    * Airly, sensors mainly for Particulate Matter (mainly Europe)<br />
+    * IMGW hydrology, Polish official hydrology service, status of rivers<br />
+    * IMGW meteo, Polish official meteo service, mainly wind data<br />
+    * radioactiveathome, radiation sensors (world)<br />
+    * Foreca, for current maximum and minimum world temperature
+
+    <p>
+        Sensors should be less than 10 km (Airly, GIOS) or less than 50 km (radioactive).
+    </p>
+    <p>
+        For technical reasons, data from three former sources are received by API,
+        and from rest - via web page simulation.
+        And for Airly and DarkSky rules, you have to create account on their portal.
+        After creating account, you get API key - please enter it in app Settings.
+    </p>
+    <p>
+        In measurement Details you can see <a href='https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'>WHO standards</a>,
+        <a href="http://prawo.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20120001031">levels from polish law</a>,
+        almost identical as levels in <a href="https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32008L0050">UE Directive.</a>
+
+        You can select what app marks (with exclamations) - values over WHO or over EU limits.
+        In 'WHO mode', one exclamation means value over annual average, two - daily average, and three - 2× daily average.
+        In 'EU mode', one exclamation means value over limit, two - over information threshold, and two - over alert treshold.
+    </p>
+    <p>
+        App allows you to create list of locations - under given name, it stores latitude/longitude
+        and list of nearest sensors. App doesn't check for new sensors' instalations;
+        but you can use 'GPS' option and save location under same name as before.
+    </p>
+
+    <p>
+        Also, app calculate how humidity would change if you replace whole air in room,
+        and change temperature (volume of room, and target temperature, can be set in Settings).
+        You get relative humidity, and how many water you should pump into air to get recommended humidity (40-60 %).
+        To see this data, please right click (tap) on Humidity measurement.
+    </p>
+    <p>
+        App creates own (calculated) measurement: apparent temperature.
+        But it is not real apparent temperature, as app uses only ambient temperature and humidity,
+        and doesn't have wind speed nor radiation effect included.
+    </p>
+
+    <p>Try this app and be happy :)</p>
+</body>
+</html>

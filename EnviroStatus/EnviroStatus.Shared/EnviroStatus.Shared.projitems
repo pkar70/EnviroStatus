@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>EnviroStatus.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Info.xaml.cs">
+      <DependentUpon>Info.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)pkModuleShared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)pswd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsSharing.xaml.cs">
+      <DependentUpon>SettingsSharing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)TypePomiar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WedleMapy.xaml.cs">
+      <DependentUpon>WedleMapy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodelka.xaml.cs">
+      <DependentUpon>Zrodelka.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ZrodloBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_Airly.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_DarkSky.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_EEAair.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_EUradiation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_Foreca.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_GIOS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_IMGWhydro.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_IMGWmeteo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaAlert.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaKindex.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaWind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_RadioAtHome.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_SeismicPortal.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Info.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)SettingsSharing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)WedleMapy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Zrodelka.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\pl\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Assets\" />
+  </ItemGroup>
+</Project>

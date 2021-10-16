@@ -1,0 +1,113 @@
+﻿<Page
+    x:Class="EnviroStatus.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EnviroStatus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:not_win="http://uno.ui/not_win"
+    mc:Ignorable="d not_win"
+    Loaded="Page_Loaded">
+
+    <!--     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" -->
+
+    <Grid Margin="5,5,5,5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="18" HorizontalAlignment="Center" Text="Settings" x:Uid="uiSettingsTitle"/>
+        <TextBlock FontSize="10" HorizontalAlignment="Center" Text="." x:Name="uiVersion" Grid.Row="1"/>
+
+        <ScrollViewer Grid.Row="2">
+            <StackPanel>
+                <ComboBox x:Name="uiStartLoc" Header="Start location" x:Uid="uiSettingsStartLoc"/>
+                <ComboBox x:Name="uiLiveTile" Header="Live tile" x:Uid="uiSettingsLiveTile" not_win:Visibility="Collapsed" />
+                <ToggleSwitch x:Name="uiLiveTileClock" OffContent="last position (30 min)" OnContent="GPS (60 min)" x:Uid="uiSettingsLiveTileClock" not_win:Visibility="Collapsed" />
+                <StackPanel Orientation="Horizontal" > <!-- not_win:Visibility="Collapsed" -->
+                    <ComboBox x:Name="uiAlerts" Header="Alerty" x:Uid="uiSettingsAlerty" >
+                        <ComboBoxItem Content="nie chcę" x:Uid="uiSettingsAlertyNone"/>
+                        <ComboBoxItem Content="średnia roczna (!)" x:Uid="uiSettingsAlertyRok" />
+                        <ComboBoxItem Content="średnia godzinna (!!)" x:Uid="uiSettingsAlertyGodz" />
+                        <ComboBoxItem Content="2× średnia godzinna (!!!)" x:Uid="uiSettingsAlerty2Godz" />
+                    </ComboBox>
+                    <ComboBox x:Name="uiLimitWgCombo" Header="Limit wg" x:Uid="uiLimitWgCombo" >
+                        <ComboBoxItem Content="EU" x:Uid="uiLimitWgComboEU"/>
+                        <ComboBoxItem Content="WHO 2005"  />
+                        <ComboBoxItem Content="WHO 2021"  />
+                    </ComboBox>
+                    <!--<ToggleSwitch x:Name="uiLimitWg" x:Uid="uiLimitWg" OnContent="WHO" OffContent="UE" Margin="20,15,0,0"/>-->
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  not_win:Visibility="Collapsed" >
+                    <ToggleSwitch Header="Log data" x:Name="uiDataLogs" x:Uid="uiSettingsDataLog" />
+                    <Button Content="Open folder" x:Uid="uiSettingsOpenLogs" VerticalAlignment="Center" Click="uiOpenLogs_Click" IsEnabled="{Binding ElementName=uiDataLogs, Path=IsOn}" />
+                    <!--<ToggleSwitch Header="Log data" x:Name="uiDataLogs" x:Uid="uiSettingsDataLog" Toggled="uiDataLogs_Toggled"/>
+                    <Button x:Name="uiOpenLogs" Content="Open folder" x:Uid="uiSettingsOpenLogs" VerticalAlignment="Center" Click="uiOpenLogs_Click" />-->
+                </StackPanel>
+                <!--<ToggleSwitch x:Name="uiDelToastOnOpen" Header="Delete toasts on opening app" x:Uid="uiDelToastOnOpen"/>-->
+                <StackPanel BorderThickness="1"  >
+                    <!-- wersja TextBox -->
+                    <!--
+                    <TextBox x:Name="uiKubatura" Header="Volume for higrometr" x:Uid="uiKubatura" InputScope="Number" />
+                    <TextBox x:Name="uiIntTemp" Header="Temperatura" x:Uid="uiIntTemp" InputScope="Number" />
+                    -->
+                    <!-- wersja NumberBox -->
+                    <muxc:NumberBox x:Name="uiKubatura" Header="Volume for higrometer" x:Uid="uiKubatura" Minimum="0" AcceptsExpression="true" SpinButtonPlacementMode="Inline" HorizontalAlignment="Left"/>
+                    <muxc:NumberBox x:Name="uiIntTemp" Header="Temperatura" x:Uid="uiIntTemp" Minimum="10" Maximum="35" SpinButtonPlacementMode="Inline" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <ToggleSwitch x:Name="uiSimulGPS" Header="Simulate GPS" Toggled="uiSimulGPS_Toggled"/>
+                <Grid x:Name="uiGridGPS" Visibility="Collapsed" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Latitude" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="Longitude" Grid.Row="1" Grid.Column="0"/>
+                    <!-- wersja TextBox -->
+                    <!--
+                    <TextBox x:Name="uiLatitude"  Grid.Row="0" Grid.Column="1" InputScope="Number"  />
+                    <TextBox x:Name="uiLongitude"  Grid.Row="1" Grid.Column="1" InputScope="Number" />
+                    -->
+                    <!-- wersja NumberBox -->
+                    <muxc:NumberBox x:Name="uiLatitude" Grid.Row="0" Grid.Column="1" Minimum="-90" Maximum="90" HorizontalAlignment="Left" Width="300" />
+                    <muxc:NumberBox x:Name="uiLongitude" Grid.Row="1" Grid.Column="1" Minimum="0" Maximum="360" HorizontalAlignment="Left" Width="300" />
+
+                </Grid>
+                <ToggleSwitch x:Name="uiFileCache" Header="Save current data " not_win:Visibility="Collapsed"  />
+
+                <!-- <Button Content="Simulate GPS..." IsEnabled="False"  x:Uid="uiSettingsSimulGPS" Margin="0,15,0,0"/> -->
+                <Button HorizontalAlignment="Center" Content="Save!" Click="uiSave_Click"  x:Uid="uiSettingsSave" Margin="0,20,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <not_win:Grid Grid.Row="3" Margin="0,10,0,0">
+            <!--<CommandBar >-->
+                <StackPanel Orientation="Horizontal" >
+                    <AppBarButton Icon="Accept" Label="Ok" Click="uiSave_Click"  />
+                    <AppBarSeparator />
+                    <AppBarButton Icon="MapDrive" Label="Sources" Click="uiDataSources_Click" x:Uid="uiDataSources" />
+            </StackPanel>
+            <!--</CommandBar>-->
+        </not_win:Grid>
+
+    </Grid>
+
+    <win:Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Accept" Label="Ok" Click="uiSave_Click"  />
+            <AppBarSeparator />
+            <AppBarButton Icon="MapDrive" Label="Sources" Click="uiDataSources_Click" x:Uid="uiDataSources" />
+            <AppBarButton Icon="Send" Label="Sharing" x:Uid="uiSettSharing" Click="uiSettSharing_Click"  not_win:Visibility="Collapsed" />
+        </CommandBar>
+
+    </win:Page.BottomAppBar>
+
+</Page>
