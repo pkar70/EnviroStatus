@@ -3,7 +3,7 @@ This is my app, that can be installed from:
 ## Windows version
 Primary version.
 
-English: https://www.microsoft.com/en-us/p/s/9PHHVVCP239D
+English: https://www.microsoft.com/en-us/p/s/9PHHVVCP239D <br/>
 Język polski: https://www.microsoft.com/pl-pl/p/s/9PHHVVCP239D
 
 ## Android version
