@@ -183,7 +183,7 @@ namespace EnviroStatus
     </p>
 
     <p>Miłego używania :)</p>
-    <p>Pełny podręcznik: <a href='http://beskid.geo.uj.edu.pl/p/ms/help/SmogMeter-Guide.htm'>tutaj</a>
+    <p>Pełny podręcznik: <a href='https://github.com/pkar70/EnviroStatus/wiki/Instrukcja'>tutaj</a>
 "; 
         }
 
@@ -242,7 +242,7 @@ You should not enable both EEA and GIOS - as EEA uses data from GIOS.
     </p>
 
     <p>Try this app and be happy :)</p>
-    <p>Full user guide: <a href='http://beskid.geo.uj.edu.pl/p/ms/help/SmogMeter-Guide.htm'>here</a>
+    <p>Full user guide: <a href='https://github.com/pkar70/EnviroStatus/wiki/Instrukcja'>here</a>
 ";
 
         }
