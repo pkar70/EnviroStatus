@@ -32,27 +32,27 @@
     <Compile Include="$(MSBuildThisFileDirectory)SettingsSharing.xaml.cs">
       <DependentUpon>SettingsSharing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)TypePomiar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypePomiar_EMPTY.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WedleMapy.xaml.cs">
       <DependentUpon>WedleMapy.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Zrodelka.xaml.cs">
       <DependentUpon>Zrodelka.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ZrodloBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_Airly.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_DarkSky.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_EEAair.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_EUradiation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_Foreca.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_GIOS.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_IMGWhydro.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_IMGWmeteo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaAlert.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaKindex.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaWind.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_RadioAtHome.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_SeismicPortal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ZrodloBase_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_Airly_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_DarkSky_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_EEAair_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_EUradiation_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_Foreca_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_GIOS_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_IMGWhydro_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_IMGWmeteo_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaAlert_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaKindex_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_NoaaWind_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_RadioAtHome_EMPTY.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zrodlo_SeismicPortal_EMPTY.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Info.xaml">
@@ -83,6 +83,8 @@
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\pl\Resources.resw" />
+    <None Include="$(MSBuildThisFileDirectory)_changes.txt" />
+    <None Include="$(MSBuildThisFileDirectory)_tudus.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Assets\" />

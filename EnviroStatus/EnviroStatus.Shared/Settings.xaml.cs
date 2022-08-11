@@ -4,6 +4,9 @@ using Windows.UI.Xaml;
 using System.Linq;
 using System;
 using Windows.UI.Xaml.Controls;
+using vb14 = VBlib.pkarlibmodule14;
+using static p.Extensions;
+
 //using MUXC = Microsoft.UI.Xaml.Controls;
 //using Microsoft.VisualBasic.CompilerServices;
 
@@ -29,13 +32,13 @@ namespace EnviroStatus
         {
             uiCombo.Items.Clear();
 
-            string sCurrent = p.k.GetSettingsString(sResCurr);
+            string sCurrent = vb14.GetSettingsString(sResCurr);
 
             ComboBoxItem oCBI;
             if (!string.IsNullOrEmpty(sResAdditItem))
             {
                 oCBI = new ComboBoxItem();
-                string sAdditItem = p.k.GetLangString(sResAdditItem);
+                string sAdditItem = vb14.GetLangString(sResAdditItem);
                 oCBI.Content = sAdditItem;
                 if (string.IsNullOrEmpty(sCurrent) || (sCurrent == sAdditItem))
                     oCBI.IsSelected = true;
@@ -43,7 +46,7 @@ namespace EnviroStatus
             }
 
 
-            string sTxt = p.k.GetSettingsString(sList);
+            string sTxt = vb14.GetSettingsString(sList);
             var aNames = sTxt.Split('|');
             foreach (string sName in aNames)
             {
@@ -59,18 +62,18 @@ namespace EnviroStatus
         {
             uiCombo.Items.Clear();
 
-            string sCurrent = p.k.GetSettingsString(sResCurr);
+            string sCurrent = vb14.GetSettingsString(sResCurr);
 
             var oCBI = new ComboBoxItem();
             if (!string.IsNullOrEmpty(sResAdditItem))
             {
-                oCBI.Content = p.k.GetLangString(sResAdditItem);
+                oCBI.Content = vb14.GetLangString(sResAdditItem);
                 if (!string.IsNullOrEmpty(sCurrent) && (sCurrent == oCBI.Content.ToString()))
                     oCBI.IsSelected = true;
                 uiCombo.Items.Add(oCBI);
             }
 
-            foreach (EnviroStatus.JedenPomiar oItem in EnviroStatus.App.moPomiaryAll)
+            foreach (VBlib.JedenPomiar oItem in VBlib.App.moPomiaryAll)
             {
                 if (!oItem.bDel)
                 {
@@ -85,7 +88,7 @@ namespace EnviroStatus
 
         private void ComboAlerts(ComboBox uiCombo, string sCurr)
         {
-            string sCurrent = p.k.GetSettingsString(sCurr);
+            string sCurrent = vb14.GetSettingsString(sCurr);
 
             int iInd;// = -1;
             var loopTo = uiCombo.Items.Count - 1;
@@ -102,11 +105,11 @@ namespace EnviroStatus
         private void SetComboWedlug()
         {   // 2021.09.23
 
-            int iWg = p.k.GetSettingsInt("uiLimitWgCombo", -1);
+            int iWg = vb14.GetSettingsInt("uiLimitWgCombo", -1);
             if(iWg == -1)
             {
                 iWg = 0;
-                if (p.k.GetSettingsBool("settingsWHO", true))
+                if (vb14.GetSettingsBool("settingsWHO", true))
                     iWg = 1;
             }
             uiLimitWgCombo.SelectedIndex = iWg;
@@ -114,19 +117,19 @@ namespace EnviroStatus
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            uiVersion.Text = p.k.GetLangString("msgVersion") + " " + p.k.GetAppVers();
+            uiVersion.Text = vb14.GetLangString("msgVersion") + " " + p.k.GetAppVers();
 
             FillCombo(uiStartLoc, "settingStartPage", "favNames", "resNoAutostart");
             FillComboLiveTile(uiLiveTile, "settingsLiveTile", "resDeadTile");
             ComboAlerts(uiAlerts, "settingsAlerts");
             SetComboWedlug();
 
-            p.k.GetSettingsBool(uiLiveTileClock, "settingsLiveClock");
-            p.k.GetSettingsBool(uiDataLogs, "settingsDataLog");
+            uiLiveTileClock.GetSettingsBool("settingsLiveClock");
+            uiDataLogs.GetSettingsBool("settingsDataLog");
 
 #if _PK_NUMBOX_
-            p.k.GetSettingsInt(uiKubatura, "higroKubatura", 100, 0);
-            p.k.GetSettingsInt(uiIntTemp, "higroTemp", 1, 22);
+            uiKubatura.Value = (vb14.GetSettingsInt("higroKubatura", 0) / 100.0);
+            uiIntTemp.Value = vb14.GetSettingsInt("higroTemp", 22);
 #else
             //uiKubatura.Text = (p.k.GetSettingsInt("higroKubatura", 0) / 100.0).ToString();
             //uiIntTemp.Text = (p.k.GetSettingsInt("higroTemp", 22)).ToString();
@@ -134,10 +137,22 @@ namespace EnviroStatus
 
             //uiLongitude.Text = App.moGpsPoint.Y.ToString();
             //uiLatitude.Text = App.moGpsPoint.X.ToString();
-            p.k.GetSettingsString(uiLatitude, "gpsEmulationLat", App.moGpsPoint.Latitude.ToString());
-            p.k.GetSettingsString(uiLongitude, "gpsEmulationLon", App.moGpsPoint.Longitude.ToString());
+            
+            // 2022.08.11 - po przenosinach do VB? wejście do settings jako pierwsza rzecz zrobiona daje NULL
+            if(VBlib.App.moGpsPoint is null)
+            {
+                uiLatitude.Text = vb14.GetSettingsString("gpsEmulationLat");
+                uiLongitude.Text = vb14.GetSettingsString("gpsEmulationLon");
+            }
+            else
+            {
+                uiLatitude.Text = vb14.GetSettingsString("gpsEmulationLat", VBlib.App.moGpsPoint.Latitude.ToString());
+                uiLongitude.Text = vb14.GetSettingsString("gpsEmulationLon", VBlib.App.moGpsPoint.Longitude.ToString());
+            }
+            //p.k.GetSettingsString(uiLatitude, "gpsEmulationLat", App.moGpsPoint.Latitude.ToString());
+            //p.k.GetSettingsString(uiLongitude, "gpsEmulationLon", App.moGpsPoint.Longitude.ToString());
 
-            p.k.GetSettingsBool(uiFileCache, "settingsFileCache");
+            uiFileCache.GetSettingsBool("settingsFileCache");
         }
 
         private string VerifyDataOK()
@@ -182,7 +197,7 @@ namespace EnviroStatus
             string sMsg = VerifyDataOK();
             if (!string.IsNullOrEmpty(sMsg))
             {
-                await p.k.DialogBoxAsync(sMsg);
+                await vb14.DialogBoxAsync(sMsg);
                 return;
             }
 
@@ -194,9 +209,9 @@ namespace EnviroStatus
             {
                 try
                 {
-                    p.k.SetSettingsString("settingStartPage", (uiStartLoc.SelectedValue as ComboBoxItem).Content.ToString());
+                    vb14.SetSettingsString("settingStartPage", (uiStartLoc.SelectedValue as ComboBoxItem).Content.ToString());
                 }
-                catch (Exception ex)
+                catch
                 {
                 }
             }
@@ -205,31 +220,31 @@ namespace EnviroStatus
             {
                 try
                 {
-                    p.k.SetSettingsString("settingsLiveTile", (uiLiveTile.SelectedValue as ComboBoxItem).Content.ToString());
+                    vb14.SetSettingsString("settingsLiveTile", (uiLiveTile.SelectedValue as ComboBoxItem).Content.ToString());
                 }
-                catch (Exception ex)
+                catch 
                 {
                 }
             }
 
             try
             {
-                p.k.SetSettingsString("settingsAlerts", (uiAlerts.SelectedValue as ComboBoxItem).Content.ToString());
+                vb14.SetSettingsString("settingsAlerts", (uiAlerts.SelectedValue as ComboBoxItem).Content.ToString());
             }
-            catch (Exception ex)
+            catch 
             {
             }
 
             //p.k.SetSettingsBool("settingsWHO", uiLimitWg.IsOn);
-            p.k.SetSettingsInt("uiLimitWgCombo", uiLimitWgCombo.SelectedIndex);
+            vb14.SetSettingsInt("uiLimitWgCombo", uiLimitWgCombo.SelectedIndex);
 
 
-            p.k.SetSettingsBool("settingsLiveClock", uiLiveTileClock.IsOn);
-            p.k.SetSettingsBool("settingsDataLog", uiDataLogs.IsOn);
+            uiLiveTileClock.SetSettingsBool("settingsLiveClock");
+            uiDataLogs.SetSettingsBool("settingsDataLog");
 
 #if _PK_NUMBOX_
-            p.k.SetSettingsInt(uiKubatura, "higroKubatura", 100);
-            p.k.SetSettingsInt(uiIntTemp, "higroTemp");
+            vb14.SetSettingsInt("higroKubatura", (int)uiKubatura.Value * 100);
+            vb14.SetSettingsInt("higroTemp", (int)uiIntTemp.Value);
 #else
             double dTmp;// = 0;
             if (double.TryParse(uiKubatura.Text, out dTmp))
@@ -240,31 +255,31 @@ namespace EnviroStatus
             p.k.SetSettingsInt("higroTemp", iTmp);
 #endif
 
-            p.k.SetSettingsBool("simulateGPS", uiSimulGPS.IsOn);
+            uiSimulGPS.SetSettingsBool("simulateGPS");
             if (uiSimulGPS.IsOn)
             {
                 try
                 {
-                    p.k.SetSettingsString(uiLatitude, "gpsEmulationLat");
-                    p.k.SetSettingsString(uiLongitude, "gpsEmulationLon");
+                    vb14.SetSettingsString("gpsEmulationLat", uiLatitude.Value.ToString());
+                    vb14.SetSettingsString("gpsEmulationLon", uiLongitude.Value.ToString());
 #if _PK_NUMBOX_
-                    EnviroStatus.App.moGpsPoint.Latitude = uiLatitude.Value;
-                    EnviroStatus.App.moGpsPoint.Longitude = uiLongitude.Value;
+                    VBlib.App.moGpsPoint.Latitude = uiLatitude.Value;
+                    VBlib.App.moGpsPoint.Longitude = uiLongitude.Value;
 #else
                     double dTmpDeg;
                     double.TryParse(uiLatitude.Text, out dTmpDeg);
-                    EnviroStatus.App.moGpsPoint.Latitude = dTmpDeg;
+                    App.moGpsPoint.Latitude = dTmpDeg;
                     double.TryParse(uiLongitude.Text, out dTmpDeg);
-                    EnviroStatus.App.moGpsPoint.Longitude = dTmpDeg;
+                    App.moGpsPoint.Longitude = dTmpDeg;
 #endif
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    p.k.SetSettingsBool("simulateGPS", false);
+                    vb14.SetSettingsBool("simulateGPS", false);
                 }
             }
 
-            p.k.SetSettingsBool(uiFileCache, "settingsFileCache");
+            uiFileCache.SetSettingsBool("settingsFileCache");
             // SetSettingsBool(uiDelToastOnOpen, "settingsDelToastOnOpen")
 
 

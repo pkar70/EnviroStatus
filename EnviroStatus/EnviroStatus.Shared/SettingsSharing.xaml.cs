@@ -1,6 +1,8 @@
 ﻿
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using vb14 = VBlib.pkarlibmodule14;
+using static p.Extensions;
 
 namespace EnviroStatus
 {
@@ -13,20 +15,20 @@ namespace EnviroStatus
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            p.k.GetSettingsBool(uiFileCache, "settingsFileCache");
-            p.k.GetSettingsBool(uiFileCacheRoam, "settingsFileCacheRoam");
-            p.k.GetSettingsBool(uiRemSysAllowData, "settingsRemSysData");
-            p.k.GetSettingsBool(uiRemSysAllowAPIKey, "settingsRemSysAPI");
+            uiFileCache.GetSettingsBool("settingsFileCache");
+            uiFileCacheRoam.GetSettingsBool("settingsFileCacheRoam");
+            uiRemSysAllowData.GetSettingsBool("settingsRemSysData");
+            uiRemSysAllowAPIKey.GetSettingsBool("settingsRemSysAPI");
 
-            uiRemSysAllowAPIKey.IsEnabled = p.k.GetSettingsBool("sourceDarkSky");
+            uiRemSysAllowAPIKey.IsEnabled = vb14.GetSettingsBool("sourceDarkSky");
         }
 
         private void uiSave_Click(object sender, RoutedEventArgs e)
         {
-            p.k.SetSettingsBool(uiFileCache, "settingsFileCache");
-            p.k.SetSettingsBool(uiFileCacheRoam, "settingsFileCacheRoam");
-            p.k.SetSettingsBool(uiRemSysAllowData, "settingsRemSysData");
-            p.k.SetSettingsBool(uiRemSysAllowAPIKey, "settingsRemSysAPI");
+            uiFileCache.SetSettingsBool("settingsFileCache");
+            uiFileCacheRoam.SetSettingsBool("settingsFileCacheRoam");
+            uiRemSysAllowData.SetSettingsBool("settingsRemSysData");
+            uiRemSysAllowAPIKey.SetSettingsBool("settingsRemSysAPI");
             Frame.GoBack();
         }
 

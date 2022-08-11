@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="errAnyError" xml:space="preserve">
+    <value>Błąd</value>
+  </data>
+  <data name="errNoNet" xml:space="preserve">
+    <value>Bez sieci nie da rady</value>
+  </data>
+  <data name="errNoRoamFolder" xml:space="preserve">
+    <value>Brak dostępu do katalogu</value>
+  </data>
+  <data name="errXBoxNot" xml:space="preserve">
+    <value>Windows na XBox nie ma tej funkcjonalności.</value>
+  </data>
+  <data name="manifestAppName" xml:space="preserve">
+    <value>Smogometr</value>
+  </data>
+  <data name="msgAllOk" xml:space="preserve">
+    <value>Czyste powietrze :)</value>
+  </data>
+  <data name="msgAndroidToastTitle" xml:space="preserve">
+    <value>Zmiany stanu środowiska:</value>
+  </data>
+  <data name="msgCopyDetails" xml:space="preserve">
+    <value>Kopiuj</value>
+  </data>
+  <data name="msgFirstRunGoSetup" xml:space="preserve">
+    <value>Pierwsze uruchomienie - włącz wybrane źródła danych.</value>
+  </data>
+  <data name="msgForAPIkey" xml:space="preserve">
+    <value>Aby uzyskać API key, zarejestruj się</value>
+  </data>
+  <data name="msgVersion" xml:space="preserve">
+    <value>wersja</value>
+  </data>
+  <data name="msgWilgInt" xml:space="preserve">
+    <value>Wilgotność wewnątrz</value>
+  </data>
+  <data name="msgYes" xml:space="preserve">
+    <value>Tak</value>
+  </data>
+  <data name="resCalculated" xml:space="preserve">
+    <value>wartość obliczona</value>
+  </data>
+  <data name="resDeadTile" xml:space="preserve">
+    <value>(martwe tile)</value>
+  </data>
+  <data name="resDlgCancel" xml:space="preserve">
+    <value>zaniechaj</value>
+  </data>
+  <data name="resDlgContinue" xml:space="preserve">
+    <value>dalej</value>
+  </data>
+  <data name="resDlgNo" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="resDlgYes" xml:space="preserve">
+    <value>Tak</value>
+  </data>
+  <data name="resErrorGettingPos" xml:space="preserve">
+    <value>Nie udało się uzyskać współrzędnych lokalizacji.</value>
+  </data>
+  <data name="resErrorNoGPSAllowed" xml:space="preserve">
+    <value>Brak dostępu do usługi lokalizacji. Sprawdź uprawnienia aplikacji.</value>
+  </data>
+  <data name="resGlebokosc" xml:space="preserve">
+    <value>głębokość</value>
+  </data>
+  <data name="resImgwHydroAllOFF" xml:space="preserve">
+    <value>Najbliższa rzeka</value>
+  </data>
+  <data name="resImgwHydroAllON" xml:space="preserve">
+    <value>Wszystkie rzeki w pobliżu</value>
+  </data>
+  <data name="resImgwMeteo10minOFF" xml:space="preserve">
+    <value>Opad 60 min</value>
+  </data>
+  <data name="resImgwMeteo10minON" xml:space="preserve">
+    <value>Opad 10 min</value>
+  </data>
+  <data name="resNazwa" xml:space="preserve">
+    <value>Nazwa miejsca</value>
+  </data>
+  <data name="resNoAutostart" xml:space="preserve">
+    <value>(bez autoload)</value>
+  </data>
+  <data name="resNoSensorInRange" xml:space="preserve">
+    <value>Nie znalazłem żadnego czujnika w okolicy</value>
+  </data>
+  <data name="resPomiarAdditSolarWindDensity" xml:space="preserve">
+    <value>Gęstość wiatru słonecznego</value>
+  </data>
+  <data name="resPomiarAdditSolarWindSpeed" xml:space="preserve">
+    <value>Szybkość wiatru słonecznego</value>
+  </data>
+  <data name="resPomiarAdditSolarWindTemp" xml:space="preserve">
+    <value>Temperatura wiatru słonecznego</value>
+  </data>
+  <data name="resPomiarNoaaKindexPredicted" xml:space="preserve">
+    <value>Przewidywany na</value>
+  </data>
+  <data name="resPomiarOpad" xml:space="preserve">
+    <value>Opad</value>
+  </data>
+  <data name="resPomiarRosa" xml:space="preserve">
+    <value>Punkt rosy</value>
+  </data>
+  <data name="resPomiarSolarWindDensity" xml:space="preserve">
+    <value>WtrSł gęstość</value>
+  </data>
+  <data name="resPomiarSolarWindSpeed" xml:space="preserve">
+    <value>WtrSł szybk</value>
+  </data>
+  <data name="resPomiarSolarWindTemp" xml:space="preserve">
+    <value>WtrSł temp</value>
+  </data>
+  <data name="resPomiarWidocz" xml:space="preserve">
+    <value>Widoczność</value>
+  </data>
+  <data name="resPomiarWind" xml:space="preserve">
+    <value>Wiatr</value>
+  </data>
+  <data name="resPomiarZachm" xml:space="preserve">
+    <value>Zachmurzenie</value>
+  </data>
+  <data name="resRAHdailyAvg" xml:space="preserve">
+    <value>Średnia 24 godzinna</value>
+  </data>
+  <data name="resSaveFav" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="resSeismicEU_All" xml:space="preserve">
+    <value>suma wszystkich</value>
+  </data>
+  <data name="resSeismicEU_DistAll" xml:space="preserve">
+    <value>wszystkie</value>
+  </data>
+  <data name="resSeismicEU_HomekWh" xml:space="preserve">
+    <value>domowego miesięcznego zużycia</value>
+  </data>
+  <data name="resSeismicEU_HomekWh_Hdr" xml:space="preserve">
+    <value>Miesięczne zużycie w Twoim domu</value>
+  </data>
+  <data name="resSeismicEU_KrajTWh" xml:space="preserve">
+    <value>miesięcznej produkcji krajowej</value>
+  </data>
+  <data name="resSeismicEU_KrajTWh_Hdr" xml:space="preserve">
+    <value>Roczna produkcja krajowa</value>
+  </data>
+  <data name="resSeismicEU_Max" xml:space="preserve">
+    <value>jedno najsilniejsze</value>
+  </data>
+  <data name="resSeismicEU_SldHdr" xml:space="preserve">
+    <value>Zasięg</value>
+  </data>
+  <data name="resTempOdczuwana" xml:space="preserve">
+    <value>T odczuwana</value>
+    <comment>non breaking space, 0xA0</comment>
+  </data>
+  <data name="resWysokosc" xml:space="preserve">
+    <value>wysokość</value>
+  </data>
+  <data name="_lang" xml:space="preserve">
+    <value>PL</value>
+  </data>
+</root>
