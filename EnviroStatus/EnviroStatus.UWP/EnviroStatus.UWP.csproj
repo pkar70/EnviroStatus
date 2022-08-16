@@ -117,8 +117,8 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="ClassDiagram1.cd" />
     <None Include="EnviroStatus.UWP_TemporaryKey.pfx" />
+    <None Include="Properties\ServiceReferences.Designer.ClientConfig" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Guide-En.htm" />
@@ -148,6 +148,9 @@
       <Project>{4178e5ac-d646-4781-8423-0814dd17f72f}</Project>
       <Name>VBlib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="..\EnviroStatus.Shared\EnviroStatus.Shared.projitems" Label="Shared" Condition="Exists('..\EnviroStatus.Shared\EnviroStatus.Shared.projitems')" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

@@ -480,11 +480,13 @@ Public Class App
         gaSrc.Add(New Source_NoaaAlert(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_SeismicPortal(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_RadioAtHome(bMyNotPublic, sTemplatePath))
+        gaSrc.Add(New Source_RadioPAA(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_Airly(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_EEAair(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_GIOS(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_IMGWhydro(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_IMGWmeteo(bMyNotPublic, sTemplatePath))
+        gaSrc.Add(New Source_Burze(bMyNotPublic, sTemplatePath))
     End Sub
 
 

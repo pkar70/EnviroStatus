@@ -172,8 +172,21 @@ namespace EnviroStatus
             //    oStack.Children.Add(oTH);
             //}
 
+            var oTB = new TextBlock();
+            oTB.Margin = new Thickness(1, 15, 1, 0);   // odstęp
+            oTB.Text = oZrodlo.SRC_SETTING_HEADER;
+            oTB.FontSize = 16;
+            oTB.FontWeight = Windows.UI.Text.FontWeights.Bold;
+            oStack.Children.Add(oTB);
+
+            var oLnk = new HyperlinkButton();
+            oLnk.Content = vb14.GetLangString("msgAboutLink");
+            oLnk.Margin = new Thickness(1, 0, 1, 2);   // odstęp
+            oLnk.NavigateUri = oZrodlo.GetAboutUri();
+            oStack.Children.Add(oLnk);
+
             var oTS = new ToggleSwitch();
-            oTS.Header = oZrodlo.SRC_SETTING_HEADER;
+            // oTS.Header = oZrodlo.SRC_SETTING_HEADER;
             oTS.Name = "uiConfig_" + oZrodlo.SRC_SETTING_NAME;
             oTS.IsOn = vb14.GetSettingsBool(oZrodlo.SRC_SETTING_NAME, oZrodlo.SRC_DEFAULT_ENABLE);
             oStack.Children.Add(oTS);

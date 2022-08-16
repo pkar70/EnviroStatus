@@ -126,10 +126,12 @@ namespace EnviroStatus
                     // zmiana na Concat: 2021.02.02
                     //App.moPomiaryAll.Concat(oPomiary);
 
+                    // VBlib.App.moPomiaryAll = VBlib.App.moPomiaryAll.Concat(oPomiary)
                     foreach (VBlib.JedenPomiar oPomiar in oPomiary)
                         VBlib.App.moPomiaryAll.Add(oPomiar);
 
-                    if (VBlib.App.moPomiaryAll.Count() > 0)
+                    // zmiana, jeśli coś nowego było
+                    if (oPomiary.Count > 0)
                         uiList.ItemsSource = (from c in VBlib.App.moPomiaryAll
                                               orderby c.sPomiar
                                               where c.bDel == false

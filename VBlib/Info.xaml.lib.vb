@@ -49,120 +49,120 @@ Public Class Info
 
     Private Shared Function GetHelpBodyPL() As String
         Return "
-        <p>aplikacja pokazująca smutną prawdę o skażeniu powietrza.</p>
-        <p>jej zadaniem jest zebranie danych z różnych źródeł, są to:</p>
+        <p>Aplikacja pokazująca smutną prawdę o skażeniu powietrza.</p>
+        <p>Jej zadaniem jest zebranie danych z różnych źródeł, są to:</p>
         <!-- gwiazdka, i br, zeby nie bylo zmniejszenia tekstu -->
-        * gioś, czyli główny inspektorat ochrony środowiska - jego sensory mierzą wiele parametrów powietrza<br />
-        * imgw hydrologiczne, podaje stan wód (najbliższej rzeki, lub wszystkich w promieniu 25 km)<br />
-        * imgw meteo, w tym dane o wietrze<br />
-        * eeaair, czyli unijny gioś (european environmental agency)<br />
-        * airly, którego sensory mierzą głównie zapylenie ('peemy')<br />
-        * darksky, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. uv index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną (i te dane prezentuję)<br />
-        * radioactiveathome, sensory uczestniczące w tym projekcie mierzą promieniowanie tła<br />
-        * foreca, z której biorę dane o najzimniejszym oraz najcieplejszym miejscu na świecie<br />
-        * seismic, czyli dane o trzęsieniach ziemi (najsilniej odczuwane w danej lokalizacji, oraz suma w zadanym promieniu)<br />
-        * noaa, czyli pogoda kosmiczna (wiatr kosmiczny, zakłócenia łączności, etc.)
+        * GIOŚ, czyli Główny Inspektorat Ochrony Środowiska - jego sensory mierzą wiele parametrów powietrza<br />
+        * IMGW hydrologiczne, podaje stan wód (najbliższej rzeki, lub wszystkich w promieniu 25 km)<br />
+        * IMGW meteo, w tym dane o wietrze<br />
+        * EEAair, czyli unijny GIOŚ (European Environmental Agency)<br />
+        * Airly, którego sensory mierzą głównie zapylenie ('peemy')<br />
+        * DarkSky, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. UV index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną (i te dane prezentuję)<br />
+        * RadioactiveAtHome, sensory uczestniczące w tym projekcie mierzą promieniowanie tła<br />
+        * Foreca, z której biorę dane o najzimniejszym oraz najcieplejszym miejscu na świecie<br />
+        * Seismic, czyli dane o trzęsieniach ziemi (najsilniej odczuwane w danej lokalizacji, oraz suma w zadanym promieniu)<br />
+        * NOAA, czyli pogoda kosmiczna (wiatr kosmiczny, zakłócenia łączności, etc.)
         <p>
-            uwzględniane są czujniki odległe co najwyżej 10 km (airly, gios, imgw meteo, eea), 25 km (imgw hydro) lub 50 km (radioactive).
-     na terenie polski proszę wybierać gios, poza polską - eea; nie oba jednocześnie (bo się dane będa pokrywać).
+            Uwzględniane są czujniki odległe co najwyżej 10 km (Airly, GIOS, IMGW meteo, EEA), 25 km (IMGW hydro) lub 50 km (radioactive).
+     na terenie polski proszę wybierać GIOŚ, poza polską - EEA; nie oba jednocześnie (bo się dane będa pokrywać).
         </p>
 
         <p>
-            ze względów technicznych, część danych ściągana jest są za pomocą api,
+            Ze względów technicznych, część danych ściągana jest są za pomocą API,
             zaś pozostałe przez symulację strony.
-            ze względu zaś na warunki udostępniania danych przez airly oraz darksky,
+            Ze względu zaś na warunki udostępniania danych przez Airly oraz DarkSky,
             należy sobie założyć na ich portalu konto.
-            w ten sposob uzyskany api key należy wpisać w ustawieniach aplikacji (bez niego aplikacja nie dostanie się do ich pomiarów)
+            w ten sposob uzyskany API key należy wpisać w ustawieniach aplikacji (bez niego aplikacja nie dostanie się do ich pomiarów)
         </p>
         <p>
-            każdy pomiar można zamienić na ikonkę na pulpicie.
+            Każdy pomiar można zamienić na ikonkę na pulpicie.
         <p>
-            w szczegółach parametru można zobaczyć <a href='https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'>zalecenia who</a>,
+            W szczegółach parametru można zobaczyć <a href='https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'>zalecenia WHO</a>,
             a także <a href='http://prawo.sejm.gov.pl/isap.nsf/docdetails.xsp?id=wdu20120001031'>poziomy wedle prawa polskiego</a>,
-            które jest niemal równoważne obowiązującej <a href='https://eur-lex.europa.eu/legal-content/pl/all/?uri=celex:32008l0050'>dyrektywie ue.</a>
-            aplikacja oznacza wykrzyknikami przekroczenie albo zaleceń who (uzupełnione unijnym limitem benzenu),
-            albo limitów ue. gdy wzorcem jest who, to jeden wykrzyknik oznacza przekroczenie normy rocznej, dwa - normy dziennej, trzy - dwukrotne przekroczenie normy dziennej.
-            gdy wzorcem jest ue, to jeden wykrzyknik oznacza przekroczenie poziomu dopuszczalnego (docelowego),
+            które jest niemal równoważne obowiązującej <a href='https://eur-lex.europa.eu/legal-content/pl/all/?uri=celex:32008l0050'>dyrektywie UE.</a>
+            Aplikacja oznacza wykrzyknikami przekroczenie albo zaleceń who (uzupełnione unijnym limitem benzenu),
+            albo limitów UE. Gdy wzorcem jest WHO, to jeden wykrzyknik oznacza przekroczenie normy rocznej, dwa - normy dziennej, trzy - dwukrotne przekroczenie normy dziennej.
+            Gdy wzorcem jest UE, to jeden wykrzyknik oznacza przekroczenie poziomu dopuszczalnego (docelowego),
             dwa - przekroczenie poziomu informowania, a trzy - poziomu alarmowania.
         </p>
         <p>
-            aplikacja pozwala stworzyć listę lokalizacji - pod podaną nazwą, zapamiętywane są współrzędne
+            Aplikacja pozwala stworzyć listę lokalizacji - pod podaną nazwą, zapamiętywane są współrzędne
             oraz lista znalezionych czujników. aplikacja nie sprawdza później, czy nie zostały zainstalowane
-            nowe czujniki; można jednak zawsze powtórzyć wyszukanie czujników wedle gps i ponownie zapisać
+            nowe czujniki; można jednak zawsze powtórzyć wyszukanie czujników wedle GPS i ponownie zapisać
             miejsce używając tej samej nazwy.
         </p>
         <p>
-            dodatkowo, aplikacja przelicza jaka byłaby wilgotność w pomieszczeniu o podanej kubaturze,
+            Dodatkowo, aplikacja przelicza jaka byłaby wilgotność w pomieszczeniu o podanej kubaturze,
             gdyby całkowicie wymienić powietrze, i zmienić temperaturę (np. w zimie - podgrzać);
             oraz ile wody należałoby dodać by wilgotność była w zalecanym zakresie (40-60 %).
-            efekty przeliczeń prezentowane są po wywołaniu menu kontekstowego dla pomiaru wilgotności.
+            Efekty przeliczeń prezentowane są po wywołaniu menu kontekstowego dla pomiaru wilgotności.
         </p>
         <p>
-            aplikacja tworzy także własny pomiar (wyliczany): temperaturę odczuwalną.
-            ale to nie jest rzeczywista temperatura odczuwalna, bo aplikacja korzysta tylko z temperatury i wilgotności,
+            Aplikacja tworzy także własny pomiar (wyliczany): temperaturę odczuwalną.
+            Ale to nie jest rzeczywista temperatura odczuwalna, bo aplikacja korzysta tylko z temperatury i wilgotności,
             pomija efekt wiatru oraz nasłonecznienia.
         </p>
 
-        <p>miłego używania :)</p>
-        <p>pełny podręcznik: <a href='https://github.com/pkar70/envirostatus/wiki/instrukcja'>tutaj</a>
+        <p>Miłego używania :)</p>
+        <p>Pełny podręcznik: <a href='https://github.com/pkar70/envirostatus/wiki/instrukcja'>tutaj</a>
     "
     End Function
 
     Private Shared Function GetHelpBodyEN() As String
         Return "
-        <p>this app shows (sad) truth about air pollution in your vincinity.</p>
-        <p>it simply collects (merges) data from different sources:</p>
+        <p>This app shows (sad) truth about air pollution in your vincinity.</p>
+        <p>It simply collects (merges) data from different sources:</p>
         <!-- gwiazdka, i br, zeby nie bylo zmniejszenia tekstu -->
-        * darksky, although it is weather forecast service and not a sensors network, but it also presents official weather alerts, and e.g. uv index, cloud coverage, visibility, dew point and apparent temperature<br />
-        * foreca, for current maximum and minimum world temperature<br />
-        * seismic, earthquakes data (with strongest effect in your location, and sum of quakes within range)<br />
-        * noaa, cosmic weather (solar wind, radio perturbances, etc.)
-        * radioactiveathome, radiation sensors (world)<br />
-        * airly, sensors mainly for particulate matter (mainly europe)<br />
-        * eeaair, air pollution data from european environmental agency <br />
-        * imgw hydrology, polish official hydrology service, status of rivers<br />
-        * imgw meteo, polish official meteo service, mainly wind data<br />
-        * gios, polish government's agency - sensors takes many measurements<br />
+        * DarkSky, although it is weather forecast service and not a sensors network, but it also presents official weather alerts, and e.g. UV index, cloud coverage, visibility, dew point and apparent temperature<br />
+        * Foreca, for current maximum and minimum world temperature<br />
+        * Seismic, earthquakes data (with strongest effect in your location, and sum of quakes within range)<br />
+        * NOAA, cosmic weather (solar wind, radio perturbances, etc.)
+        * Radioactiveathome, radiation sensors (world)<br />
+        * Airly, sensors mainly for particulate matter (mainly europe)<br />
+        * EEAair, air pollution data from european environmental agency <br />
+        * IMGW hydrology, polish official hydrology service, status of rivers<br />
+        * IMGW meteo, polish official meteo service, mainly wind data<br />
+        * GIOŚ, polish government's agency - sensors takes many measurements<br />
         <p>
-            sensors should be less than 10 km (airly, gios, eea, imgw meteo), 25 km (imgw hydro) or less than 50 km (radioactive).
-    you should not enable both eea and gios - as eea uses data from gios.
+            Sensors should be less than 10 km (Airly, GIOS, EEA, IMGW meteo), 25 km (IMGW hydro) or less than 50 km (radioactive).
+    you should not enable both EEA and GIOS - as EEA uses data from GIOS.
 
         </p>
         <p>
-            for technical reasons, data from three former sources are received by api,
+            Tor technical reasons, data from three former sources are received by API,
             and from rest - via web page simulation.
-            and for airly and darksky rules, you have to create account on their portal.
-            after creating account, you get api key - please enter it in app settings.
+            And for Airly and DarkSky rules, you have to create account on their portal.
+            after creating account, you get API key - please enter it in app settings.
         </p>
         <p>
-            in measurement details you can see <a href='https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'>who standards</a>,
+            In measurement details you can see <a href='https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health'>WHO standards</a>,
             <a href='http://prawo.sejm.gov.pl/isap.nsf/docdetails.xsp?id=wdu20120001031'>levels from polish law</a>,
-            almost identical as levels in <a href='https://eur-lex.europa.eu/legal-content/en/all/?uri=celex:32008l0050'>ue directive.</a>
+            almost identical as levels in <a href='https://eur-lex.europa.eu/legal-content/en/all/?uri=celex:32008l0050'>EU directive.</a>
 
-            you can select what app marks (with exclamations) - values over who or over eu limits.
-            in 'who mode', one exclamation means value over annual average, two - daily average, and three - 2× daily average.
+            You can select what app marks (with exclamations) - values over WHO or over EU limits.
+            In 'who mode', one exclamation means value over annual average, two - daily average, and three - 2× daily average.
             in 'eu mode', one exclamation means value over limit, two - over information threshold, and two - over alert treshold.
         </p>
         <p>
-            app allows you to create list of locations - under given name, it stores latitude/longitude
-            and list of nearest sensors. app doesn't check for new sensors' instalations;
+            App allows you to create list of locations - under given name, it stores latitude/longitude
+            and list of nearest sensors. App doesn't check for new sensors' instalations;
             but you can use 'gps' option and save location under same name as before.
         </p>
 
         <p>
-            also, app calculate how humidity would change if you replace whole air in room,
+            Also, app calculate how humidity would change if you replace whole air in room,
             and change temperature (volume of room, and target temperature, can be set in settings).
-            you get relative humidity, and how many water you should pump into air to get recommended humidity (40-60 %).
+            You get relative humidity, and how many water you should pump into air to get recommended humidity (40-60 %).
             to see this data, please right click (tap) on humidity measurement.
         </p>
         <p>
-            app creates own (calculated) measurement: apparent temperature.
+            App creates own (calculated) measurement: apparent temperature;
             but it is not real apparent temperature, as app uses only ambient temperature and humidity,
             and doesn't have wind speed nor radiation effect included.
         </p>
 
-        <p>try this app and be happy :)</p>
-        <p>full user guide: <a href='https://github.com/pkar70/envirostatus/wiki/instrukcja'>here</a>
+        <p>Try this app and be happy :)</p>
+        <p>Full user guide: <a href='https://github.com/pkar70/envirostatus/wiki/instrukcja'>here</a>
     "
     End Function
 End Class

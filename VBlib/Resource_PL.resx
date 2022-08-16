@@ -132,11 +132,17 @@
   <data name="manifestAppName" xml:space="preserve">
     <value>Smogometr</value>
   </data>
+  <data name="msgAboutLink" xml:space="preserve">
+    <value>O serwisie</value>
+  </data>
   <data name="msgAllOk" xml:space="preserve">
     <value>Czyste powietrze :)</value>
   </data>
   <data name="msgAndroidToastTitle" xml:space="preserve">
     <value>Zmiany stanu środowiska:</value>
+  </data>
+  <data name="msgBurzeValidity" xml:space="preserve">
+    <value>Ostrzeżenie na</value>
   </data>
   <data name="msgCopyDetails" xml:space="preserve">
     <value>Kopiuj</value>
@@ -212,6 +218,27 @@
   </data>
   <data name="resPomiarAdditSolarWindTemp" xml:space="preserve">
     <value>Temperatura wiatru słonecznego</value>
+  </data>
+  <data name="resPomiarBurza" xml:space="preserve">
+    <value>burza</value>
+  </data>
+  <data name="resPomiarBurza_burza" xml:space="preserve">
+    <value>Burza</value>
+  </data>
+  <data name="resPomiarBurza_mroz" xml:space="preserve">
+    <value>Mróz</value>
+  </data>
+  <data name="resPomiarBurza_opad" xml:space="preserve">
+    <value>Opad</value>
+  </data>
+  <data name="resPomiarBurza_traba" xml:space="preserve">
+    <value>Trąba</value>
+  </data>
+  <data name="resPomiarBurza_upal" xml:space="preserve">
+    <value>Upał</value>
+  </data>
+  <data name="resPomiarBurza_wiatr" xml:space="preserve">
+    <value>Wiatr</value>
   </data>
   <data name="resPomiarNoaaKindexPredicted" xml:space="preserve">
     <value>Przewidywany na</value>

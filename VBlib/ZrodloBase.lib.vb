@@ -25,6 +25,7 @@
 
 Imports System.Collections.ObjectModel
 Imports System.IO
+Imports System.Net
 Imports System.Security.Cryptography
 
 Partial Public MustInherit Class Source_Base
@@ -52,6 +53,15 @@ Partial Public MustInherit Class Source_Base
         _sTemplatePath = sTemplatePath
     End Sub
 
+    Public Function GetAboutUri() As Uri
+        If GetLangString("_lang").ToUpperInvariant = "EN" Then
+            Return New Uri(SRC_URI_ABOUT_EN)
+        Else
+            Return New Uri(SRC_URI_ABOUT_PL)
+        End If
+
+    End Function
+
     Public MustOverride Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
 
     ''' <summary>
@@ -64,11 +74,23 @@ Partial Public MustInherit Class Source_Base
     ''' <returns></returns>
     Public MustOverride Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
 
+    ' Private _oHttp As Net.Http.HttpClient = Nothing
+
+    'Private Sub InitHttpClient()
+    '    If _oHttp Is Nothing Then
+    '        _oHttp = New Net.Http.HttpClient()
+    '        _oHttp.Timeout = TimeSpan.FromSeconds(10)   ' domyslnie jest 100 sekund
+    '    End If
+    'End Sub
+
     Protected Overridable Async Function GetREST(sCommand As String) As Task(Of String)
         ' przeciez jest rownolegle wiele serwerow odpytywanych, wiec sie przeplataja
 
         ' Windows.Web.Http.HttpClient oHttp = new Windows.Web.Http.HttpClient();
-        Dim oHttp As New Net.Http.HttpClient()
+        ' Dim oHttp As New Net.Http.HttpClient() - przenoszę żeby nie było ciągłego tworzenia nowego 
+        Dim _oHttp = New Net.Http.HttpClient()
+
+        'InitHttpClient()  ' jeśli jeszcze nie było - bo TimeOut nie może być ustawiany dwa razy!
 
         If SRC_HAS_KEY Then
             Dim sKey As String
@@ -84,8 +106,8 @@ Partial Public MustInherit Class Source_Base
             End If
 
             If SRC_POMIAR_SOURCE = "airly" Then
-                oHttp.DefaultRequestHeaders.Add("Accept", "application/json")
-                oHttp.DefaultRequestHeaders.Add("apikey", sKey)
+                _oHttp.DefaultRequestHeaders.Add("Accept", "application/json")
+                _oHttp.DefaultRequestHeaders.Add("apikey", sKey)
             End If
         End If
 
@@ -104,11 +126,11 @@ Partial Public MustInherit Class Source_Base
             SetSettingsString("seenUri", mSeenUri & "|" & oUri.Host & "|")
         End If
 
-        oHttp.Timeout = TimeSpan.FromSeconds(10)   ' domyslnie jest 100 sekund
         Dim oRes = ""
+        _oHttp.Timeout = TimeSpan.FromSeconds(10)   ' domyslnie jest 100 sekund
 
         Try
-            oRes = Await oHttp.GetStringAsync(oUri)
+            oRes = Await _oHttp.GetStringAsync(oUri)
         Catch
             oRes = ""
         End Try

@@ -6,6 +6,7 @@ Public Class Source_RadioAtHome
     Public Overrides ReadOnly Property SRC_SETTING_NAME As String = "sourceRAH"
     Public Overrides ReadOnly Property SRC_SETTING_HEADER As String = "Radioactive@Home"
     Protected Overrides ReadOnly Property SRC_RESTURI_BASE As String = "http://radioactiveathome.org/map/"
+    Public Overrides ReadOnly Property SRC_IN_TIMER As Boolean = True
     Public Overrides ReadOnly Property SRC_POMIAR_SOURCE As String = "ra@h"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_EN As String = "http://radioactiveathome.org/en/"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_PL As String = "http://radioactiveathome.org/pl/"
@@ -48,10 +49,10 @@ Public Class Source_RadioAtHome
     ''' <param name="dMaxOdl">double.Max gdy nie sprawdzamy</param>
     ''' <param name="sId">"" gdy każdy sensor</param>
     ''' <returns></returns>
-    Private Async Function GetPomiaryAsync(oPos As MyBasicGeoposition, dMaxOdl As Double, sId As String) As Task(Of Collection(Of JedenPomiar))
+    Private Async Function GetPomiaryAsync(oPos As MyBasicGeoposition, dMaxOdl As Double, sId As String, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
-        moListaPomiarow = New Collection(Of JedenPomiar)()
+        moListaPomiarow = New Collection(Of JedenPomiar)
         If Not GetSettingsBool(SRC_SETTING_NAME, SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
         Dim sPage As String = Await GetREST("")
         If sPage.Length < 10 Then Return moListaPomiarow
@@ -93,26 +94,40 @@ Public Class Source_RadioAtHome
 
                         oNew.sTimeStamp = sPage.SubstringBetween("contact: ", "<")
 
+
+                        Dim sDailyAvg As String = sPage.SubstringBetween("average: ", "<").Replace("uSv/h", "").Trim
                         ' addit, tu: daily
-                        oNew.sAddit = GetLangString("resRAHdailyAvg") & ": " &
-                        sPage.SubstringBetween("average: ", "<").Replace("uSv", "μSv")
+                        oNew.sAddit = GetLangString("resRAHdailyAvg") & ": " & sDailyAvg & " μSv/h"
+
+                        ' alertujemy
+                        Dim dAvgVal As Double
+                        If Double.TryParse(sDailyAvg, dAvgVal) Then
+                            If oNew.dCurrValue > 2 * dAvgVal Then oNew.sAlert = "!"
+                        End If
+
+                        ' Za: https://www.theguardian.com/news/datablog/2011/mar/15/radiation-exposure-levels-guide
+                        ' średnia roczna tła: 2 mSv/rocznie 
+                        ' szkodliwa na pewno (clearly evident): 100 mSv/rocznie
+                        If oNew.dCurrValue / 1000 > 2.0 / 365 / 24 Then oNew.sAlert = "!!"
+                        If oNew.dCurrValue / 1000 > 100.0 / 365 / 24 Then oNew.sAlert = "!!!"
+                        oNew.sLimity = "!!: 2 mSv/year" & vbCrLf & "!!!: 100 mSv/year"
 
                         oNew.sSensorDescr = ""
 
                         Try
-                            ' <br/>Team: hidden<br />Nick: hidden').
-                            oNew.sSensorDescr = sPage.SubstringBetween("Team: ", "<") & ", " &
+                                ' <br/>Team: hidden<br />Nick: hidden').
+                                oNew.sSensorDescr = sPage.SubstringBetween("Team: ", "<") & ", " &
                                       sPage.SubstringBetween("Nick: ", "'")
 
-                        Catch
-                        End Try
+                            Catch
+                            End Try
 
-                        oNew.sAdres = ""
-                        oNew.sPomiar = "μSv/h"
-                        AddPomiar(oNew)
+                            oNew.sAdres = ""
+                            oNew.sPomiar = "μSv/h"
+                            AddPomiar(oNew)
+                        End If
+
                     End If
-
-                End If
 
                 iInd = sPage.IndexOf(ITEM_PREFIX)
             End While
@@ -121,7 +136,7 @@ Public Class Source_RadioAtHome
         End Try
 
         If moListaPomiarow.Count < 1 Then
-            Await DialogBoxAsync($"ERROR: no station in range ({SRC_SETTING_NAME})")
+            If Not bInTimer Then Await DialogBoxAsync($"ERROR: no station in range ({SRC_SETTING_NAME})")
             Return moListaPomiarow
         End If
 
@@ -133,7 +148,7 @@ Public Class Source_RadioAtHome
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 50
-        Return Await GetPomiaryAsync(oPos, dMaxOdl, "")
+        Return Await GetPomiaryAsync(oPos, dMaxOdl, "", False)
     End Function
 
     ''' <summary>
@@ -147,6 +162,6 @@ Public Class Source_RadioAtHome
     Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
-        Return Await GetPomiaryAsync(oGpsPoint, Double.MaxValue, sId)
+        Return Await GetPomiaryAsync(oGpsPoint, Double.MaxValue, sId, bInTimer)
     End Function
 End Class

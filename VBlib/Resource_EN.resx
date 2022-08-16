@@ -280,4 +280,31 @@
   <data name="resWysokosc" xml:space="preserve">
     <value>altitude</value>
   </data>
+  <data name="msgAboutLink" xml:space="preserve">
+    <value>About service</value>
+  </data>
+  <data name="resPomiarBurza" xml:space="preserve">
+    <value>Tstorm</value>
+  </data>
+  <data name="resPomiarBurza_burza" xml:space="preserve">
+    <value>Tstorm</value>
+  </data>
+  <data name="resPomiarBurza_mroz" xml:space="preserve">
+    <value>Frost</value>
+  </data>
+  <data name="resPomiarBurza_opad" xml:space="preserve">
+    <value>Precip</value>
+  </data>
+  <data name="resPomiarBurza_traba" xml:space="preserve">
+    <value>Cyclon</value>
+  </data>
+  <data name="resPomiarBurza_upal" xml:space="preserve">
+    <value>Heat</value>
+  </data>
+  <data name="resPomiarBurza_wiatr" xml:space="preserve">
+    <value>Wind</value>
+  </data>
+  <data name="msgBurzeValidity" xml:space="preserve">
+    <value>Warning valid</value>
+  </data>
 </root>

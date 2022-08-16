@@ -5,6 +5,16 @@
   * settings: simulate GPS - mozna ewentualnie zrobic pola Lat,Long jako binding do Toggle.IsOn; tylko czy Uno to umie?
   *     trzeba bêdzie spróbowaæ - see Readme.Txt
 
+2022.08.16
+* SRC_URI_ABOUT_EN - jako link w ZrodlaBase (by³o Property w klasach, a nie by³o wykorzystane :) )
+* Settings:Zrodelka, tytu³ jako TextBox boldem i wiêkszy, z marginesem przed, a nie header do ToggleSwitch'a
+* NOWE ZRODLO: Polska Agencja Atomistyki (promieniowanie, 90 kB/request)
+* ra@h oraz PAA maj¹ ju¿ wykrzykniki
+* NOWE ZRODLO: burze.dzis.net
+
+2022.08.15
+* bugfix: Info: by³y same ma³e litery!
+
 2022.08.11
 * bardzo du¿a zmiana - migracja do VB klas Ÿróde³, Config trafia do settings.xaml.cs
 * poprawka siêgania do JSONa (extension), bo wylatywa³o na woda Czernichów
