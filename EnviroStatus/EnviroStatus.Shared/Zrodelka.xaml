@@ -14,11 +14,21 @@
     <Grid Margin="5,5,5,5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock FontSize="18" HorizontalAlignment="Center" Text="Settings" x:Uid="uiSettingsTitle"/>
         <!--        <StackPanel Grid.Row="1" > -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible"  >
+        <Grid Grid.Row="1" Margin="5,5,5,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Zasieg" x:Uid="uiZasiegLabel" VerticalAlignment="Center" />
+            <ComboBox Name="uiZasieg" Grid.Column="1" SelectionChanged="uiZasieg_Changed"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible"  >
             <StackPanel BorderThickness="1" x:Name="uiStackConfig" Margin="0,15,0,15"  />
         </ScrollViewer>
         <!--            <Button Content="Save!" HorizontalAlignment="Center" Click="uiSave_Click" x:Uid="uiSettingsSave"/>

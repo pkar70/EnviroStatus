@@ -13,6 +13,8 @@ Public Class Source_GIOS
     Public Overrides ReadOnly Property SRC_IN_TIMER As Boolean = True
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_EN As String = "http://powietrze.gios.gov.pl/pjp/current"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_PL As String = "http://powietrze.gios.gov.pl/pjp/current"
+    Public Overrides ReadOnly Property SRC_ZASIEG As Zasieg = Zasieg.Poland
+
 
     Public Sub New(bMyNotPublic As Boolean, sTemplatePath As String)
         MyBase.New(bMyNotPublic, sTemplatePath)

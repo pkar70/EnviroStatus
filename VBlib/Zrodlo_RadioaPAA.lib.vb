@@ -12,6 +12,7 @@ Public Class Source_RadioPAA
     Public Overrides ReadOnly Property SRC_POMIAR_SOURCE As String = "PAA"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_EN As String = "https://www.gov.pl/web/paa/sytuacja-radiacyjna"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_PL As String = "https://www.gov.pl/web/paa/sytuacja-radiacyjna"
+    Public Overrides ReadOnly Property SRC_ZASIEG As Zasieg = Zasieg.Poland
 
     Public Sub New(bMyNotPublic As Boolean, sTemplatePath As String)
         MyBase.New(bMyNotPublic, sTemplatePath)

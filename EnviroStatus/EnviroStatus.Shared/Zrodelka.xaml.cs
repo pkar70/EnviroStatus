@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using vb14 = VBlib.pkarlibmodule14;
 using static p.Extensions;
+using VBlib;
 
 //using Microsoft.VisualBasic.CompilerServices;
 
@@ -22,10 +23,43 @@ namespace EnviroStatus
             this.InitializeComponent();
         }
 
+        private ComboBoxItem GetZasiegComboItem(int zasiegSensora, int currentZasieg)
+        {
+            var oNew = new ComboBoxItem();
+            oNew.Content = vb14.GetLangString("uiZasieg" + zasiegSensora.ToString());
+            oNew.DataContext = zasiegSensora;
+            if (currentZasieg == zasiegSensora) oNew.IsSelected = true;
+            return oNew;
+        }
+
+        private void InitZasiegCombo(int currentZasieg)
+        {
+            uiZasieg.Items.Clear();
+            uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.World, currentZasieg));
+            uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.Europe, currentZasieg));
+            uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.Poland, currentZasieg));
+        }
+
+        private void uiZasieg_Changed(object sender, RoutedEventArgs e)
+        {
+            var oFE = sender as FrameworkElement;
+            if (oFE is null) return;
+            int currentZasieg = (int)oFE.DataContext;
+            vb14.SetSettingsInt("zasieg", currentZasieg);
+
+            Page_Loaded(null, null);
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            int currentZasieg = vb14.GetSettingsInt("zasieg");
+            InitZasiegCombo(currentZasieg);
+
+            uiStackConfig.Children.Clear();
+
             foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
-                FromSrc_ConfigCreate(uiStackConfig, oZrodlo);
+                if((int)oZrodlo.SRC_ZASIEG <= currentZasieg)
+                    FromSrc_ConfigCreate(uiStackConfig, oZrodlo);
 
             var oButton = new Button();
             oButton.Content = vb14.GetLangString("uiSettingsSave.Content");
@@ -48,7 +82,7 @@ namespace EnviroStatus
         private string VerifyDataOK()
         {
             string sMsg = "";
-
+            // ewentualnie sprawdzanie zasiegu - ale właściwie to po co?
             foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
             {
                 sMsg = FromSrc_ConfigDataOk(uiStackConfig, oZrodlo);
@@ -59,14 +93,66 @@ namespace EnviroStatus
             return "";
         }
 
-        private async void uiSave_Click(object sender = null, RoutedEventArgs e = null)
+        private async System.Threading.Tasks.Task WylaczPozaZasiegiemAsync(StackPanel oStack)
+        {
+            bool isEnabled = false;
+            int currentZasieg = vb14.GetSettingsInt("zasieg");
+
+            foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
+            {
+                if (isEnabled) break;
+
+                foreach (UIElement oItem in oStack.Children)
+                {
+                    ToggleSwitch oTS;
+                    oTS = oItem as ToggleSwitch;
+                    if (oTS != null)
+                    {
+                        if (oTS.Name == "uiConfig_" + oZrodlo.SRC_SETTING_NAME && (int)oZrodlo.SRC_ZASIEG > currentZasieg)
+                        {
+                            isEnabled = true;
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+            if (!isEnabled) return;
+
+            if(!await vb14.DialogBoxResYNAsync("msgWylaczycPozaZasiegiem")) return;
+
+            foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
+            {
+                foreach (UIElement oItem in oStack.Children)
+                {
+                    ToggleSwitch oTS;
+                    oTS = oItem as ToggleSwitch;
+                    if (oTS != null)
+                    {
+                        if (oTS.Name == "uiConfig_" + oZrodlo.SRC_SETTING_NAME && (int)oZrodlo.SRC_ZASIEG > currentZasieg)
+                        {
+                            oTS.IsOn = false;
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+
+        private  async void uiSave_Click(object sender = null, RoutedEventArgs e = null)
         {
             string sMsg = VerifyDataOK();
             if (!string.IsNullOrEmpty(sMsg))
             {
-                await vb14.DialogBoxAsync(sMsg);
+                vb14.DialogBox(sMsg);
                 return;
             }
+
+            // jeśli coś poza zasięgiem jest włączone, to zapytaj czy wyłączyć
+            await WylaczPozaZasiegiemAsync(uiStackConfig);
 
             foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
                 FromSrc_ConfigRead(uiStackConfig, oZrodlo);
@@ -222,7 +308,7 @@ namespace EnviroStatus
                 oTS = oItem as ToggleSwitch;
                 if (oTS != null)
                 {
-                    if ((oTS.Name ?? "") == ("uiConfig_" + oZrodlo.SRC_SETTING_NAME ?? ""))
+                    if (oTS.Name == "uiConfig_" + oZrodlo.SRC_SETTING_NAME )
                     {
                         vb14.SetSettingsBool(oZrodlo.SRC_SETTING_NAME, oTS.IsOn);
                         break;

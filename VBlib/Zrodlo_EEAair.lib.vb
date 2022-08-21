@@ -11,6 +11,7 @@ Public Class Source_EEAair
     Protected Overrides ReadOnly Property SRC_HAS_TEMPLATES As Boolean = True
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_EN As String = "https://www.eea.europa.eu/data-and-maps/explore-interactive-maps/up-to-date-air-quality-data"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_PL As String = "https://www.eea.europa.eu/data-and-maps/explore-interactive-maps/up-to-date-air-quality-data"
+    Public Overrides ReadOnly Property SRC_ZASIEG As Zasieg = Zasieg.Europe
 
     Public Sub New(bMyNotPublic As Boolean, sTemplatePath As String)
         MyBase.New(bMyNotPublic, sTemplatePath)

@@ -12,6 +12,8 @@ Partial Public Class Source_Burze
     Public Overrides ReadOnly Property SRC_IN_TIMER As Boolean = True
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_EN As String = "https://burze.dzis.net/"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_PL As String = "https://burze.dzis.net/"
+    Public Overrides ReadOnly Property SRC_ZASIEG As Zasieg = Zasieg.Poland
+
 
     Public Sub New(bMyNotPublic As Boolean, sTemplatePath As String)
         MyBase.New(bMyNotPublic, sTemplatePath)
@@ -39,6 +41,19 @@ Partial Public Class Source_Burze
     End Function
 
 
+    Private Function WspolrzDoDM(dWspolrzedna As Double) As String
+        ' https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net/blob/master/custom_components/burze_dzis_net/binary_sensor.py
+        ' return '{}.{:02}'.format(int(dmf), round(dmf % 1 * 60))
+        ' czyli ma być degree/minute, a nie normalny float
+        Dim oTSpan As TimeSpan = TimeSpan.FromMinutes(dWspolrzedna)
+        Return (oTSpan.Minutes + oTSpan.Hours * 24).ToString & "." & oTSpan.Seconds.ToString("0#")
+    End Function
+
+    Private Function GetDmForSoap(oPos As MyBasicGeoposition) As String
+        Return $"<y xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Latitude)}</y>" &
+               $"<x xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Longitude)}</x>" ' dla Krakowa ma być x=19, czyli długość geograficzna
+    End Function
+
     ''' <summary>
     ''' Dopisuje do moListaPomiarow po jednym JedenPomiar o każdym ostrzeżeniu
     ''' </summary>
@@ -47,49 +62,70 @@ Partial Public Class Source_Burze
     Private Async Function OstrzezeniaRequest(oPos As MyBasicGeoposition) As Task
         DumpCurrMethod()
 
-        Dim soapgr As String = "<soapenv:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:soap=""http://burze.dzis.net/soap.php"">"
-        soapgr = soapgr & "   <soapenv:Header/>"
-        soapgr = soapgr & "   <soapenv:Body>"
-        soapgr = soapgr & "      <soap:ostrzezenia_pogodowe soapenv:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">"
-        soapgr = soapgr & "          <y xsi:type=""xsd:float"">" & oPos.Longitude & "</y>"
-        soapgr = soapgr & "          <x xsi:type=""xsd:float"">" & oPos.Latitude & "</x>"
-        soapgr = soapgr & "          <klucz xsi:type=""xsd:string"">" & SRC_MY_KEY & "</klucz>"
-        soapgr = soapgr & "      </soap:ostrzezenia_pogodowe>"
-        soapgr = soapgr & "   </soapenv:Body>"
-        soapgr = soapgr & "</soapenv:Envelope>"
-
-        Dim sResult As String = Await GetDataFromURL(soapgr)
-
-        If sResult = "" Then Return
-
-        Dim xmlRes = New Xml.XmlDocument
         Try
-            xmlRes.LoadXml(sResult)
+
+            Dim soapgr As String = "<soapenv:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:soap=""http://burze.dzis.net/soap.php"">"
+            soapgr = soapgr & "   <soapenv:Header/>"
+            soapgr = soapgr & "   <soapenv:Body>"
+            soapgr = soapgr & "      <soap:ostrzezenia_pogodowe soapenv:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">"
+            soapgr = soapgr & GetDmForSoap(oPos)
+            soapgr = soapgr & "          <klucz xsi:type=""xsd:string"">" & SRC_MY_KEY & "</klucz>"
+            soapgr = soapgr & "      </soap:ostrzezenia_pogodowe>"
+            soapgr = soapgr & "   </soapenv:Body>"
+            soapgr = soapgr & "</soapenv:Envelope>"
+
+            Dim sResult As String = Await GetDataFromURL(soapgr)
+
+            If sResult = "" Then Return
+
+            Dim xmlRes = New Xml.XmlDocument
+            Try
+                xmlRes.LoadXml(sResult)
+            Catch ex As Exception
+                DumpMessage("Error parsing XML")
+                Return
+            End Try
+
+            '<?xml version="1.0" encoding="UTF-8"?>" & vbLf & 
+            '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://burze.dzis.net/soap.php" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+            '<SOAP-ENV:Body>
+            '<ns1:ostrzezenia_pogodoweResponse>
+            '<return xsi:type="ns1:MyComplexTypeOstrzezenia">'
+            '<od_dnia xsi:type="xsd:string"></od_dnia><do_dnia xsi:type="xsd:string"></do_dnia>
+            '<mroz xsi:type="xsd:int">0</mroz><mroz_od_dnia xsi:type="xsd:string">0</mroz_od_dnia><mroz_do_dnia xsi:type="xsd:string">0</mroz_do_dnia>
+            '<upal xsi:type="xsd:int">0</upal><upal_od_dnia xsi:type="xsd:string">0</upal_od_dnia><upal_do_dnia xsi:type="xsd:string">0</upal_do_dnia>
+            '<wiatr xsi:type="xsd:int">0</wiatr><wiatr_od_dnia xsi:type="xsd:string">0</wiatr_od_dnia><wiatr_do_dnia xsi:type="xsd:string">0</wiatr_do_dnia>
+            '<opad xsi:type="xsd:int">0</opad><opad_od_dnia xsi:type="xsd:string">0</opad_od_dnia><opad_do_dnia xsi:type="xsd:string">0</opad_do_dnia>
+            '<burza xsi:type="xsd:int">0</burza><burza_od_dnia xsi:type="xsd:string">0</burza_od_dnia><burza_do_dnia xsi:type="xsd:string">0</burza_do_dnia>
+            '<traba xsi:type="xsd:int">0</traba><traba_od_dnia xsi:type="xsd:string">0</traba_od_dnia><traba_do_dnia xsi:type="xsd:string">0</traba_do_dnia>
+            '</return></ns1:ostrzezenia_pogodoweResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>" & vbLf
+
+
+            '                                        Envelope.  Body        ostrzezenia.return
+            Dim oReturnNode As Xml.XmlNode = xmlRes?.LastChild?.FirstChild?.FirstChild?.FirstChild
+            If oReturnNode Is Nothing Then Return
+
+            OstrzezenieTyp(oReturnNode, "mroz")
+            OstrzezenieTyp(oReturnNode, "upal")
+            OstrzezenieTyp(oReturnNode, "wiatr")
+            OstrzezenieTyp(oReturnNode, "opad")
+            OstrzezenieTyp(oReturnNode, "burza")
+            OstrzezenieTyp(oReturnNode, "traba")
         Catch ex As Exception
-            DumpMessage("Error parsing XML")
-            Return
+
         End Try
-
-        If xmlRes.ChildNodes.Count < 1 Then Return
-
-        OstrzezenieTyp(xmlRes, "mroz")
-        OstrzezenieTyp(xmlRes, "upal")
-        OstrzezenieTyp(xmlRes, "wiatr")
-        OstrzezenieTyp(xmlRes, "opad")
-        OstrzezenieTyp(xmlRes, "burza")
-        OstrzezenieTyp(xmlRes, "traba")
 
     End Function
 
-    Private Sub OstrzezenieTyp(xmlRes As Xml.XmlDocument, sElementName As String)
+    Private Sub OstrzezenieTyp(xmlRes As Xml.XmlNode, sElementName As String)
 
-        Dim iInteger As Integer = 0
+        Dim iStopien As Integer = 0
         Dim sOdDnia As String = ""
         Dim sDoDnia As String = ""
 
         For Each oNode As Xml.XmlNode In xmlRes.ChildNodes
             If oNode.Name = sElementName Then
-                iInteger = oNode.InnerText
+                iStopien = oNode.InnerText
             End If
 
             If oNode.Name = sElementName & "_od_dnia" Then
@@ -101,11 +137,11 @@ Partial Public Class Source_Burze
             End If
         Next
 
-        If sOdDnia = "" OrElse sDoDnia = "" Then Return
+        If iStopien = 0 OrElse sOdDnia = "" OrElse sDoDnia = "" Then Return
 
         Dim oNew As New JedenPomiar(SRC_POMIAR_SOURCE)
         oNew.sPomiar = GetLangString("resPomiarBurza_" & sElementName)
-        oNew.sAlert = "!"
+        oNew.dCurrValue = iStopien
 
         ' 2014-12-21 20:45:00
 
@@ -135,9 +171,22 @@ Partial Public Class Source_Burze
             oNew.sCurrValue = sOdDnia & " - " & sDoDnia
         End If
 
+        ' znaczenie wykrzykników:
+        ' https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net/blob/master/custom_components/burze_dzis_net/binary_sensor.py
+        ' albo tu:
+        ' https://burze.dzis.net/?page=mapa_ostrzezen
+        oNew.sAlert = "!"
+        If iStopien = 2 Then oNew.sAlert = "!!"
+        If iStopien = 3 Then oNew.sAlert = "!!!"
+
+        oNew.sLimity = "1: " & GetLangString("resLimitBurza_" & sElementName & "_1") & vbCrLf &
+            "2: " & GetLangString("resLimitBurza_" & sElementName & "_2") & vbCrLf &
+            "3: " & GetLangString("resLimitBurza_" & sElementName & "_3")
+
         moListaPomiarow.Add(oNew)
 
     End Sub
+
 
 
     ' kopia z https://adminek.pl/automatyka/13-odleglosc-od-burzy
@@ -149,69 +198,95 @@ Partial Public Class Source_Burze
     Private Async Function BurzaRequest(oPos As MyBasicGeoposition) As Task
         DumpCurrMethod()
 
-        Dim promien As Integer ' promien w kilometrach
-        If GetSettingsBool("settingsLiveClock") Then
-            promien = 100   ' 60 minut, i z GPS
-        Else
-            promien = 25    ' 30 minut, last position/fav
-        End If
-
-        Dim soapgr As String = "<soapenv:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:soap=""http://burze.dzis.net/soap.php"">"
-        soapgr = soapgr & "   <soapenv:Header/>"
-        soapgr = soapgr & "   <soapenv:Body>"
-        soapgr = soapgr & "      <soap:szukaj_burzy soapenv:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">"
-        soapgr = soapgr & "          <y xsi:type=""xsd:float"">" & oPos.Longitude & "</y>"
-        soapgr = soapgr & "          <x xsi:type=""xsd:float"">" & oPos.Latitude & "</x>"
-        soapgr = soapgr & "          <promien xsi:type=""xsd:int"">" & promien & "</promien>"   ' default: 25 km
-        soapgr = soapgr & "          <klucz xsi:type=""xsd:string"">" & SRC_MY_KEY & "</klucz>"
-        soapgr = soapgr & "      </soap:szukaj_burzy>"
-        soapgr = soapgr & "   </soapenv:Body>"
-        soapgr = soapgr & "</soapenv:Envelope>"
-
-        Dim sResult As String = Await GetDataFromURL(soapgr)
-
-        If sResult = "" Then Return
-
-        Dim xmlRes = New Xml.XmlDocument
         Try
-            xmlRes.LoadXml(sResult)
-        Catch ex As Exception
-            DumpMessage("Error parsing XML")
-            Return
-        End Try
 
-        ' Dim nodes = xmlRes.selectNodes("//*")
+            Dim promien As Integer ' promien w kilometrach
+            If GetSettingsBool("settingsLiveClock") Then
+                promien = 100   ' 60 minut, i z GPS
+            Else
+                promien = 50    ' 30 minut, last position/fav
+            End If
 
-        If xmlRes.ChildNodes.Count < 1 Then Return
+            Dim soapgr As String = "<soapenv:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:soap=""http://burze.dzis.net/soap.php"">"
+            soapgr = soapgr & "   <soapenv:Header/>"
+            soapgr = soapgr & "   <soapenv:Body>"
+            soapgr = soapgr & "      <soap:szukaj_burzy soapenv:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">"
+            soapgr = soapgr & GetDmForSoap(oPos)
+            soapgr = soapgr & "          <promien xsi:type=""xsd:int"">" & promien & "</promien>"   ' default: 25 km
+            soapgr = soapgr & "          <klucz xsi:type=""xsd:string"">" & SRC_MY_KEY & "</klucz>"
+            soapgr = soapgr & "      </soap:szukaj_burzy>"
+            soapgr = soapgr & "   </soapenv:Body>"
+            soapgr = soapgr & "</soapenv:Envelope>"
 
-        Dim oNew As New JedenPomiar(SRC_POMIAR_SOURCE)
+            Dim sResult As String = Await GetDataFromURL(soapgr)
 
-        For Each oNode As Xml.XmlNode In xmlRes.ChildNodes
+            If sResult = "" Then Return
 
+            Dim xmlRes = New Xml.XmlDocument
+            Try
+                xmlRes.LoadXml(sResult)
+            Catch ex As Exception
+                DumpMessage("Error parsing XML")
+                Return
+            End Try
+
+            '"<?xml version=""1.0"" encoding=""UTF-8""?>" & vbLf & "
+            '<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ns1=""https://burze.dzis.net/soap.php"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:SOAP-ENC=""http://schemas.xmlsoap.org/soap/encoding/"" SOAP-ENV:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">
+            '<SOAP-ENV:Body>
+            '<ns1:szukaj_burzyResponse>
+            '<return xsi:type=""ns1:MyComplexTypeBurza"">
+            '<liczba xsi:type=""xsd:int"">0</liczba>
+            '<odleglosc xsi:type=""xsd:float"">0</odleglosc>
+            '<kierunek xsi:type=""xsd:string""></kierunek>
+            '<okres xsi:type=""xsd:int"">10</okres>
+            '</return>
+            '</ns1:szukaj_burzyResponse>
+            '</SOAP-ENV:Body></SOAP-ENV:Envelope>" & vbLf
+
+
+            '                                        Envelope.  Body        szukaj_burzy.return
+            Dim oReturnNode As Xml.XmlNode = xmlRes?.LastChild?.FirstChild?.FirstChild?.FirstChild
+            If oReturnNode Is Nothing Then Return
+
+            Dim oNew As New JedenPomiar(SRC_POMIAR_SOURCE)
             oNew.sPomiar = GetLangString("resPomiarBurza")
 
-            If oNode.Name = "liczba" Then   ' liczba wyładowań (int)
-                oNew.dCurrValue = oNode.InnerText
-                oNew.sCurrValue = oNew.dCurrValue
-            End If
+            For Each oNode As Xml.XmlNode In oReturnNode
 
-            If oNode.Name = "odleglosc" Then    ' od burzy (float)
-                oNew.dOdl = oNode.InnerText
-                oNew.sOdl = oNode.InnerText & " km"
-            End If
+                If oNode.Name = "liczba" Then   ' liczba wyładowań (int)
+                    oNew.dCurrValue = oNode.InnerText
+                    ' If oNew.dCurrValue = 0 Then Return ' nie ma powiadomienia, więc nie ma sensu tego pisać
+                    oNew.sCurrValue = oNew.dCurrValue
+                End If
 
-            If oNode.Name = "kierunek" Then    ' (string) kierunek Kierunek do najblizszego wyladowania (E, NE, N, NW, W, SW, S, SE)
-                oNew.sAdres = oNode.InnerText
-            End If
+                If oNode.Name = "odleglosc" Then    ' od burzy (float)
+                    oNew.dOdl = oNode.InnerText
+                    oNew.sOdl = oNode.InnerText & " km"
+                End If
 
-            If oNode.Name = "okres" Then   ' integer okres - liczba minut, okres czasu obejmujacy dane (10, 15, 20 minut)
-                oNew.sAddit = oNode.InnerText & " min"
-            End If
-        Next
+                If oNode.Name = "kierunek" Then    ' (string) kierunek Kierunek do najblizszego wyladowania (E, NE, N, NW, W, SW, S, SE)
+                    If oNode.InnerText <> "" Then
+                        oNew.sAdres = GetLangString("resBurzeDirection") & ": " & oNode.InnerText
+                    End If
+                End If
 
-        ' *TODO* zamiana dCurrValue na sAlert, liczba wykrzykników w zależności od liczby wyładowań
+                    If oNode.Name = "okres" Then   ' integer okres - liczba minut, okres czasu obejmujacy dane (10, 15, 20 minut)
+                    oNew.sAddit = GetLangString("resBurzaOkres") & ": " & oNode.InnerText & " min"
+                End If
+            Next
 
-        moListaPomiarow.Add(oNew)
+            ' *TODO* zamiana dCurrValue na sAlert, liczba wykrzykników w zależności od liczby wyładowań
+            If oNew.dCurrValue > 0 Then oNew.sAlert = "!"
+
+            moListaPomiarow.Add(oNew)
+            '    End If
+            'Next
+
+        Catch ex As Exception
+
+        End Try
+
+
     End Function
 
     Private _oHttp As Net.Http.HttpClient = Nothing

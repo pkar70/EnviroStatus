@@ -307,4 +307,73 @@
   <data name="_lang" xml:space="preserve">
     <value>PL</value>
   </data>
+  <data name="resLimitBurza_mroz_1" xml:space="preserve">
+    <value>od -20 do -25 °C</value>
+  </data>
+  <data name="resLimitBurza_mroz_2" xml:space="preserve">
+    <value>od -26 do -30 °C</value>
+  </data>
+  <data name="resLimitBurza_mroz_3" xml:space="preserve">
+    <value>poniżej -30 °C</value>
+  </data>
+  <data name="resLimitBurza_upal_1" xml:space="preserve">
+    <value>od 30 do 34 °C</value>
+  </data>
+  <data name="resLimitBurza_upal_2" xml:space="preserve">
+    <value>od 35 do 38 °C</value>
+  </data>
+  <data name="resLimitBurza_upal_3" xml:space="preserve">
+    <value>powyżej 38 °C</value>
+  </data>
+  <data name="resLimitBurza_wiatr_1" xml:space="preserve">
+    <value>w porywach od 70 do 90 km/h</value>
+  </data>
+  <data name="resLimitBurza_wiatr_2" xml:space="preserve">
+    <value>w porywach od 91 do 110 km/h</value>
+  </data>
+  <data name="resLimitBurza_wiatr_3" xml:space="preserve">
+    <value>w porywach powyżej 110 km/h</value>
+  </data>
+  <data name="resLimitBurza_opad_1" xml:space="preserve">
+    <value>deszcz od 25 do 40 mm w ciągu 24 godzin / śnieg od 10 do 15 cm w ciągu 24 godzin</value>
+  </data>
+  <data name="resLimitBurza_opad_2" xml:space="preserve">
+    <value>deszcz od 41 do 70 mm w ciągu 24 godzin / śnieg od 16 do 30 cm w ciągu 24 godzin / śnieg od 10 do 15 cm w ciągu 12 godzin</value>
+  </data>
+  <data name="resLimitBurza_opad_3" xml:space="preserve">
+    <value>deszcz powyżej 70 mm w ciągu 24 godzin / śnieg powyżej 30 cm w ciągu 24 godzin / śnieg powyżej 15 cm w ciągu 12 godzin</value>
+  </data>
+  <data name="resLimitBurza_burza_1" xml:space="preserve">
+    <value>deszcz od 15 do 40 mm / wiatr w porywach od 60 do 90 km/h / grad poniżej 2 cm</value>
+  </data>
+  <data name="resLimitBurza_burza_2" xml:space="preserve">
+    <value>deszcz od 41 do 70 mm/wiatr w porywach od 91 do 110 km/h / grad od 2 do 5 cm</value>
+  </data>
+  <data name="resLimitBurza_burza_3" xml:space="preserve">
+    <value>wiatr w porywach od 91 do 110 km/h / grad od 2 do 5 cm / deszcz powyżej 70 mm/wiatr w porywach powyżej 110 km/h / grad powyżej 5 cm</value>
+  </data>
+  <data name="resLimitBurza_traba_1" xml:space="preserve">
+    <value>ryzyko niewielkie</value>
+  </data>
+  <data name="resLimitBurza_traba_2" xml:space="preserve">
+    <value>ryzyko umiarkowane</value>
+  </data>
+  <data name="resLimitBurza_traba_3" xml:space="preserve">
+    <value>ryzyko wysokie</value>
+  </data>
+  <data name="resBurzaOkres" xml:space="preserve">
+    <value>W ostatnich</value>
+  </data>
+  <data name="resBurzeCount" xml:space="preserve">
+    <value>wyładowań</value>
+  </data>
+  <data name="resBurzeDirection" xml:space="preserve">
+    <value>Kierunek</value>
+  </data>
+  <data name="resOdleglosc" xml:space="preserve">
+    <value>Odl:</value>
+  </data>
+  <data name="msgWylaczycPozaZasiegiem" xml:space="preserve">
+    <value>Są włączone Źródła danych spoza wybranego obszaru - wyłączyć je?</value>
+  </data>
 </root>

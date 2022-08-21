@@ -201,11 +201,47 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Should I disable all Sources outside selected region?.
+        '''</summary>
+        Friend Shared ReadOnly Property msgWylaczycPozaZasiegiem() As String
+            Get
+                Return ResourceManager.GetString("msgWylaczycPozaZasiegiem", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Yes.
         '''</summary>
         Friend Shared ReadOnly Property msgYes() As String
             Get
                 Return ResourceManager.GetString("msgYes", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to In last.
+        '''</summary>
+        Friend Shared ReadOnly Property resBurzaOkres() As String
+            Get
+                Return ResourceManager.GetString("resBurzaOkres", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to thunders.
+        '''</summary>
+        Friend Shared ReadOnly Property resBurzeCount() As String
+            Get
+                Return ResourceManager.GetString("resBurzeCount", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Direction.
+        '''</summary>
+        Friend Shared ReadOnly Property resBurzeDirection() As String
+            Get
+                Return ResourceManager.GetString("resBurzeDirection", resourceCulture)
             End Get
         End Property
         
@@ -327,6 +363,168 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to rain between 15 and 40 mm / wind gusts between 60 and 90 km / hail below 2 cm.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_burza_1() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_burza_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to rain between 41 and 70 mm / wind gusts between 91 and 110 km/h / hail between 2 and 5 cm.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_burza_2() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_burza_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to wind gusts between 91 and 110 km/h / grad between 2 and 5 cm / rain over 70 mm / wind gusts over 110 km/h / hail over 5 cm.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_burza_3() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_burza_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to between -20 and -25 °C.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_mroz_1() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_mroz_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to between -26 and -30 °C.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_mroz_2() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_mroz_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to poniżej -30 °C.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_mroz_3() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_mroz_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to rain between 25 and 40 mm in 24 hours / snow between 10 and 15 cm in 24 hours.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_opad_1() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_opad_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to rain between 41 and 70 mm in 24 hours / snow between 16 and 30 cm in 24 hours / snow between 10 and 15 cm in 12 hours.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_opad_2() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_opad_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to rain over 70 mm in 24 hours/snow over 30 cm in 24 hours / snow over 15 cm in 12 hours.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_opad_3() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_opad_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to small risk.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_traba_1() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_traba_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to medium risk.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_traba_2() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_traba_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to high risk.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_traba_3() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_traba_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to between 30 and  34 °C.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_upal_1() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_upal_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to between 35 and 38 °C.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_upal_2() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_upal_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to over 38 °C.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_upal_3() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_upal_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to gusts between 70 and 90 km/h.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_wiatr_1() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_wiatr_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to gusts between 91 and 110 km/h.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_wiatr_2() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_wiatr_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to gusts over 110 km/h.
+        '''</summary>
+        Friend Shared ReadOnly Property resLimitBurza_wiatr_3() As String
+            Get
+                Return ResourceManager.GetString("resLimitBurza_wiatr_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Name of place.
         '''</summary>
         Friend Shared ReadOnly Property resNazwa() As String
@@ -350,6 +548,15 @@ Namespace My.Resources
         Friend Shared ReadOnly Property resNoSensorInRange() As String
             Get
                 Return ResourceManager.GetString("resNoSensorInRange", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Distance:.
+        '''</summary>
+        Friend Shared ReadOnly Property resOdleglosc() As String
+            Get
+                Return ResourceManager.GetString("resOdleglosc", resourceCulture)
             End Get
         End Property
         

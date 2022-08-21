@@ -10,23 +10,7 @@
 ' MainPage.xaml.vb uiGPS_Click - odczytywanie danych
 ' Zrodelka.xaml.vb
 
-
-' nie da się do VB, bo ConfigCreate / ConfigDataOk / ConfigRead są bezpośrednio związane z UI
-'Partial Public Class Source_Base
-'    Public Shared Sub VbLib_App_Public()
-
-'    End Sub
-
-'    Private Shared Sub VbLib_App_Priv()
-
-'    End Sub
-
-'End Class
-
 Imports System.Collections.ObjectModel
-Imports System.IO
-Imports System.Net
-Imports System.Security.Cryptography
 
 Partial Public MustInherit Class Source_Base
     ' ułatwienie dodawania następnych
@@ -44,6 +28,7 @@ Partial Public MustInherit Class Source_Base
     Public Overridable ReadOnly Property SRC_IN_TIMER As Boolean = False
     Protected Overridable ReadOnly Property SRC_MY_KEY As String = ""
     Public Overridable ReadOnly Property SRC_NO_COMPARE As Boolean = False
+    Public Overridable ReadOnly Property SRC_ZASIEG As Zasieg = Zasieg.World
 
     Private _bMyNotPublic As Boolean = False
     Private _sTemplatePath As String = ""
@@ -73,6 +58,11 @@ Partial Public MustInherit Class Source_Base
     ''' <param name="oGpsPoint"></param>
     ''' <returns></returns>
     Public MustOverride Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+
+    Public Overridable Function GetDetails(oItem As JedenPomiar) As String
+        Return ""
+    End Function
+
 
     ' Private _oHttp As Net.Http.HttpClient = Nothing
 
@@ -194,95 +184,6 @@ Partial Public MustInherit Class Source_Base
         Next
     End Sub
 
-    'Public Overridable Sub ConfigCreate(ByVal oStack As StackPanel)
-    '    ' potrzebne, gdy nie ma Headerow w ToggleSwitchach
-    '    'if (!pkarmod.GetPlatform("uwp"))
-    '    '{
-    '    '    var oTH = new TextBlock();
-    '    '    oTH.Text = SRC_SETTING_HEADER;
-    '    '    oStack.Children.Add(oTH);
-    '    '}
-
-    '    Dim oTS = New ToggleSwitch()
-    '    oTS.Header = SRC_SETTING_HEADER
-    '    oTS.Name = "uiConfig_" & SRC_SETTING_NAME
-    '    oTS.IsOn = pkarmod.GetSettingsBool(SRC_SETTING_NAME, SRC_DEFAULT_ENABLE)
-    '    oStack.Children.Add(oTS)
-    '    If Not SRC_HAS_KEY Then Return
-    '    Dim oBind As Windows.UI.Xaml.Data.Binding = New Windows.UI.Xaml.Data.Binding()
-    '    oBind.ElementName = oTS.Name
-    '    oBind.Path = New PropertyPath("IsOn")
-    '    Dim oTBox = New TextBox()
-    '    oTBox.Header = SRC_SETTING_HEADER & " API key"
-    '    oTBox.Name = "uiConfig_" & SRC_SETTING_NAME & "_Key"
-    '    oTBox.Text = pkarmod.GetSettingsString(SRC_SETTING_NAME & "_apikey")
-    '    oTBox.SetBinding(TextBox.IsEnabledProperty, oBind)
-    '    oStack.Children.Add(oTBox)
-    '    Dim oLink = New HyperlinkButton()
-    '    oLink.Content = pkarmod.GetLangString("msgForAPIkey") ' "Aby uzyskać API key, zarejestruj się"
-    '    oLink.NavigateUri = New Uri(SRC_KEY_LOGIN_LINK)
-    '    oStack.Children.Add(oLink)
-    'End Sub
-
-    'Public Overridable Function ConfigDataOk(ByVal oStack As StackPanel) As String
-    '    ' jesli nie ma Key, to na pewno poprawne
-    '    If Not SRC_HAS_KEY Then Return ""
-
-    '    ' jesli nie jest wlaczone, to tez jest poprawnie
-    '    For Each oItem As UIElement In oStack.Children
-    '        Dim oTS As ToggleSwitch
-    '        oTS = TryCast(oItem, ToggleSwitch)
-
-    '        If oTS IsNot Nothing Then
-    '            If If(oTS.Name, "") Is If("uiConfig_" & SRC_SETTING_NAME, "") Then
-    '                If Not oTS.IsOn Then Return ""
-    '            End If
-    '        End If
-    '    Next
-
-    '    For Each oItem As UIElement In oStack.Children
-    '        Dim oTB As TextBox
-    '        oTB = TryCast(oItem, TextBox)
-
-    '        If oTB IsNot Nothing Then
-    '            If If(oTB.Name, "") Is If("uiConfig_" & SRC_SETTING_NAME & "_Key", "") Then
-    '                If oTB.Text.Length > 8 Then Return ""
-    '                Return "Too short API key"
-    '            End If
-    '        End If
-    '    Next
-
-    '    Return "UIError - no API key"
-    'End Function
-
-    'Public Overridable Sub ConfigRead(ByVal oStack As StackPanel)
-    '    For Each oItem As UIElement In oStack.Children
-    '        Dim oTS As ToggleSwitch
-    '        oTS = TryCast(oItem, ToggleSwitch)
-
-    '        If oTS IsNot Nothing Then
-    '            If If(oTS.Name, "") Is If("uiConfig_" & SRC_SETTING_NAME, "") Then
-    '                pkarmod.SetSettingsBool(SRC_SETTING_NAME, oTS.IsOn)
-    '                Exit For
-    '            End If
-    '        End If
-    '    Next
-
-    '    If Not SRC_HAS_KEY Then Return
-
-    '    ' tylko gdy jest wlaczony
-    '    For Each oItem As UIElement In oStack.Children
-    '        Dim oTB As TextBox
-    '        oTB = TryCast(oItem, TextBox)
-
-    '        If oTB IsNot Nothing Then
-    '            If If(oTB.Name, "") Is If("uiConfig_" & SRC_SETTING_NAME & "_Key", "") Then
-    '                SetSettingsString(SRC_SETTING_NAME & "_apikey", oTB.Text, True)
-    '                Exit For
-    '            End If
-    '        End If
-    '    Next
-    'End Sub
 
     Public Function Odleglosc2String(dOdl As Double) As String
         If dOdl < 10000 Then Return CInt(dOdl) & " m"
@@ -449,3 +350,9 @@ Partial Public Module Extensions
     '    Return dDouble
     'End Function
 End Module
+
+Public Enum Zasieg
+    World = 0
+    Europe = 1
+    Poland = 2
+End Enum

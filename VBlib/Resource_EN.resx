@@ -307,4 +307,73 @@
   <data name="msgBurzeValidity" xml:space="preserve">
     <value>Warning valid</value>
   </data>
+  <data name="resLimitBurza_mroz_1" xml:space="preserve">
+    <value>between -20 and -25 °C</value>
+  </data>
+  <data name="resLimitBurza_mroz_2" xml:space="preserve">
+    <value>between -26 and -30 °C</value>
+  </data>
+  <data name="resLimitBurza_mroz_3" xml:space="preserve">
+    <value>poniżej -30 °C</value>
+  </data>
+  <data name="resLimitBurza_upal_1" xml:space="preserve">
+    <value>between 30 and  34 °C</value>
+  </data>
+  <data name="resLimitBurza_upal_2" xml:space="preserve">
+    <value>between 35 and 38 °C</value>
+  </data>
+  <data name="resLimitBurza_upal_3" xml:space="preserve">
+    <value>over 38 °C</value>
+  </data>
+  <data name="resLimitBurza_wiatr_1" xml:space="preserve">
+    <value>gusts between 70 and 90 km/h</value>
+  </data>
+  <data name="resLimitBurza_wiatr_2" xml:space="preserve">
+    <value>gusts between 91 and 110 km/h</value>
+  </data>
+  <data name="resLimitBurza_wiatr_3" xml:space="preserve">
+    <value>gusts over 110 km/h</value>
+  </data>
+  <data name="resLimitBurza_opad_1" xml:space="preserve">
+    <value>rain between 25 and 40 mm in 24 hours / snow between 10 and 15 cm in 24 hours</value>
+  </data>
+  <data name="resLimitBurza_opad_2" xml:space="preserve">
+    <value>rain between 41 and 70 mm in 24 hours / snow between 16 and 30 cm in 24 hours / snow between 10 and 15 cm in 12 hours</value>
+  </data>
+  <data name="resLimitBurza_opad_3" xml:space="preserve">
+    <value>rain over 70 mm in 24 hours/snow over 30 cm in 24 hours / snow over 15 cm in 12 hours</value>
+  </data>
+  <data name="resLimitBurza_burza_1" xml:space="preserve">
+    <value>rain between 15 and 40 mm / wind gusts between 60 and 90 km / hail below 2 cm</value>
+  </data>
+  <data name="resLimitBurza_burza_2" xml:space="preserve">
+    <value>rain between 41 and 70 mm / wind gusts between 91 and 110 km/h / hail between 2 and 5 cm</value>
+  </data>
+  <data name="resLimitBurza_burza_3" xml:space="preserve">
+    <value>wind gusts between 91 and 110 km/h / grad between 2 and 5 cm / rain over 70 mm / wind gusts over 110 km/h / hail over 5 cm</value>
+  </data>
+  <data name="resLimitBurza_traba_1" xml:space="preserve">
+    <value>small risk</value>
+  </data>
+  <data name="resLimitBurza_traba_2" xml:space="preserve">
+    <value>medium risk</value>
+  </data>
+  <data name="resLimitBurza_traba_3" xml:space="preserve">
+    <value>high risk</value>
+  </data>
+  <data name="resBurzaOkres" xml:space="preserve">
+    <value>In last</value>
+  </data>
+  <data name="resBurzeCount" xml:space="preserve">
+    <value>thunders</value>
+  </data>
+  <data name="resBurzeDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="resOdleglosc" xml:space="preserve">
+    <value>Distance:</value>
+  </data>
+  <data name="msgWylaczycPozaZasiegiem" xml:space="preserve">
+    <value>Should I disable all Sources outside selected region?</value>
+  </data>
 </root>

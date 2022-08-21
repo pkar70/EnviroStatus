@@ -5,6 +5,13 @@
   * settings: simulate GPS - mozna ewentualnie zrobic pola Lat,Long jako binding do Toggle.IsOn; tylko czy Uno to umie?
   *     trzeba bêdzie spróbowaæ - see Readme.Txt
 
+2022.08.21
+* poprawka w burze, konwersja do degree/min: tostring("0#") by³o potrzebne, 17.02 a nie 17.2
+* zakres sensorów: world, Europe, Poland (przy Sources), wy³¹czanie tych spoza zasiêgu
+
+2022.08.17
+* uruchomi³em burze (by³ b³¹d po ich stronie)
+
 2022.08.16
 * SRC_URI_ABOUT_EN - jako link w ZrodlaBase (by³o Property w klasach, a nie by³o wykorzystane :) )
 * Settings:Zrodelka, tytu³ jako TextBox boldem i wiêkszy, z marginesem przed, a nie header do ToggleSwitch'a

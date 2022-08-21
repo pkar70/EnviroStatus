@@ -388,4 +388,7 @@
   <data name="uiLimitWgComboEU.Content" xml:space="preserve">
     <value>EU</value>
   </data>
+  <data name="uiZasiegLabel.Text" xml:space="preserve">
+    <value>Sensors for:</value>
+  </data>
 </root>

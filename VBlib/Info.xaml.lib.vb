@@ -55,10 +55,12 @@ Public Class Info
         * GIOŚ, czyli Główny Inspektorat Ochrony Środowiska - jego sensory mierzą wiele parametrów powietrza<br />
         * IMGW hydrologiczne, podaje stan wód (najbliższej rzeki, lub wszystkich w promieniu 25 km)<br />
         * IMGW meteo, w tym dane o wietrze<br />
+        * Burze, informacja o burzach w okolicy oraz ostrzeżenia pogodowe (burze.dzis.net)<br />
         * EEAair, czyli unijny GIOŚ (European Environmental Agency)<br />
         * Airly, którego sensory mierzą głównie zapylenie ('peemy')<br />
         * DarkSky, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. UV index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną (i te dane prezentuję)<br />
         * RadioactiveAtHome, sensory uczestniczące w tym projekcie mierzą promieniowanie tła<br />
+        * PAA, czyli Państwowa Agencja Atomistyki - oficjalne dane o promieniowaniu tła<br />
         * Foreca, z której biorę dane o najzimniejszym oraz najcieplejszym miejscu na świecie<br />
         * Seismic, czyli dane o trzęsieniach ziemi (najsilniej odczuwane w danej lokalizacji, oraz suma w zadanym promieniu)<br />
         * NOAA, czyli pogoda kosmiczna (wiatr kosmiczny, zakłócenia łączności, etc.)
@@ -122,14 +124,16 @@ Public Class Info
         * EEAair, air pollution data from european environmental agency <br />
         * IMGW hydrology, polish official hydrology service, status of rivers<br />
         * IMGW meteo, polish official meteo service, mainly wind data<br />
-        * GIOŚ, polish government's agency - sensors takes many measurements<br />
+        * GIOŚ, polish government's agency - sensors takes many measurements (only Poland)<br />
+        * PAA, polish atomics agency - official radioactivity sensors (only Poland)<br />
+        * Tstorms, information about thunderstorms in vicinity and weather warnings (burze.dzis.net - only Poland)<br />
         <p>
             Sensors should be less than 10 km (Airly, GIOS, EEA, IMGW meteo), 25 km (IMGW hydro) or less than 50 km (radioactive).
     you should not enable both EEA and GIOS - as EEA uses data from GIOS.
 
         </p>
         <p>
-            Tor technical reasons, data from three former sources are received by API,
+            For technical reasons, data from four sources are received by API,
             and from rest - via web page simulation.
             And for Airly and DarkSky rules, you have to create account on their portal.
             after creating account, you get API key - please enter it in app settings.

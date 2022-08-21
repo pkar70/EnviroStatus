@@ -10,6 +10,8 @@ Public Class Source_IMGWmeteo
     Protected Overrides ReadOnly Property SRC_HAS_TEMPLATES As Boolean = True
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_EN As String = "https://hydro.imgw.pl/"
     Protected Overrides ReadOnly Property SRC_URI_ABOUT_PL As String = "https://hydro.imgw.pl/"
+    Public Overrides ReadOnly Property SRC_ZASIEG As Zasieg = Zasieg.Poland
+
 
     Public Sub New(bMyNotPublic As Boolean, sTemplatePath As String)
         MyBase.New(bMyNotPublic, sTemplatePath)
