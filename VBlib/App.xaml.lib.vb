@@ -487,6 +487,7 @@ Public Class App
         gaSrc.Add(New Source_IMGWhydro(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_IMGWmeteo(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_Burze(bMyNotPublic, sTemplatePath))
+        gaSrc.Add(New Source_AlergenOBAS(bMyNotPublic, sTemplatePath))
     End Sub
 
 

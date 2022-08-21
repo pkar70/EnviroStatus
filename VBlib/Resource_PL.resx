@@ -223,7 +223,8 @@
     <value>burza</value>
   </data>
   <data name="resPomiarBurza_burza" xml:space="preserve">
-    <value>Burza</value>
+    <value>Burze</value>
+    <comment>powinno sie odrozniac od PomiarBurza!</comment>
   </data>
   <data name="resPomiarBurza_mroz" xml:space="preserve">
     <value>Mróz</value>
@@ -375,5 +376,14 @@
   </data>
   <data name="msgWylaczycPozaZasiegiem" xml:space="preserve">
     <value>Są włączone Źródła danych spoza wybranego obszaru - wyłączyć je?</value>
+  </data>
+  <data name="uiZasieg0" xml:space="preserve">
+    <value>świat</value>
+  </data>
+  <data name="uiZasieg1" xml:space="preserve">
+    <value>Europa</value>
+  </data>
+  <data name="uiZasieg2" xml:space="preserve">
+    <value>Polska</value>
   </data>
 </root>

@@ -32,6 +32,8 @@ namespace EnviroStatus
             return oNew;
         }
 
+        private bool bInInitPage = true;
+
         private void InitZasiegCombo(int currentZasieg)
         {
             uiZasieg.Items.Clear();
@@ -42,34 +44,50 @@ namespace EnviroStatus
 
         private void uiZasieg_Changed(object sender, RoutedEventArgs e)
         {
-            var oFE = sender as FrameworkElement;
+            if (bInInitPage) return;
+
+            if (uiZasieg.SelectedItem is null) return;
+            var oFE = uiZasieg.SelectedItem as FrameworkElement;
             if (oFE is null) return;
+            if (oFE.DataContext is null) return;
+
             int currentZasieg = (int)oFE.DataContext;
             vb14.SetSettingsInt("zasieg", currentZasieg);
 
-            Page_Loaded(null, null);
+            PokazUstawienia(currentZasieg);
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            int currentZasieg = vb14.GetSettingsInt("zasieg");
-            InitZasiegCombo(currentZasieg);
 
+        private void PokazUstawienia(int currentZasieg)
+        {
             uiStackConfig.Children.Clear();
 
             foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
-                if((int)oZrodlo.SRC_ZASIEG <= currentZasieg)
+                if ((int)oZrodlo.SRC_ZASIEG <= currentZasieg)
                     FromSrc_ConfigCreate(uiStackConfig, oZrodlo);
 
             var oButton = new Button();
             oButton.Content = vb14.GetLangString("uiSettingsSave.Content");
-            if ( (oButton.Content.ToString() == "uiSettingsSave.Content")
+            if ((oButton.Content.ToString() == "uiSettingsSave.Content")
                 || (oButton.Content.ToString() == ""))
-                    oButton.Content = "Save!";
+                oButton.Content = "Save!";
             oButton.HorizontalAlignment = HorizontalAlignment.Center;
             oButton.Click += uiSave_ClickEvent;
             // oButton.AddHandler(Button.cl)
             uiStackConfig.Children.Add(oButton);
+        }
+
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            bInInitPage = true;
+
+            int currentZasieg = vb14.GetSettingsInt("zasieg");
+            InitZasiegCombo(currentZasieg);
+
+            PokazUstawienia(currentZasieg);
+
+            bInInitPage = false;
         }
 
         private void uiSave_ClickEvent(object sender, RoutedEventArgs e)
@@ -100,22 +118,23 @@ namespace EnviroStatus
 
             foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
             {
-                if (isEnabled) break;
-
-                foreach (UIElement oItem in oStack.Children)
+                if ((int)oZrodlo.SRC_ZASIEG > currentZasieg)
                 {
-                    ToggleSwitch oTS;
-                    oTS = oItem as ToggleSwitch;
-                    if (oTS != null)
+                    foreach (UIElement oItem in oStack.Children)
                     {
-                        if (oTS.Name == "uiConfig_" + oZrodlo.SRC_SETTING_NAME && (int)oZrodlo.SRC_ZASIEG > currentZasieg)
+                        ToggleSwitch oTS;
+                        oTS = oItem as ToggleSwitch;
+                        if (oTS != null)
                         {
-                            isEnabled = true;
-                            break;
+                            if (oTS.Name == "uiConfig_" + oZrodlo.SRC_SETTING_NAME)
+                            {
+                                isEnabled = true;
+                                break;
+                            }
                         }
                     }
                 }
-
+                if (isEnabled) break;
             }
 
             if (!isEnabled) return;

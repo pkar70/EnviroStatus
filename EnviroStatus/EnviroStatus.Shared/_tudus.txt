@@ -1,7 +1,5 @@
 
 
-* czemu po otwarciu app i wczytaniu z cache, kolejne otwarcie app nie wczytuje z cache?
-
 
 ---- NAUKA NAUKA NAUKA NAUKA NAUKA NAUKA NAUKA NAUKA -----------
 

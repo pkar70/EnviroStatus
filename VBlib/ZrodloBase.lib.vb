@@ -95,7 +95,7 @@ Partial Public MustInherit Class Source_Base
                 sCommand = sKey & "/" & sCommand
             End If
 
-            If SRC_POMIAR_SOURCE = "airly" Then
+            If SRC_POMIAR_SOURCE = "airly" OrElse SRC_POMIAR_SOURCE = "OBAS" Then
                 _oHttp.DefaultRequestHeaders.Add("Accept", "application/json")
                 _oHttp.DefaultRequestHeaders.Add("apikey", sKey)
             End If

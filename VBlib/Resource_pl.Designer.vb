@@ -597,7 +597,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Burza.
+        '''  Looks up a localized string similar to Burze.
         '''</summary>
         Friend Shared ReadOnly Property resPomiarBurza_burza() As String
             Get
@@ -836,6 +836,33 @@ Namespace My.Resources
         Friend Shared ReadOnly Property resWysokosc() As String
             Get
                 Return ResourceManager.GetString("resWysokosc", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to świat.
+        '''</summary>
+        Friend Shared ReadOnly Property uiZasieg0() As String
+            Get
+                Return ResourceManager.GetString("uiZasieg0", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Europa.
+        '''</summary>
+        Friend Shared ReadOnly Property uiZasieg1() As String
+            Get
+                Return ResourceManager.GetString("uiZasieg1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Polska.
+        '''</summary>
+        Friend Shared ReadOnly Property uiZasieg2() As String
+            Get
+                Return ResourceManager.GetString("uiZasieg2", resourceCulture)
             End Get
         End Property
     End Class

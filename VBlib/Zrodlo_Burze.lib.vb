@@ -200,11 +200,12 @@ Partial Public Class Source_Burze
 
         Try
 
+            ' https://www.britannica.com/science/thunderstorm/Movement-of-thunderstorms
             Dim promien As Integer ' promien w kilometrach
             If GetSettingsBool("settingsLiveClock") Then
-                promien = 100   ' 60 minut, i z GPS
+                promien = 50   ' 60 minut, i z GPS
             Else
-                promien = 50    ' 30 minut, last position/fav
+                promien = 30    ' 30 minut, last position/fav
             End If
 
             Dim soapgr As String = "<soapenv:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:soap=""http://burze.dzis.net/soap.php"">"
@@ -275,8 +276,17 @@ Partial Public Class Source_Burze
                 End If
             Next
 
-            ' *TODO* zamiana dCurrValue na sAlert, liczba wykrzykników w zależności od liczby wyładowań
-            If oNew.dCurrValue > 0 Then oNew.sAlert = "!"
+            ' zgodnie z korespondencją z
+            ' From: Grzegorz Ruciński [mailto:kontakt@dzis.net] 
+            ' Sent: Wednesday, 17 August 2022 20: 05 
+            'Subject: RE: Wykorzystanie powiadomien burzowych w mojej app 
+            If oNew.dCurrValue > 0 Then
+                oNew.sAlert = "!"
+                If oNew.dCurrValue > 10 Then
+                    oNew.sAlert = "!!"
+                    If oNew.dCurrValue > 100 Then oNew.sAlert = "!!!"
+                End If
+            End If
 
             moListaPomiarow.Add(oNew)
             '    End If

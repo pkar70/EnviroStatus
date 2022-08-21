@@ -287,7 +287,8 @@
     <value>Tstorm</value>
   </data>
   <data name="resPomiarBurza_burza" xml:space="preserve">
-    <value>Tstorm</value>
+    <value>Tstorms</value>
+    <comment>powinno sie odrozniac od PomiarBurza!</comment>
   </data>
   <data name="resPomiarBurza_mroz" xml:space="preserve">
     <value>Frost</value>
@@ -375,5 +376,14 @@
   </data>
   <data name="msgWylaczycPozaZasiegiem" xml:space="preserve">
     <value>Should I disable all Sources outside selected region?</value>
+  </data>
+  <data name="uiZasieg0" xml:space="preserve">
+    <value>world</value>
+  </data>
+  <data name="uiZasieg1" xml:space="preserve">
+    <value>Europe</value>
+  </data>
+  <data name="uiZasieg2" xml:space="preserve">
+    <value>Poland</value>
   </data>
 </root>

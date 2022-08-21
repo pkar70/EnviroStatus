@@ -313,6 +313,7 @@ namespace EnviroStatus
                 this.Navigate(typeof(Zrodelka));
             }
 
+
         }
 
         private async void uiStore_Click(object sender, RoutedEventArgs e)

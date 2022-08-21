@@ -56,7 +56,7 @@
             If sMsg.IndexOf("(") > 0 Then sMsg &= ")"
             sMsg = sMsg & vbCrLf
             If Not String.IsNullOrEmpty(oItem.sSensorDescr) Then sMsg = sMsg & oItem.sSensorDescr & vbCrLf
-            If oItem.sAdres <> "" Then sMsg = sMsg & vbCrLf & oItem.sAdres & vbCrLf
+            If oItem.sAdres <> "" Then sMsg = sMsg & oItem.sAdres & vbCrLf
 
             If Not String.IsNullOrEmpty(oItem.sOdl) Then
                 sMsg = sMsg & GetLangString("resOdleglosc") & " " & oItem.sOdl & vbCrLf

@@ -8,6 +8,7 @@
 2022.08.21
 * poprawka w burze, konwersja do degree/min: tostring("0#") by³o potrzebne, 17.02 a nie 17.2
 * zakres sensorów: world, Europe, Poland (przy Sources), wy³¹czanie tych spoza zasiêgu
+* nowe Ÿród³o: alergeny (OBAŒ lub zadnegoale.pl/)
 
 2022.08.17
 * uruchomi³em burze (by³ b³¹d po ich stronie)
