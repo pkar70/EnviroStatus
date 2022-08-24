@@ -5,6 +5,8 @@
   * settings: simulate GPS - mozna ewentualnie zrobic pola Lat,Long jako binding do Toggle.IsOn; tylko czy Uno to umie?
   *     trzeba bêdzie spróbowaæ - see Readme.Txt
 
+STORE UWP
+
 2022.08.21
 * poprawka w burze, konwersja do degree/min: tostring("0#") by³o potrzebne, 17.02 a nie 17.2
 * zakres sensorów: world, Europe, Poland (przy Sources), wy³¹czanie tych spoza zasiêgu

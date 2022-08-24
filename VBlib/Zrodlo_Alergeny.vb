@@ -73,6 +73,7 @@ Partial Public Class Source_AlergenOBAS
 
             oNew.dCurrValue = oPylek.value
             oNew.sAdres = oPylek.region.name
+            oNew.sId = sId
 
             oNew.sAlert = LevelToAlert(oPylek.level)
 

@@ -7,8 +7,8 @@
 
 Public Class JedenPomiar
         Public Property sSource As String = ""  ' np. airly
-        Public Property sId As String = ""     ' interpretowane przez klasę airly
-        Public Property dLon As Double = 0    ' lokalizacja sensora
+    Public Property sId As String = ""     ' interpretowane przez klasę airly, używane przy Fav do ściągania (które ma być używany)
+    Public Property dLon As Double = 0    ' lokalizacja sensora
         Public Property dLat As Double = 0
         Public Property dWysok As Double = 0
         Public Property dOdl As Double = 0    ' odleglosc - wazne przy sprawdzaniu ktory najblizszy
