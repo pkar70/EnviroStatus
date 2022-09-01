@@ -11,6 +11,7 @@
 ' Zrodelka.xaml.vb
 
 Imports System.Collections.ObjectModel
+Imports System.Globalization
 
 Partial Public MustInherit Class Source_Base
     ' ułatwienie dodawania następnych
@@ -250,17 +251,20 @@ Partial Public Module Extensions
     End Function
 
     <Runtime.CompilerServices.Extension()>
-    Public Function GetNamedNumber(ByVal jVal As Newtonsoft.Json.Linq.JToken, sName As String, Optional sDefault As Double = 0) As Double
-        Dim sTmp As Double
+    Public Function GetNamedNumber(ByVal jVal As Newtonsoft.Json.Linq.JToken, sName As String, Optional dDefault As Double = 0) As Double
+        Dim temp As Double
 
         Try
-            If jVal(sName) Is Nothing Then Return sDefault
-            sTmp = CDbl(jVal(sName))
+            If jVal(sName) Is Nothing Then Return dDefault
+            If Not Double.TryParse(jVal(sName), Globalization.NumberStyles.Float, NumberFormatInfo.InvariantInfo, temp) Then
+                Return dDefault
+            End If
+            Return temp
         Catch
-            sTmp = sDefault
+            temp = dDefault
         End Try
 
-        Return sTmp
+        Return temp
     End Function
 
     <Runtime.CompilerServices.Extension()>

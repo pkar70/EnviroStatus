@@ -1,5 +1,6 @@
 ﻿Imports System.Linq
 Imports System.Collections.ObjectModel
+Imports System.Globalization
 
 Public Class Source_NoaaWind
     Inherits Source_Base
@@ -59,7 +60,7 @@ Public Class Source_NoaaWind
         oNew.sTimeStamp = sTime
         oNew.sUnit = "/cm³"
         oNew.sCurrValue = oJSonLast(1).ToString()
-        oNew.dCurrValue = oNew.sCurrValue
+        Double.TryParse(oNew.sCurrValue, Globalization.NumberStyles.Float, NumberFormatInfo.InvariantInfo, oNew.dCurrValue)
         oNew.sCurrValue = oNew.sCurrValue & "/cm³"
         oNew.sPomiar = GetLangString("resPomiarSolarWindDensity")
         oNew.sAddit = GetLangString("resPomiarAdditSolarWindDensity")
@@ -68,7 +69,7 @@ Public Class Source_NoaaWind
         oNew.sTimeStamp = sTime
         oNew.sUnit = "km/s"
         oNew.sCurrValue = oJSonLast(2).ToString()
-        oNew.dCurrValue = oNew.sCurrValue
+        Double.TryParse(oNew.sCurrValue, Globalization.NumberStyles.Float, NumberFormatInfo.InvariantInfo, oNew.dCurrValue)
         oNew.sCurrValue = oNew.sCurrValue & " " + oNew.sUnit
         oNew.sPomiar = GetLangString("resPomiarSolarWindSpeed")
         oNew.sAddit = GetLangString("resPomiarAdditSolarWindSpeed")
@@ -83,7 +84,7 @@ Public Class Source_NoaaWind
             oNew.sCurrValue = "0"
         End Try
 
-        oNew.dCurrValue = oNew.sCurrValue
+        Double.TryParse(oNew.sCurrValue, Globalization.NumberStyles.Float, NumberFormatInfo.InvariantInfo, oNew.dCurrValue)
         If oNew.sCurrValue.Length > 4 Then oNew.sCurrValue = oNew.sCurrValue.Substring(0, oNew.sCurrValue.Length - 3) & " " & oNew.sCurrValue.Substring(oNew.sCurrValue.Length - 3)
         oNew.sCurrValue = oNew.sCurrValue & " " & oNew.sUnit
         oNew.sPomiar = GetLangString("resPomiarSolarWindTemp")

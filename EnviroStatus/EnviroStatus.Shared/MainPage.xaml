@@ -30,7 +30,7 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,5,0,0" BorderThickness="1" BorderBrush="Blue" DoubleTapped="uiShowDetails_DClick">
+                    <Grid Margin="0,5,0,0" BorderThickness="1" BorderBrush="Blue" DoubleTapped="uiShowDetails_Click">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -42,14 +42,14 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0" Grid.RowSpan="2" Text="{Binding sPomiar, Mode=OneWay }" FontSize="18" VerticalAlignment="Center" Margin="5,0,5,0" DoubleTapped="uiShowDetails_DClick" />
-                            <TextBlock Grid.Column="1" Grid.RowSpan="2" Text="{Binding sCurrValue, Mode=OneWay }" FontSize="18" VerticalAlignment="Center" Margin="5,0,5,0"  DoubleTapped="uiShowDetails_DClick"/>
-                            <TextBlock Grid.Column="2" Grid.RowSpan="2" Text="{Binding sAlert, Mode=OneWay }" FontSize="18" VerticalAlignment="Center" FontWeight="Bold" Foreground="Red" HorizontalAlignment="Center" DoubleTapped="uiShowDetails_DClick"/>
-                            <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding sSource, Mode=OneWay }"  Margin="5,0,5,0" HorizontalAlignment="Right" DoubleTapped="uiShowDetails_DClick" />
-                            <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding sOdl, Mode=OneWay }"  Margin="5,0,5,0" HorizontalAlignment="Right" DoubleTapped="uiShowDetails_DClick"/>
+                            <TextBlock Grid.Column="0" Grid.RowSpan="2" Text="{Binding sPomiar, Mode=OneWay }" FontSize="18" VerticalAlignment="Center" Margin="5,0,5,0"  />
+                            <TextBlock Grid.Column="1" Grid.RowSpan="2" Text="{Binding sCurrValue, Mode=OneWay }" FontSize="18" VerticalAlignment="Center" Margin="5,0,5,0"  />
+                            <TextBlock Grid.Column="2" Grid.RowSpan="2" Text="{Binding sAlert, Mode=OneWay }" FontSize="18" VerticalAlignment="Center" FontWeight="Bold" Foreground="Red" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="3" Grid.Row="0" Text="{Binding sSource, Mode=OneWay }"  Margin="5,0,5,0" HorizontalAlignment="Right"  />
+                            <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding sOdl, Mode=OneWay }"  Margin="5,0,5,0" HorizontalAlignment="Right" />
                         <Grid.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem x:Uid="uiGoDetails" Text="Details..." Click="uiDetails_Click"  />
+                                <MenuFlyoutItem x:Uid="uiGoDetails" Text="Details..." Click="uiShowDetails_Click"  />
                                 <win:MenuFlyoutItem x:Uid="uiAddSecTile" Text="Add tile" Click="uiAddSecTile_Click"  />
                             </MenuFlyout>
                         </Grid.ContextFlyout>

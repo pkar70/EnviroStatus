@@ -65,26 +65,12 @@ namespace EnviroStatus
 
         }
 
-        private async void uiShowDetails_DClick(object sender, RoutedEventArgs e)
-        {// bo zarowno z TextBlock, jak i z Grid moze przyjsc
-            Grid oGrid;
-            oGrid = sender as Grid;
-            if (oGrid != null)
-                await ShowDetailsAsync(oGrid.DataContext as VBlib.JedenPomiar);
-            else
-            {
-                TextBlock oTB;
-                oTB = sender as TextBlock;
-                if (oTB != null)
-                    await ShowDetailsAsync(oTB.DataContext as VBlib.JedenPomiar);
-            }
-
-        }
-
-        private async void uiDetails_Click(object sender, RoutedEventArgs e)
-        {
-            // JedenPomiar oItem;
-            await ShowDetailsAsync((sender as MenuFlyoutItem).DataContext as VBlib.JedenPomiar);
+        private void uiShowDetails_Click(object sender, RoutedEventArgs e)
+        {// bo zarowno z TextBlock, jak i z Grid moze przyjsc, i z MenuItem
+            FrameworkElement oFE;
+            oFE = sender as FrameworkElement;
+            if (oFE != null)
+                ShowDetailsAsync(oFE.DataContext as VBlib.JedenPomiar);
         }
 
 

@@ -84,7 +84,7 @@
         If oItem.sSource = "SeismicEU" Then
             sMsg &= "max value: "
         Else
-            If oItem.sSource = "burze" Then
+            If oItem.sSource = "burze" AndAlso oItem.sPomiar = GetLangString("resPomiarBurza") Then
                 sMsg = sMsg & GetLangString("resBurzeCount") & ": "
             Else
                 sMsg &= "value: "
