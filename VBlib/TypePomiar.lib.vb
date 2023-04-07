@@ -8,10 +8,16 @@
 Public Class JedenPomiar
         Public Property sSource As String = ""  ' np. airly
     Public Property sId As String = ""     ' interpretowane przez klasę airly, używane przy Fav do ściągania (które ma być używany)
+
+    Public Property oGeo As pkar.BasicGeopos
+
+    ' trzy tymczasowo - żeby był w stanie odczytać poprzednie templaty
     Public Property dLon As Double = 0    ' lokalizacja sensora
-        Public Property dLat As Double = 0
-        Public Property dWysok As Double = 0
-        Public Property dOdl As Double = 0    ' odleglosc - wazne przy sprawdzaniu ktory najblizszy
+    Public Property dLat As Double = 0
+    Public Property dWysok As Double = 0
+
+
+    Public Property dOdl As Double = 0    ' odleglosc - wazne przy sprawdzaniu ktory najblizszy
         Public Property sPomiar As String = "" ' jaki pomiar (np. PM10)
         Public Property sCurrValue As String = "" ' etap 2: wartosc
         Public Property dCurrValue As Double = 0

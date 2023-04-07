@@ -43,7 +43,7 @@ Public Class Source_IMGWhydro
         Return "cm"
     End Function
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 25
@@ -81,9 +81,8 @@ Public Class Source_IMGWhydro
             Dim oTemplate = New JedenPomiar(SRC_POMIAR_SOURCE)
             oTemplate.sPomiar = "Hydro"
             oTemplate.sId = oJsonSensor.GetObject().GetNamedString("i")
-            oTemplate.dLon = oJsonSensor.GetObject().GetNamedNumber("lo")
-            oTemplate.dLat = oJsonSensor.GetObject().GetNamedNumber("la")
-            oTemplate.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oTemplate.dLat, oTemplate.dLon))
+            oTemplate.oGeo = New pkar.BasicGeopos(oJsonSensor.GetObject().GetNamedNumber("la"), oJsonSensor.GetObject().GetNamedNumber("lo"))
+            oTemplate.dOdl = oPos.DistanceTo(oTemplate.oGeo)
             dMinOdl = Math.Min(dMinOdl, oTemplate.dOdl)
             If oTemplate.dOdl > dMaxOdl * 1000 Then Continue For
             oTemplate.sOdl = Odleglosc2String(oTemplate.dOdl)
@@ -126,7 +125,7 @@ Public Class Source_IMGWhydro
         Return moListaPomiarow
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         moListaPomiarow = New Collection(Of JedenPomiar)()
         If Not GetSettingsBool("sourceImgwHydro", SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 
@@ -166,8 +165,7 @@ Public Class Source_IMGWhydro
         Try
             Dim oNewCm = New JedenPomiar(oTemplate.sSource)
             oNewCm.sId = oTemplate.sId
-            oNewCm.dLon = oTemplate.dLon
-            oNewCm.dLat = oTemplate.dLat
+            oNewCm.oGeo = oTemplate.oGeo
             oNewCm.dOdl = oTemplate.dOdl
             oNewCm.sOdl = oTemplate.sOdl
             oNewCm.sPomiar = oTemplate.sPomiar & " cm"
@@ -203,9 +201,12 @@ Public Class Source_IMGWhydro
             If dHigh > 0 Then sLimity = sLimity & "High: " & dHigh.ToString() & " cm" & vbLf
             If dLow > 0 Then sLimity = sLimity & "Low: " & dLow.ToString() & " cm" & vbLf
             oNewCm.sLimity = sLimity
-            If oNewCm.dCurrValue <= dLow OrElse oNewCm.dCurrValue >= dHigh Then oNewCm.sAlert = "!"
-            If oNewCm.dCurrValue >= dWarn Then oNewCm.sAlert = "!!"
-            If oNewCm.dCurrValue >= dAlarm Then oNewCm.sAlert = "!!!"
+            If dLow > 0 AndAlso dHigh > 0 Then
+                If oNewCm.dCurrValue <= dLow OrElse oNewCm.dCurrValue >= dHigh Then oNewCm.sAlert = "!"
+            End If
+
+            If dWarn > 0 AndAlso oNewCm.dCurrValue >= dWarn Then oNewCm.sAlert = "!!"
+            If dAlarm > 0 AndAlso oNewCm.dCurrValue >= dAlarm Then oNewCm.sAlert = "!!!"
             moListaPomiarow.Add(oNewCm)
         Catch
         End Try
@@ -213,8 +214,7 @@ Public Class Source_IMGWhydro
         Try
             Dim oNew = New JedenPomiar(oTemplate.sSource)
             oNew.sId = oTemplate.sId
-            oNew.dLon = oTemplate.dLon
-            oNew.dLat = oTemplate.dLat
+            oNew.oGeo = oTemplate.oGeo
             oNew.dOdl = oTemplate.dOdl
             oNew.sOdl = oTemplate.sOdl
             oNew.sUnit = " °C"
@@ -247,8 +247,7 @@ Public Class Source_IMGWhydro
         Try
             Dim oNew = New JedenPomiar(oTemplate.sSource)
             oNew.sId = oTemplate.sId
-            oNew.dLon = oTemplate.dLon
-            oNew.dLat = oTemplate.dLat
+            oNew.oGeo = oTemplate.oGeo
             oNew.dOdl = oTemplate.dOdl
             oNew.sOdl = oTemplate.sOdl
             oNew.sUnit = " m³/s"

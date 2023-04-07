@@ -18,8 +18,7 @@ namespace EnviroStatus
 
         private void uiMapka_Loaded(object sender, RoutedEventArgs e)
         {
-            VBlib.MyBasicGeoposition oPosition;
-            oPosition = new VBlib.MyBasicGeoposition(50.061389, 19.938333) ; // // współrzędne wedle Wiki
+            pkar.BasicGeopos oPosition = pkar.BasicGeopos.GetKrakowCenter();
 
             uiMapka.Center = new Windows.Devices.Geolocation.Geopoint(oPosition.ToWinGeopos());
             uiMapka.ZoomLevel = 5;
@@ -31,7 +30,7 @@ namespace EnviroStatus
 
         private void uiMapka_Holding(Windows.UI.Xaml.Controls.Maps.MapControl sender, Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            VBlib.App.moPoint = args.Location.Position.ToMyGeopos();
+            VBlib.App.moPoint = pkar.BasicGeopos.FromObject(args.Location.Position);//.ToMyGeopos();
             Frame.GoBack();
         }
     }

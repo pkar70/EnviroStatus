@@ -1,8 +1,23 @@
 
+euradiation jako (priv), tylko dla mnie (podobnie jak pylenie)
 
+https://data.world/datasets/temperature ?
+
+Możliwe że https://www.meteoalarm.org/en/page/re-users#list
 
 ---- NAUKA NAUKA NAUKA NAUKA NAUKA NAUKA NAUKA NAUKA -----------
 
+
+Nuget Geopos
+zrodlo_airly: oPos.Latitude.ToString(System.Globalization.NumberFormatInfo.InvariantInfo) -> wersja 
+alergeny: GetREST($"regions/public/{oPos.Latitude}/{oPos.Longitude}")
+burze: Private Function WspolrzDoDM(dWspolrzedna As Double) As String
+$"<y xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Latitude)}</y>" &
+darksky: GetDataFromFavSensorAsync(oPos.Latitude.ToString(), oPos.Longitude.ToString(),
+eeair: dLat = Math.Asin((Math.Exp(2 * dLat / constR) - 1)
+viscros: $"/{oGps.Latitude},{oGps.Longitude}/{Dat
+wedlemapy: new pkar.BasicGeopos(50.061389, 19.938333) 
+Geolocation.Geopoint(oPosition.ToWinGeopos())
 
 3) <ControlTemplate> czy inszy CustomControl i jego wykorzystanie
 3a) Slider + po prawej stronie jego Value, może to {Binding <path>, RelativeSource={RelativeSource TemplatedParent}} albo w ramach DataContext {Binding Path=a.b.c} - w ramach DataContext

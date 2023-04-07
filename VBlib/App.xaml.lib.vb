@@ -1,6 +1,7 @@
 ﻿
 Imports System.Collections.ObjectModel
 Imports System.IO
+Imports System.Linq
 
 Public Class App
 
@@ -13,8 +14,8 @@ Public Class App
         If Not GetSettingsBool("settingsDataLog") Then Return False
 
         Try
-            Dim logFile As String = GetLogFileDailyWithTime("", "json")
             Dim sTxt As String = Newtonsoft.Json.JsonConvert.SerializeObject(moPomiaryAll, Newtonsoft.Json.Formatting.Indented)
+            Dim logFile As String = msDataLog.GetLogFileDailyWithTime("", "json")
             File.WriteAllText(logFile, sTxt)
             Return True
         Catch
@@ -72,8 +73,8 @@ Public Class App
         Dim aLastAlerts As String() = sLastToast.Replace(vbCrLf, vbCr).Trim().Split(vbCr)
         Dim bCleanAir = True
 
-        For Each oItem As JedenPomiar In moPomiaryAll
-            If oItem.bDel Then Continue For
+        For Each oItem As JedenPomiar In moPomiaryAll.Where(Function(x As JedenPomiar) Not x.bDel)
+            'If oItem.bDel Then Continue For
             If Not oItem.bCleanAir Then bCleanAir = False    ' 2021.01.28
             Dim sAlertTmp As String = oItem.sAlert
             If sAlertTmp.Length < sToastSett.Length Then sAlertTmp = ""             ' !!
@@ -257,8 +258,8 @@ Public Class App
 
     End Sub
 
-    Public Shared moPoint As MyBasicGeoposition = Nothing
-    Public Shared moGpsPoint As MyBasicGeoposition
+    Public Shared moPoint As pkar.BasicGeopos = Nothing
+    Public Shared moGpsPoint As pkar.BasicGeopos
     Public Shared mbComparing As Boolean = False
     Public Shared Event ZmianaDanych As ZmianaDanychEventHandler
     Public Delegate Sub ZmianaDanychEventHandler()
@@ -269,10 +270,10 @@ Public Class App
         Dim sPunkt As String = GetSettingsString("favgps_" & sFavName)
         If String.IsNullOrEmpty(sPunkt) Then Return
         Dim aPunkt As String() = sPunkt.Split("|")
-        Dim dTmpA, dTmpO As Double
-        Double.TryParse(aPunkt(0), dTmpA)
-        Double.TryParse(aPunkt(1), dTmpO)
-        moGpsPoint = New MyBasicGeoposition(dTmpA, dTmpO)
+        'Dim dTmpA, dTmpO As Double
+        'Double.TryParse(aPunkt(0), dTmpA)
+        'Double.TryParse(aPunkt(1), dTmpO)
+        moGpsPoint = New pkar.BasicGeopos(aPunkt(0), aPunkt(1))
 
         If Not mbComparing Then moPomiaryAll = New Collection(Of VBlib.JedenPomiar)()
         Dim oPomiary As Collection(Of VBlib.JedenPomiar) = Nothing
@@ -285,11 +286,10 @@ Public Class App
             If bInTimer AndAlso sInTiles.IndexOf(aData(0)) < 0 Then Continue For
             oPomiary = Nothing
 
-            For Each oZrodlo As Source_Base In gaSrc
+            For Each oZrodlo As Source_Base In gaSrc.Where(Function(x As Source_Base) aData(0) = x.SRC_POMIAR_SOURCE)
+                'If aData(0) = oZrodlo.SRC_POMIAR_SOURCE Then
 
-                If aData(0) = oZrodlo.SRC_POMIAR_SOURCE Then
-
-                    If Not App.mbComparing OrElse Not oZrodlo.SRC_NO_COMPARE Then
+                If Not App.mbComparing OrElse Not oZrodlo.SRC_NO_COMPARE Then
 
                         If aData(0) = "DarkSky" OrElse aData(0) = "SeismicEU" Then
                             oPomiary = Await oZrodlo.GetDataFromFavSensorAsync(moGpsPoint.Latitude, moGpsPoint.Longitude, bInTimer, Nothing)
@@ -297,7 +297,7 @@ Public Class App
                             oPomiary = Await oZrodlo.GetDataFromFavSensorAsync(aData(1), aData(2), bInTimer, moGpsPoint)
                         End If
                     End If
-                End If
+                'End If
             Next
 
             If oPomiary IsNot Nothing Then
@@ -385,13 +385,13 @@ Public Class App
         Dim dWilg As Double = 1000
 
         ' MakeToast("before loop in Tapp")
-        For Each oItem As JedenPomiar In moPomiaryAll
+        For Each oItem As JedenPomiar In moPomiaryAll.Where(Function(x As JedenPomiar) Not x.bDel AndAlso Not String.IsNullOrEmpty(x.sPomiar))
             ' MakeToast("source: " & oItem.sSource & ", pomiar " & oItem.sPomiar)
-            If Not oItem.bDel AndAlso Not String.IsNullOrEmpty(oItem.sPomiar) Then
-                ' MakeToast("value: " & oItem.dCurrValue)
-                If oItem.sPomiar.ToLower = "humidity" Then dWilg = oItem.dCurrValue
-                If oItem.sPomiar.ToLower.IndexOf("tempe") = 0 Then dTemp = oItem.dCurrValue ' airly tak, ale IMGW nie (bo tam jest temp)
-            End If
+            ' If Not oItem.bDel AndAlso Not String.IsNullOrEmpty(oItem.sPomiar) Then
+            ' MakeToast("value: " & oItem.dCurrValue)
+            If oItem.sPomiar.ToLower = "humidity" Then dWilg = oItem.dCurrValue
+            If oItem.sPomiar.ToLower.IndexOf("tempe") = 0 Then dTemp = oItem.dCurrValue ' airly tak, ale IMGW nie (bo tam jest temp)
+            'End If
         Next
 
         ' MakeToast("Tapp, mam dane " & dTemp & ", " & dWilg)
@@ -475,6 +475,7 @@ Public Class App
 
         gaSrc.Add(New Source_Foreca(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_DarkSky(bMyNotPublic, sTemplatePath))
+        gaSrc.Add(New Source_VisualCrossing(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_NoaaKindex(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_NoaaWind(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_NoaaAlert(bMyNotPublic, sTemplatePath))
@@ -487,7 +488,7 @@ Public Class App
         gaSrc.Add(New Source_IMGWhydro(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_IMGWmeteo(bMyNotPublic, sTemplatePath))
         gaSrc.Add(New Source_Burze(bMyNotPublic, sTemplatePath))
-        gaSrc.Add(New Source_AlergenOBAS(bMyNotPublic, sTemplatePath))
+        gaSrc.Add(New Source_AlergenOBASNew(bMyNotPublic, sTemplatePath))
     End Sub
 
 

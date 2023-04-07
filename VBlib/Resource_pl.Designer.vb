@@ -363,6 +363,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Księżyc.
+        '''</summary>
+        Friend Shared ReadOnly Property resKsiezyc() As String
+            Get
+                Return ResourceManager.GetString("resKsiezyc", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to deszcz od 15 do 40 mm / wiatr w porywach od 60 do 90 km/h / grad poniżej 2 cm.
         '''</summary>
         Friend Shared ReadOnly Property resLimitBurza_burza_1() As String
@@ -521,6 +530,15 @@ Namespace My.Resources
         Friend Shared ReadOnly Property resLimitBurza_wiatr_3() As String
             Get
                 Return ResourceManager.GetString("resLimitBurza_wiatr_3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Faza Księżyca.
+        '''</summary>
+        Friend Shared ReadOnly Property resMoonPhase() As String
+            Get
+                Return ResourceManager.GetString("resMoonPhase", resourceCulture)
             End Get
         End Property
         
@@ -714,11 +732,29 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Wilgotność.
+        '''</summary>
+        Friend Shared ReadOnly Property resPomiarWilg() As String
+            Get
+                Return ResourceManager.GetString("resPomiarWilg", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Wiatr.
         '''</summary>
         Friend Shared ReadOnly Property resPomiarWind() As String
             Get
                 Return ResourceManager.GetString("resPomiarWind", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Porywy wiatru.
+        '''</summary>
+        Friend Shared ReadOnly Property resPomiarWindGust() As String
+            Get
+                Return ResourceManager.GetString("resPomiarWindGust", resourceCulture)
             End Get
         End Property
         
@@ -822,6 +858,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Słońce.
+        '''</summary>
+        Friend Shared ReadOnly Property resSlonce() As String
+            Get
+                Return ResourceManager.GetString("resSlonce", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Pokrywa śniegu.
+        '''</summary>
+        Friend Shared ReadOnly Property resSnowDepth() As String
+            Get
+                Return ResourceManager.GetString("resSnowDepth", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to T odczuwana.
         '''</summary>
         Friend Shared ReadOnly Property resTempOdczuwana() As String
@@ -863,6 +917,15 @@ Namespace My.Resources
         Friend Shared ReadOnly Property uiZasieg2() As String
             Get
                 Return ResourceManager.GetString("uiZasieg2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to (priv).
+        '''</summary>
+        Friend Shared ReadOnly Property uiZasieg3() As String
+            Get
+                Return ResourceManager.GetString("uiZasieg3", resourceCulture)
             End Get
         End Property
     End Class

@@ -282,11 +282,9 @@ namespace EnviroStatus
 #endif
 
 
-        // public static Windows.Foundation.Point moGpsPoint;
-        //public static VBlib.MyBasicGeoposition moGpsPoint;
         //public static bool mbComparing = false;
 
-        public static async System.Threading.Tasks.Task<VBlib.MyBasicGeoposition> GetCurrentPointAsync()
+        public static async System.Threading.Tasks.Task<pkar.BasicGeopos> GetCurrentPointAsync()
         {
             // Dim oPoint As Point
 
@@ -295,9 +293,7 @@ namespace EnviroStatus
                 return VBlib.App.moGpsPoint;
 
             // na pewno ma byc wedle GPS
-            //moGpsPoint.Latitude = 50.0; // 1985 ' latitude - dane domku, choc mała precyzja
-            //moGpsPoint.Longitude = 19.9; // 7872
-            VBlib.App.moGpsPoint = VBlib.MyBasicGeoposition.GetDomekGeopos(1);
+            VBlib.App.moGpsPoint = pkar.BasicGeopos.GetMyTestGeopos(1);
 
             Windows.Devices.Geolocation.GeolocationAccessStatus rVal; // = await Windows.Devices.Geolocation.Geolocator.RequestAccessAsync();
 
@@ -320,7 +316,7 @@ namespace EnviroStatus
             try
             {
                 oPos = await oDevGPS.GetGeopositionAsync(oCacheTime, oTimeout);
-                VBlib.App.moGpsPoint = oPos.Coordinate.Point.Position.ToMyGeopos();
+                VBlib.App.moGpsPoint = pkar.BasicGeopos.FromObject(oPos.Coordinate.Point.Position); //.ToMyGeopos();
             }
             catch 
             {
@@ -331,7 +327,7 @@ namespace EnviroStatus
             {
                 await vb14.DialogBoxResAsync("resErrorGettingPos");
 
-                VBlib.App.moGpsPoint = VBlib.MyBasicGeoposition.GetDomekGeopos(2);
+                VBlib.App.moGpsPoint = pkar.BasicGeopos.GetMyTestGeopos(2);
                 //moGpsPoint.Latitude = 50.06; // Kraków wedle Wikipedii
                 //moGpsPoint.Longitude = 19.93;
             }

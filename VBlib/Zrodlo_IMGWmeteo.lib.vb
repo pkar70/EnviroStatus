@@ -33,7 +33,7 @@ Public Class Source_IMGWmeteo
         moListaPomiarow.Add(oNew)
     End Sub
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 10
@@ -71,9 +71,8 @@ Public Class Source_IMGWmeteo
             Dim oTemplate = New JedenPomiar(SRC_POMIAR_SOURCE)
             oTemplate.sPomiar = "Meteo"
             oTemplate.sId = oJsonSensor.GetObject().GetNamedString("i")
-            oTemplate.dLon = oJsonSensor.GetObject().GetNamedNumber("lo")
-            oTemplate.dLat = oJsonSensor.GetObject().GetNamedNumber("la")
-            oTemplate.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oTemplate.dLat, oTemplate.dLon))
+            oTemplate.oGeo = New pkar.BasicGeopos(oJsonSensor.GetObject().GetNamedNumber("la"), oJsonSensor.GetObject().GetNamedNumber("lo"))
+            oTemplate.dOdl = oPos.DistanceTo(oTemplate.oGeo)
             dMinOdl = Math.Min(dMinOdl, oTemplate.dOdl)
             If oTemplate.dOdl > dMaxOdl * 1000 Then Continue For
             If oTemplate.dOdl > dMinOdlAdd Then Continue For
@@ -107,7 +106,7 @@ Public Class Source_IMGWmeteo
         Return oListaPomiarow
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         moListaPomiarow = New Collection(Of JedenPomiar)()
         If Not GetSettingsBool("sourceImgwMeteo", SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 
@@ -144,8 +143,7 @@ Public Class Source_IMGWmeteo
         Try
             Dim oNew = New JedenPomiar(oTemplate.sSource)
             oNew.sId = oTemplate.sId
-            oNew.dLon = oTemplate.dLon
-            oNew.dLat = oTemplate.dLat
+            oNew.oGeo = oTemplate.oGeo
             oNew.dOdl = oTemplate.dOdl
             oNew.sOdl = oTemplate.sOdl
             oNew.sPomiar = GetLangString("resPomiarOpad")
@@ -184,8 +182,7 @@ Public Class Source_IMGWmeteo
         Try
             Dim oNew = New JedenPomiar(oTemplate.sSource)
             oNew.sId = oTemplate.sId
-            oNew.dLon = oTemplate.dLon
-            oNew.dLat = oTemplate.dLat
+            oNew.oGeo = oTemplate.oGeo
             oNew.dOdl = oTemplate.dOdl
             oNew.sOdl = oTemplate.sOdl
             oNew.sPomiar = "Temp"
@@ -218,8 +215,7 @@ Public Class Source_IMGWmeteo
         Try
             Dim oNew = New JedenPomiar(oTemplate.sSource)
             oNew.sId = oTemplate.sId
-            oNew.dLon = oTemplate.dLon
-            oNew.dLat = oTemplate.dLat
+            oNew.oGeo = oTemplate.oGeo
             oNew.dOdl = oTemplate.dOdl
             oNew.sOdl = oTemplate.sOdl
             oNew.sPomiar = GetLangString("resPomiarWind")
@@ -260,8 +256,7 @@ Public Class Source_IMGWmeteo
         Try
             Dim oNew = New JedenPomiar(oTemplate.sSource)
             oNew.sId = oTemplate.sId
-            oNew.dLon = oTemplate.dLon
-            oNew.dLat = oTemplate.dLat
+            oNew.oGeo = oTemplate.oGeo
             oNew.dOdl = oTemplate.dOdl
             oNew.sOdl = oTemplate.sOdl
             oNew.sPomiar = GetLangString("resPomiarWind") & " max"

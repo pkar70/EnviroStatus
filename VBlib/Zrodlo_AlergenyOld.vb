@@ -22,14 +22,14 @@ Partial Public Class Source_AlergenOBAS
     End Sub
 
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         moListaPomiarow = New Collection(Of JedenPomiar)
         If Not GetSettingsBool(SRC_SETTING_NAME, SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 
         ' zamiana współrzędnych na rejon
-        Dim sPage As String = Await GetREST($"regions/public/{oPos.Latitude}/{oPos.Longitude}")
+        Dim sPage As String = Await GetREST(oPos.FormatLink("regions/public/%lat/%lon"))
         If sPage = "" Then
             DumpMessage("ERROR w pyłkach: nie potrafi zamienić GeoLoc na kod regionu?")
             Return moListaPomiarow
@@ -38,7 +38,7 @@ Partial Public Class Source_AlergenOBAS
         Return Await GetDataFromFavSensorAsync(sPage + 1, "", False, Nothing)
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         moListaPomiarow = New Collection(Of JedenPomiar)
@@ -60,6 +60,7 @@ Partial Public Class Source_AlergenOBAS
 
         Dim sPage As String = Await GetREST($"dusts/public/date/{Date.Now.ToString("dd-MM-yyyy")}/region/{sId}")
         If sPage = "" Then Return
+        If sPage.Length < 10 Then Return ' "null" daje?
 
         Dim listaPylkow As List(Of AllergenOBAS_JedenPylek)
         listaPylkow = Newtonsoft.Json.JsonConvert.DeserializeObject(sPage, GetType(List(Of AllergenOBAS_JedenPylek)))

@@ -62,17 +62,17 @@
                 sMsg = sMsg & GetLangString("resOdleglosc") & " " & oItem.sOdl & vbCrLf
 
                 If oItem.sSource <> "DarkSky" And oItem.sSource <> "burze" Then
-                        sMsg = sMsg & "(lat: " & oItem.dLat & ", " & "lon: " & oItem.dLon
-                        If oItem.dWysok > 0 Then
-                            sMsg = sMsg & ", " & vbCrLf
-                            If oItem.sSource <> "SeismicEU" Then
-                                sMsg = sMsg & GetLangString("resWysokosc") & ": " & oItem.dWysok & " m"
-                            Else
-                                sMsg = sMsg & GetLangString("resGlebokosc") & ": " & oItem.dWysok & " km"
-                            End If
+                    sMsg &= oItem.oGeo.FormatLink("(lat: %lat, lon: %lon")
+                    If oItem.oGeo.Altitude <> 0 Then
+                        sMsg = sMsg & ", " & vbCrLf
+                        If oItem.sSource <> "SeismicEU" Then
+                            sMsg = sMsg & GetLangString("resWysokosc") & $": {oItem.oGeo.StringAlt} m"
+                        Else
+                            sMsg = sMsg & GetLangString("resGlebokosc") & $": {oItem.oGeo.StringAlt} km"
                         End If
+                    End If
 
-                        sMsg = sMsg & ")" & vbCrLf
+                    sMsg = sMsg & ")" & vbCrLf
                     End If
                 End If
             End If
@@ -91,8 +91,11 @@
             End If
         End If
 
-
-        sMsg = sMsg & oItem.dCurrValue & " " & oItem.sUnit
+        If oItem.sSource = "VisCross" AndAlso oItem.sPomiar = GetLangString("resSlonce") Then
+            sMsg = sMsg & oItem.sCurrValue
+        Else
+            sMsg = sMsg & oItem.dCurrValue & " " & oItem.sUnit
+        End If
 
         ' przygotowane, na razie empty (bo nie ma oSrc.GetDetails - może kiedyś przeniosę tam te szczegóły)
         For Each oSrc As Source_Base In App.gaSrc

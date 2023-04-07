@@ -50,7 +50,7 @@ Public Class Source_RadioPAA
     ''' <param name="dMaxOdl">double.Max gdy nie sprawdzamy</param>
     ''' <param name="sId">"" gdy każdy sensor</param>
     ''' <returns></returns>
-    Private Async Function GetPomiaryAsync(oPos As MyBasicGeoposition, dMaxOdl As Double, sId As String, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
+    Private Async Function GetPomiaryAsync(oPos As pkar.BasicGeopos, dMaxOdl As Double, sId As String, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         moListaPomiarow = New Collection(Of JedenPomiar)
@@ -95,10 +95,9 @@ Public Class Source_RadioPAA
             If sId <> "" AndAlso oNew.sId <> sId Then Continue For
             oNew.sPomiar = "μSv/h"
 
-            oNew.dLat = oDetails.GetNamedNumber("loc_x")
-            oNew.dLon = oDetails.GetNamedNumber("loc_y")
+            oNew.oGeo = New pkar.BasicGeopos(oDetails.GetNamedNumber("loc_x"), oDetails.GetNamedNumber("loc_y"))
 
-            oNew.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oNew.dLat, oNew.dLon))
+            oNew.dOdl = oPos.DistanceTo(oNew.oGeo)
             If oNew.dOdl / 1000 > dMaxOdl Then Continue For
 
             oNew.sOdl = Odleglosc2String(oNew.dOdl)
@@ -152,7 +151,7 @@ Public Class Source_RadioPAA
     End Function
 
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 50
@@ -167,7 +166,7 @@ Public Class Source_RadioPAA
     ''' <param name="bInTimer"></param>
     ''' <param name="moGpsPoint"></param>
     ''' <returns></returns>
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Return Await GetPomiaryAsync(oGpsPoint, Double.MaxValue, sId, bInTimer)

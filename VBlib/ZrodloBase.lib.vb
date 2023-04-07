@@ -12,6 +12,7 @@
 
 Imports System.Collections.ObjectModel
 Imports System.Globalization
+Imports System.Runtime.CompilerServices
 
 Partial Public MustInherit Class Source_Base
     ' ułatwienie dodawania następnych
@@ -48,7 +49,7 @@ Partial Public MustInherit Class Source_Base
 
     End Function
 
-    Public MustOverride Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public MustOverride Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
 
     ''' <summary>
     ''' oGpsPoint tylko w radio@home
@@ -58,7 +59,7 @@ Partial Public MustInherit Class Source_Base
     ''' <param name="bInTimer"></param>
     ''' <param name="oGpsPoint"></param>
     ''' <returns></returns>
-    Public MustOverride Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public MustOverride Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
 
     Public Overridable Function GetDetails(oItem As JedenPomiar) As String
         Return ""
@@ -102,13 +103,19 @@ Partial Public MustInherit Class Source_Base
             End If
         End If
 
-        Dim oUri As Uri
 
+        Dim sUri As String
         If _bMyNotPublic AndAlso Not String.IsNullOrEmpty(SRC_RESTURI_BASE_PKAR) Then
-            oUri = New Uri(SRC_RESTURI_BASE_PKAR & sCommand)
+            sUri = SRC_RESTURI_BASE_PKAR
         Else
-            oUri = New Uri(SRC_RESTURI_BASE & sCommand)
+            sUri = SRC_RESTURI_BASE
         End If
+        ' 2023.03.30, samo-dopisywanie '/', bo mi się przy AlergenNew zrobiło RESTURI bez / i był błąd :)
+        ' ale to z kolei psuje inne :(
+        'If Not sUri.EndsWith("/") Then sUri &= "/"
+        sUri &= sCommand
+
+        Dim oUri As New Uri(sUri)
 
         Dim mSeenUri As String = GetSettingsString("seenUri")   ' tylko w tej funkcji, ale ma być wspólne dla wszystkich klas!
         If mSeenUri.Contains("|" & oUri.Host & "|") Then
@@ -146,7 +153,13 @@ Partial Public MustInherit Class Source_Base
             Try
                 ' próba wczytania JSON
                 Dim sContent As String = IO.File.ReadAllText(sFilePath)
-                Return Newtonsoft.Json.JsonConvert.DeserializeObject(Of JedenPomiar)(sContent)
+                Dim template As JedenPomiar = Newtonsoft.Json.JsonConvert.DeserializeObject(Of JedenPomiar)(sContent)
+                ' konwersja ze starego formatu do nowego
+                If template.oGeo Is Nothing Then
+                    template.oGeo = New pkar.BasicGeopos(template.dLat, template.dLon, template.dWysok)
+                    ' *TODO* tu może być zapisanie po nowemu
+                End If
+                Return template
             Catch ex As Exception
             End Try
         End If
@@ -359,4 +372,5 @@ Public Enum Zasieg
     World = 0
     Europe = 1
     Poland = 2
+    Prywatne = 3
 End Enum

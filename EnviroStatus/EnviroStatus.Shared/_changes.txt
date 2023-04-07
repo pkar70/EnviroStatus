@@ -1,70 +1,99 @@
-
+ï»¿
 <moze SO2 - x.xx a nie x.xxx - co odrozni tysiace od ulamka?>
 
- Mo¿e to-do:
+ MoÅ¼e to-do:
   * settings: simulate GPS - mozna ewentualnie zrobic pola Lat,Long jako binding do Toggle.IsOn; tylko czy Uno to umie?
-  *     trzeba bêdzie spróbowaæ - see Readme.Txt
+  *     trzeba bÄ™dzie sprÃ³bowaÄ‡ - see Readme.Txt
+
+2023.04.07
+* w vblib.app trochÄ™ LINQ zamiast foreach(item).if(item)
+* Nuget.BasicGeopos wykorzystany w peÅ‚ni (FormatLink, GetKrakowCenter, itp)
+
+* do zrobienia: na wersjÄ™ z Nugetami (dotNetExts, NetConfigs, Datalogs, Structs - JSON rd/wr)
+
+
+2023.02.15
+* poprawka MainPage.Lib.ShowDetails dla VisualCross Sun (Å¼eby uÅ¼ywaÅ‚ sCurr a nie dCurr)
+
+2023.02.14
+* poprawka single/double (dla VisualCrossing, w GetDoubleOr0)
+* w pkmodshared jest teraz conditional kompilacji GPS, wiÄ™c dodajÄ™ jÄ… w project settings
+
+2023.01.17
+* na wersjÄ™ z Nugetami (basicgeopos, dotNetExts, NetConfigs, Datalogs), ale tylko by uruchomiÄ‡ a nie by w peÅ‚ni wykorzystaÄ‡ nowe rzeczy tam zawarte
+* Foreca, rekord zimna, jednak jest na stronie, wiÄ™c podajemy
+* Airly, O3 => Oâ‚ƒ
+* IMGWhydro, jeÅ›li limity sÄ… nieznane, to juÅ¼ nie daje "!!!" przy tym
+* EEAir, dane jednak nie zawsze sÄ… po kolei, wiÄ™c trzeba wyciÄ…gaÄ‡ maxdata z caÅ‚ej listy
+* nowe ÅºrÃ³dÅ‚o: VisualCrossing (APIKEY; cloudcover,dew,feelslike,humidity,moonphase,snowdepth,sunrise,sunset,moonrise,moonset,uvindex,visibility,windgust,windspeed)
+* uaktualnienie Info.PL/EN, ale bez OBAS, bo OBAS jakby nie chciaÅ‚o dziaÅ‚aÄ‡ juÅ¼ teraz
+
+2022.11.30
+* OBAS, zwracaÅ‚o "null" (tekst, z cudzysÅ‚owami), zamiast JSONa; tylko region=1 dziaÅ‚a (wybrzeÅ¼e)
+
+2022.11.09
+* Airly, NO2 -> "NOâ‚‚"
 
 STORE UWP
 
 2022.09.01
-* poprawka dla burza:ostrze¿enia, ju¿ nie "wy³adowania:2" tylko "value:2" (wy³adowania tylko przy nearestburza)
-* poprawka do NOAAwind, powinno zadzia³aæ tak¿e na polskim (który spodziewa siê przecinka dziesiêtnego)
-* JToken.GetNamedNumber (w zrodlobase) powinno byæ odporne na zmianê "." / "," dziesiêtny
+* poprawka dla burza:ostrzeÅ¼enia, juÅ¼ nie "wyÅ‚adowania:2" tylko "value:2" (wyÅ‚adowania tylko przy nearestburza)
+* poprawka do NOAAwind, powinno zadziaÅ‚aÄ‡ takÅ¼e na polskim (ktÃ³ry spodziewa siÄ™ przecinka dziesiÄ™tnego)
+* JToken.GetNamedNumber (w zrodlobase) powinno byÄ‡ odporne na zmianÄ™ "." / "," dziesiÄ™tny
 
 STORE UWP
 
 2022.08.21
-* poprawka w burze, konwersja do degree/min: tostring("0#") by³o potrzebne, 17.02 a nie 17.2
-* zakres sensorów: world, Europe, Poland (przy Sources), wy³¹czanie tych spoza zasiêgu
-* nowe Ÿród³o: alergeny (OBAŒ lub zadnegoale.pl/)
+* poprawka w burze, konwersja do degree/min: tostring("0#") byÅ‚o potrzebne, 17.02 a nie 17.2
+* zakres sensorÃ³w: world, Europe, Poland (przy Sources), wyÅ‚Ä…czanie tych spoza zasiÄ™gu
+* nowe ÅºrÃ³dÅ‚o: alergeny (OBAÅš lub zadnegoale.pl/)
 
 2022.08.17
-* uruchomi³em burze (by³ b³¹d po ich stronie)
+* uruchomiÅ‚em burze (byÅ‚ bÅ‚Ä…d po ich stronie)
 
 2022.08.16
-* SRC_URI_ABOUT_EN - jako link w ZrodlaBase (by³o Property w klasach, a nie by³o wykorzystane :) )
-* Settings:Zrodelka, tytu³ jako TextBox boldem i wiêkszy, z marginesem przed, a nie header do ToggleSwitch'a
+* SRC_URI_ABOUT_EN - jako link w ZrodlaBase (byÅ‚o Property w klasach, a nie byÅ‚o wykorzystane :) )
+* Settings:Zrodelka, tytuÅ‚ jako TextBox boldem i wiÄ™kszy, z marginesem przed, a nie header do ToggleSwitch'a
 * NOWE ZRODLO: Polska Agencja Atomistyki (promieniowanie, 90 kB/request)
-* ra@h oraz PAA maj¹ ju¿ wykrzykniki
+* ra@h oraz PAA majÄ… juÅ¼ wykrzykniki
 * NOWE ZRODLO: burze.dzis.net
 
 2022.08.15
-* bugfix: Info: by³y same ma³e litery!
+* bugfix: Info: byÅ‚y same maÅ‚e litery!
 
 2022.08.11
-* bardzo du¿a zmiana - migracja do VB klas Ÿróde³, Config trafia do settings.xaml.cs
-* poprawka siêgania do JSONa (extension), bo wylatywa³o na woda Czernichów
-* aktualizacja siêgania do ra@h, bo siê zmieni³ kod strony i nie dzia³a³o
-* aktualizacja siêgania do Foreca (ale i tak jest tylko rekord max, nie ma rekordu min)
+* bardzo duÅ¼a zmiana - migracja do VB klas ÅºrÃ³deÅ‚, Config trafia do settings.xaml.cs
+* poprawka siÄ™gania do JSONa (extension), bo wylatywaÅ‚o na woda CzernichÃ³w
+* aktualizacja siÄ™gania do ra@h, bo siÄ™ zmieniÅ‚ kod strony i nie dziaÅ‚aÅ‚o
+* aktualizacja siÄ™gania do Foreca (ale i tak jest tylko rekord max, nie ma rekordu min)
 
 2022.08.10
-* zapis (dump) pomiarów z XML do JSON, przez to mo¿e trafiæ do vblib
-* ale przecie¿ app.Source_Base mo¿e dziedziczyæ z lib.Source_Base :)  przenoszê trochê kodu do lib
-* ZMIANA: template s¹ teraz w JSON (ale odczytuje z XML, i zapisuje w JSON gdy nie ma JSON a jest XML)
+* zapis (dump) pomiarÃ³w z XML do JSON, przez to moÅ¼e trafiÄ‡ do vblib
+* ale przecieÅ¼ app.Source_Base moÅ¼e dziedziczyÄ‡ z lib.Source_Base :)  przenoszÄ™ trochÄ™ kodu do lib
+* ZMIANA: template sÄ… teraz w JSON (ale odczytuje z XML, i zapisuje w JSON gdy nie ma JSON a jest XML)
 * cache jest teraz w JSON (do odczytywania przy uruchamianiu app)
-* wykrzyknikowanie przenios³em jako methods w JedenPomiar (by³y: w App)
+* wykrzyknikowanie przeniosÅ‚em jako methods w JedenPomiar (byÅ‚y: w App)
 
 2022.02.01
- * VBlibek, do którego czêœæ rzeczy trafia
+ * VBlibek, do ktÃ³rego czÄ™Å›Ä‡ rzeczy trafia
 
 2021.10.16
- * ZrodloBase.PrivateSwitch jako prze³¹cznik do trybu prywatnego; moje APIKEY przerzucone do pswd.cs (a to jest w .gitignore)
+ * ZrodloBase.PrivateSwitch jako przeÅ‚Ä…cznik do trybu prywatnego; moje APIKEY przerzucone do pswd.cs (a to jest w .gitignore)
 
 2021.09.27
- * ZrodloBase ma SRC_URI_ABOUT_EN oraz _PL, ale niestety ma³o co ma sensowny About, a wiêc - to jest bez sensu :)
+ * ZrodloBase ma SRC_URI_ABOUT_EN oraz _PL, ale niestety maÅ‚o co ma sensowny About, a wiÄ™c - to jest bez sensu :)
 
 2021.09.26
- * do LastToast dodaje tak¿e NOAA, ¿eby siê nie powtarza³o (co prawda niby nie powinno, ale jednak siê powtarza) - czyli wycofanie zmiany 2021.05.02
+ * do LastToast dodaje takÅ¼e NOAA, Å¼eby siÄ™ nie powtarzaÅ‚o (co prawda niby nie powinno, ale jednak siÄ™ powtarza) - czyli wycofanie zmiany 2021.05.02
 
 2021.09.23
  * limity WHO nowe: https://apps.who.int/iris/handle/10665/345329: Settings.xaml, App.PoziomyWHO, App.DodajPrzekroczenia
 
 2021.05.05
-  * SetSettingsBool("cleanAir", bCleanAir) zeby nie powtarza³o msg CleanAir w kó³ko
+  * SetSettingsBool("cleanAir", bCleanAir) zeby nie powtarzaÅ‚o msg CleanAir w kÃ³Å‚ko
 
 2021.05.02
-  * App, dla NOAA alerts, remniête // sToastMemory = sToastMemory + sTmp; -
+  * App, dla NOAA alerts, remniÄ™te // sToastMemory = sToastMemory + sTmp; -
    
 STORE  
 
@@ -72,31 +101,31 @@ STORE
   * Andro: 3.7.0.dev-144
   
 2021.04.12
-  * poniewa¿ Uno umie Bindings, to Setup log data -> IsEnabled do guziczka Openlog. Nie prze³¹czam Lat/Long, bo wtedy i tak trzeba by³oby dodaæ konwerter, czyli wcale to nie upraszcza kodu
-  * SourcesBase, powi¹zanie APIkey z w³¹czeniem konkretnego source (DarkSky, Airly) [IsEnabled; Visibility by³oby z Converter a tego nie umiem z kodu)]
+  * poniewaÅ¼ Uno umie Bindings, to Setup log data -> IsEnabled do guziczka Openlog. Nie przeÅ‚Ä…czam Lat/Long, bo wtedy i tak trzeba byÅ‚oby dodaÄ‡ konwerter, czyli wcale to nie upraszcza kodu
+  * SourcesBase, powiÄ…zanie APIkey z wÅ‚Ä…czeniem konkretnego source (DarkSky, Airly) [IsEnabled; Visibility byÅ‚oby z Converter a tego nie umiem z kodu)]
   * Sources, dodatkowe pola (IMGW*, Seismic) - IsEnabled jako Binding do IsOn
 
 2020.03.25
   * Droid: -> Uno 3.6-dev, i Android 11
-  * jeœli dodaje siê miejsce "pktoasttest", to wtedy robi testowy Toast - do testowania po rekompilacjach. I w pierwszym Timer na pewno poka¿e Toast (do sprawdzania czy Timer dzia³a)
+  * jeÅ›li dodaje siÄ™ miejsce "pktoasttest", to wtedy robi testowy Toast - do testowania po rekompilacjach. I w pierwszym Timer na pewno pokaÅ¼e Toast (do sprawdzania czy Timer dziaÅ‚a)
 
  2020.02.02
-  * po spêdzeniu du¿o czasu nad Registry ju¿ mogê debug dla SDK >17134 :)
+  * po spÄ™dzeniu duÅ¼o czasu nad Registry juÅ¼ mogÄ™ debug dla SDK >17134 :)
 
  2021.01.28
-  * do (clean air) uwzglêdnia tylko to co z airly, gios, eeair (czyli nie rzeki)
+  * do (clean air) uwzglÄ™dnia tylko to co z airly, gios, eeair (czyli nie rzeki)
   * zmiana do IMGWhydro - bo zmiana formatu danych json wysylanych przez serwer (low/high, oraz current cm)
-  * przesta³o dzia³aæ, wylatywa³o na source_IMGWmet, ale nie da³o siê debug (NUMBOX, >17134). Przy próbach skasowa³em KoncowkaPokazywaniaDanych, odtwarza³em z wersji VB
-  *     na czas debuga wy³¹czy³em NUMBOXy - i dzia³a. Nie rozumiem.
+  * przestaÅ‚o dziaÅ‚aÄ‡, wylatywaÅ‚o na source_IMGWmet, ale nie daÅ‚o siÄ™ debug (NUMBOX, >17134). Przy prÃ³bach skasowaÅ‚em KoncowkaPokazywaniaDanych, odtwarzaÅ‚em z wersji VB
+  *     na czas debuga wyÅ‚Ä…czyÅ‚em NUMBOXy - i dziaÅ‚a. Nie rozumiem.
 
  2020.11.14
-  * poprawka w IMGWhydro - zamiast !IsInPoland by³o IsInPoland, od b³¹d od 2019.01.09 w Nearest
+  * poprawka w IMGWhydro - zamiast !IsInPoland byÅ‚o IsInPoland, od bÅ‚Ä…d od 2019.01.09 w Nearest
 
  2020.11.02
  * podmiana Uno na 3.2.0-dev.265 (based on 3.1.6)
- * podmiana pkModuleShared lokalne na wersjê wspóln¹ (w tym MainPage:ProgressRing na ProgRingBar)
- * WinUI 2 NumberBox (strona Settings): lat/long emulacji GPS, oraz kubatura i temp dla wilgotnoœci
- * lat/lon emulacji GPS zapisywana do Settings - nie by³o!
+ * podmiana pkModuleShared lokalne na wersjÄ™ wspÃ³lnÄ… (w tym MainPage:ProgressRing na ProgRingBar)
+ * WinUI 2 NumberBox (strona Settings): lat/long emulacji GPS, oraz kubatura i temp dla wilgotnoÅ›ci
+ * lat/lon emulacji GPS zapisywana do Settings - nie byÅ‚o!
  
  2020.09.19
  * rekompilacja Android (z nowszym Uno: moim 3.1.0-dev.163), bo Gogus wymusza targetSDK Android 10.
@@ -105,15 +134,15 @@ STORE
  STORE: 2005
 
  2020.05.06
- * MainPage: pierwszy Start - MsgBox ze trzeba zrobiæ setup i przeskok do Zrodelka (na potrzeby AmazonStore)
- * Info: link do pe³nego user guide
+ * MainPage: pierwszy Start - MsgBox ze trzeba zrobiÄ‡ setup i przeskok do Zrodelka (na potrzeby AmazonStore)
+ * Info: link do peÅ‚nego user guide
 
 
  2020.03.09
  * ZrodloBase:
-    * zw³oka 100 ms pomiêdzy odwo³aniami do tego samego serwera, a nie w ogóle przy dostêpie do internet (dla 10 Ÿróde³ oznacza to 1 sekundê zysku)
-    * timeout (w GetREST) ustawiam na 10 sekund (domyœlnie by³: 100 sekund)
-    * gdy GetREST zwraca "", to wtedy bez szukania danych (b³¹d w SeismicPortal, iInd=-1, ale mo¿e nie tylko tam tak by³o - choæ wiêkszoœæ by³a obudowana Try/Catch)
+    * zwÅ‚oka 100 ms pomiÄ™dzy odwoÅ‚aniami do tego samego serwera, a nie w ogÃ³le przy dostÄ™pie do internet (dla 10 ÅºrÃ³deÅ‚ oznacza to 1 sekundÄ™ zysku)
+    * timeout (w GetREST) ustawiam na 10 sekund (domyÅ›lnie byÅ‚: 100 sekund)
+    * gdy GetREST zwraca "", to wtedy bez szukania danych (bÅ‚Ä…d w SeismicPortal, iInd=-1, ale moÅ¼e nie tylko tam tak byÅ‚o - choÄ‡ wiÄ™kszoÅ›Ä‡ byÅ‚a obudowana Try/Catch)
 
 
 ver.2002 DROID
@@ -121,80 +150,80 @@ ver.2002 UWPSTORE
 
 
  2020.02.19
- * nie wczytuje danych jak poziom alertowania jest null (poprzednio wczytywa³ tylko nie toastowa³)
+ * nie wczytuje danych jak poziom alertowania jest null (poprzednio wczytywaÅ‚ tylko nie toastowaÅ‚)
 
  2020.02.18
- * [android] praca w tle (dziêki mojemu PR do PlatformUno), wraz z toastami
+ * [android] praca w tle (dziÄ™ki mojemu PR do PlatformUno), wraz z toastami
 
  2020.02.12
  * [android] aktualizacja pkmodule
  * [android] dodania splashscreen 
 
  2020.01.24 ZrodloBase: bez dawanie Header do ToggleSwitch w Sources.Xaml - do sprawdzenia przy nastepnej kompilacji
- - dalej nie dzia³a, wiêc przywracam header... ale w³aœciwie przywracam patch (w Uno.945)
+ - dalej nie dziaÅ‚a, wiÄ™c przywracam header... ale wÅ‚aÅ›ciwie przywracam patch (w Uno.945)
 
 ver.2001.2 DROID
 
  2019.01.09 ZrodloBase: bool InsidePoland() [zgrubne]
- 2019.01.09 GIOS, IMGW* - jesli !InsidePoland, to w ogóle nie szuka czy coœ jest w odleg³oœci
+ 2019.01.09 GIOS, IMGW* - jesli !InsidePoland, to w ogÃ³le nie szuka czy coÅ› jest w odlegÅ‚oÅ›ci
 
  2019.01.07 domyslnie bylo w wiekszosci "true", gdy bez settings zrodla. teraz korzysta z SRC_DEFAULT_ENABLE
- 2019.01.07 SaveAs ustawia bie¿¹cy Favourite (do timera), wczeœniej trzeba by³o wejœæ raz na Fav wedle Name.
+ 2019.01.07 SaveAs ustawia bieÅ¼Ä…cy Favourite (do timera), wczeÅ›niej trzeba byÅ‚o wejÅ›Ä‡ raz na Fav wedle Name.
  2019.01.07 double.Parse => string.ParseDouble
 
 ver. 2001 UWPSTORE
 
- 2019.12.31 przy SecondaryTile, kontrola czy to nie XBox - jeœli tak, pomija nieistniej¹ce tam secondaryTiles.
+ 2019.12.31 przy SecondaryTile, kontrola czy to nie XBox - jeÅ›li tak, pomija nieistniejÄ…ce tam secondaryTiles.
 
  2019.12.29 MainPage:Compare
 
- 2019.12.26 toasty maj¹ nag³ówek SmogMeter (pojawia³o siê z pustym, ale wczeœniej chyba nazwa app zawsze by³a?)
- 2019.12.26 Seismis details/setup: domowego miesiêcznego zu¿ycia, rocznej produkcji krajowej
+ 2019.12.26 toasty majÄ… nagÅ‚Ã³wek SmogMeter (pojawiaÅ‚o siÄ™ z pustym, ale wczeÅ›niej chyba nazwa app zawsze byÅ‚a?)
+ 2019.12.26 Seismis details/setup: domowego miesiÄ™cznego zuÅ¼ycia, rocznej produkcji krajowej
 
- 2019.12.22 zabezpieczenie przed pokazaniem serii Details (b³¹d Barbara52?)
- 2019.12.22 sourcebase property SRC_NO_COMPARE default: false - przygotowanie do porównywania
- 2019.12.22 "mag", trzeci guzik w Details - do mapy, na razie tylko UWP (ale w Uno ju¿ chyba jest?)
- 2019.12.22 DarkSky:visibility , gdy <10 km to podaje w metrach, a gdy w km - z ograniczeniem do setnych (bez tysiêcznych)
+ 2019.12.22 zabezpieczenie przed pokazaniem serii Details (bÅ‚Ä…d Barbara52?)
+ 2019.12.22 sourcebase property SRC_NO_COMPARE default: false - przygotowanie do porÃ³wnywania
+ 2019.12.22 "mag", trzeci guzik w Details - do mapy, na razie tylko UWP (ale w Uno juÅ¼ chyba jest?)
+ 2019.12.22 DarkSky:visibility , gdy <10 km to podaje w metrach, a gdy w km - z ograniczeniem do setnych (bez tysiÄ™cznych)
  
- 2019.12.18 wszystkie Ÿród³a przeniesione do newtonsoft.json i sprawdzone
- 2019.12.18 posortowane Ÿród³a wedle: œwiat, euro, polska (kolejnoœæ widoczna potem w Setup)
- 2019.12.18 DarkSky/Airly: jeœli key=ZrodloBase.PrivateSwitch, i IsThisMoje, to wtedy wstawia mój key [dopiero podczas czytania danych, nie w Setup!]
- 2019.12.18 Info: z plików na @"" w kodzie
- 2019.12.18 MainPage: doubleTap pokazuje Details (dla Android jedyna droga, dla Windows - skrót bez contextMenu)
- 2019.12.18 MainPage:Details: podaje tak¿e nazwê pomiaru
- 2019.12.18 przywrócenie(?) has_templates dla IMGW meteo
+ 2019.12.18 wszystkie ÅºrÃ³dÅ‚a przeniesione do newtonsoft.json i sprawdzone
+ 2019.12.18 posortowane ÅºrÃ³dÅ‚a wedle: Å›wiat, euro, polska (kolejnoÅ›Ä‡ widoczna potem w Setup)
+ 2019.12.18 DarkSky/Airly: jeÅ›li key=ZrodloBase.PrivateSwitch, i IsThisMoje, to wtedy wstawia mÃ³j key [dopiero podczas czytania danych, nie w Setup!]
+ 2019.12.18 Info: z plikÃ³w na @"" w kodzie
+ 2019.12.18 MainPage: doubleTap pokazuje Details (dla Android jedyna droga, dla Windows - skrÃ³t bez contextMenu)
+ 2019.12.18 MainPage:Details: podaje takÅ¼e nazwÄ™ pomiaru
+ 2019.12.18 przywrÃ³cenie(?) has_templates dla IMGW meteo
 
- 2019.12.17 poprawka: chyba nie dzia³a³o siêganie do Airly (do innego Sett zapisywa³ Key, z innego korzysta³ póŸniej)
- 2019.12.17 Uno:Airly uruchomienie Ÿród³a
+ 2019.12.17 poprawka: chyba nie dziaÅ‚aÅ‚o siÄ™ganie do Airly (do innego Sett zapisywaÅ‚ Key, z innego korzystaÅ‚ pÃ³Åºniej)
+ 2019.12.17 Uno:Airly uruchomienie ÅºrÃ³dÅ‚a
 
  2019.12.17 przeniesienie do Uno:
-    - dla Android bez mapki, bez Info (bo strona HTML z ms-appx) [potem doda³em Info]
-    - dla Android: kasowanie plików i odtwarzanie, bo nie mamy DateModified
+    - dla Android bez mapki, bez Info (bo strona HTML z ms-appx) [potem dodaÅ‚em Info]
+    - dla Android: kasowanie plikÃ³w i odtwarzanie, bo nie mamy DateModified
     - dla Android: nie ma AddTile, nie ma Timer
     - migracja do NewtonSoft.JSon, z Extension w ZrodloBase - dzieki czemu mniej roboty (mniej zmian)
 
- 2019.12.15 nowe Ÿród³o: EEAair (do info: please, nie u¿ywaj jednoczeœnie GIOS i EEAair, bêd¹ siê pokrywaæ)
- 2019.12.15 nowe Ÿród³o: Quake (trzêsienia ziemi), sumowanie oraz najbli¿sze
+ 2019.12.15 nowe ÅºrÃ³dÅ‚o: EEAair (do info: please, nie uÅ¼ywaj jednoczeÅ›nie GIOS i EEAair, bÄ™dÄ… siÄ™ pokrywaÄ‡)
+ 2019.12.15 nowe ÅºrÃ³dÅ‚o: Quake (trzÄ™sienia ziemi), sumowanie oraz najbliÅ¼sze
  2019.12.15 wyszukiwanie punktu wedle mapy (i dla niego pokazywanie danych)
- 2019.12.15 IMGWhyd: gdy nie ma w danych poziomów alertów (null), to wtedy nie wykrzyknikuje
+ 2019.12.15 IMGWhyd: gdy nie ma w danych poziomÃ³w alertÃ³w (null), to wtedy nie wykrzyknikuje
 
  ver. 4.1912
 
- 2019.12.04 GIOS ju¿ te¿ ma limity
+ 2019.12.04 GIOS juÅ¼ teÅ¼ ma limity
  2019.12.04 IMGWhydro: jedna, albo wiele rzek
 
- 2019.10.30 NOAA, SolarWindTemp mo¿e byæ null - wtedy liczy jako zero.
- 2019.10.30 IMGWmeteo, uwzglêdniona inna postac oJsonSensor jako "null" 
- 2019.10.07 IMGWmeteo, jsonsensor null ju¿ bez exception
+ 2019.10.30 NOAA, SolarWindTemp moÅ¼e byÄ‡ null - wtedy liczy jako zero.
+ 2019.10.30 IMGWmeteo, uwzglÄ™dniona inna postac oJsonSensor jako "null" 
+ 2019.10.07 IMGWmeteo, jsonsensor null juÅ¼ bez exception
 
  ver. 4.1908
  2019.07.10 poprawka NOAA toast: nie ma powtarzania Toast co drugi Timer
- 2019.07.23 odleg³oœæ >10 km jest podawana nie w m, ale w km
+ 2019.07.23 odlegÅ‚oÅ›Ä‡ >10 km jest podawana nie w m, ale w km
 
  ver. 4.1907
  2019.06.27 poprawka czytania cache (sytuacja: brak pliku w cache)
  2019.06.29 zmiana ikonki 'Share' na 'Send' (bo: Failed to create a 'Windows.UI.Xaml.Controls.AppBarButton' from the text 'Share'. [Line: 73 Position: 47]')
- 2019.06.29 zapisywanie Cache: niezale¿nie local i roam
+ 2019.06.29 zapisywanie Cache: niezaleÅ¼nie local i roam
  2019.06.29 gdy nie ma nic, to zwraca w remsys "(empty)"
 
  ver. 4.1906
@@ -206,34 +235,34 @@ ver. 2001 UWPSTORE
  2019.06.04 zapisywanie pliku roam/local po odczycie danych, i jego odczyt przy starcie jak w pamieci nie ma danych
  2019.06.04 AppService/RemoteSystems - zwracanie darksky api key oraz danych (uwaga: dlugosc pliku moze byc za duza!)
  2019.06.04 AppService/RemoteSystems - zwracanie prostego "jest wykrzyknik"
- 2019.06.04 MainPage - gdy wczytane dane z cache, to podaje z kiedy one s¹
- 2019.06.05 otwieranie z toastu - nie zawisa, tylko pokazuje stronê g³ówn¹
- 2019.06.05 intimer: ju¿ nie powinno wylatywaæ z errorem (a tak by³o, gdy np. GIOS zwraca³ b³¹d, i próbowa³o siê zrobiæ DialogBox?)
+ 2019.06.04 MainPage - gdy wczytane dane z cache, to podaje z kiedy one sÄ…
+ 2019.06.05 otwieranie z toastu - nie zawisa, tylko pokazuje stronÄ™ gÅ‚Ã³wnÄ…
+ 2019.06.05 intimer: juÅ¼ nie powinno wylatywaÄ‡ z errorem (a tak byÅ‚o, gdy np. GIOS zwracaÅ‚ bÅ‚Ä…d, i prÃ³bowaÅ‚o siÄ™ zrobiÄ‡ DialogBox?)
  2019.06.06 App:Cache_Load: nowszy plik z roam/local
- 2019.06.11 DarkSky:limity dla UV index, poprawka tekstu: very high od 8, nie od 9 (wykrzyknikowanie by³o OK)
- 2019.06.11 App:RemSys poprawka odsy³ania danych (wczeœniej wysy³a³ puste dane)
- 2019.06.12 DarkSky Alert: %lf » vbCrLf
- 2019.06.13 NOAAalerts: pokazuje te, ktore issue_time nie minê³o 24 godzin, max. 5, a nie tylko nowsze niz poprzednim razem
+ 2019.06.11 DarkSky:limity dla UV index, poprawka tekstu: very high od 8, nie od 9 (wykrzyknikowanie byÅ‚o OK)
+ 2019.06.11 App:RemSys poprawka odsyÅ‚ania danych (wczeÅ›niej wysyÅ‚aÅ‚ puste dane)
+ 2019.06.12 DarkSky Alert: %lf Â» vbCrLf
+ 2019.06.13 NOAAalerts: pokazuje te, ktore issue_time nie minÄ™Å‚o 24 godzin, max. 5, a nie tylko nowsze niz poprzednim razem
  2019.06.14 Details: nie MsgBox, a z dwoma guzikami: OK oraz Copy
 
  ver. 3.1906
- 2019.05.02 Settings: pokazuje numer kompilacji (w Info te¿ jest, ale Info mam nie w kazdej app)
+ 2019.05.02 Settings: pokazuje numer kompilacji (w Info teÅ¼ jest, ale Info mam nie w kazdej app)
  2019.05.02 DarkSky:UV index: wykrzyknikowanie wedle WHO 
  2019.05.17 DarkSky:Alerty: wykrzyknikowanie
- 2019.05.27 Mainpage:Details:DarkSky nie pokazuje lat/long, bo i tak nie s¹ znane
- 2019.05.31 nowe Ÿród³o: NOAA solar wind, NOAA K-index, NOAA alerts
- 2019.05.31 przerobienie struktury tak, by by³o proœciej dodawaæ sourcesy (lista source, bez niezale¿nych zmiennych dla ka¿dego)
+ 2019.05.27 Mainpage:Details:DarkSky nie pokazuje lat/long, bo i tak nie sÄ… znane
+ 2019.05.31 nowe ÅºrÃ³dÅ‚o: NOAA solar wind, NOAA K-index, NOAA alerts
+ 2019.05.31 przerobienie struktury tak, by byÅ‚o proÅ›ciej dodawaÄ‡ sourcesy (lista source, bez niezaleÅ¼nych zmiennych dla kaÅ¼dego)
 
  ver 3.1905
  2019.03.31 Foreca: nie bylo jej w Settings/Sources
- 2019.03.31 Toasts: b³¹d w logice (nie dzia³a³y przy w³¹czonym DarkSky) - App.mResString nie by³y ustawione, i wylatywa³o na tworzeniu toastów po skanowaniu w tle, teraz resString brane s¹ z Settings
- 2019.03.31 Toasts: powtarza³ (ok), bo po aArr = Split(vbCrLf) by³y itemami od vbLf, wiêc na '=' nie trafia³o
- 2019.04.06 Zrodelka: scrollbar listy w³¹cz/wy³¹cz
- 2019.04.08 Source_Base, z którego pozosta³e maj¹ Inherits/Overloads (przygotowanie do kolejnych Src)
+ 2019.03.31 Toasts: bÅ‚Ä…d w logice (nie dziaÅ‚aÅ‚y przy wÅ‚Ä…czonym DarkSky) - App.mResString nie byÅ‚y ustawione, i wylatywaÅ‚o na tworzeniu toastÃ³w po skanowaniu w tle, teraz resString brane sÄ… z Settings
+ 2019.03.31 Toasts: powtarzaÅ‚ (ok), bo po aArr = Split(vbCrLf) byÅ‚y itemami od vbLf, wiÄ™c na '=' nie trafiaÅ‚o
+ 2019.04.06 Zrodelka: scrollbar listy wÅ‚Ä…cz/wyÅ‚Ä…cz
+ 2019.04.08 Source_Base, z ktÃ³rego pozostaÅ‚e majÄ… Inherits/Overloads (przygotowanie do kolejnych Src)
 
  VER 3.1904
  2019.03.24 Foreca: gdy IsThisMoje to z linku krakowskiego, w przeciwnym wypadku - swiatowego
- 2019.03.25 nowe Ÿród³o: DarSky
+ 2019.03.25 nowe ÅºrÃ³dÅ‚o: DarSky
  2019.03.29 Foreca: nie tylko String, ale i Double z danymi (dla Details page potrzebne)
  2019.03.30 MainPage: z Fav - pokazywanie stanu po kazdym zrodle
 

@@ -135,9 +135,6 @@ namespace EnviroStatus
             //uiIntTemp.Text = (p.k.GetSettingsInt("higroTemp", 22)).ToString();
 #endif 
 
-            //uiLongitude.Text = App.moGpsPoint.Y.ToString();
-            //uiLatitude.Text = App.moGpsPoint.X.ToString();
-            
             // 2022.08.11 - po przenosinach do VB? wejście do settings jako pierwsza rzecz zrobiona daje NULL
             if(VBlib.App.moGpsPoint is null)
             {
@@ -146,11 +143,9 @@ namespace EnviroStatus
             }
             else
             {
-                uiLatitude.Text = vb14.GetSettingsString("gpsEmulationLat", VBlib.App.moGpsPoint.Latitude.ToString());
-                uiLongitude.Text = vb14.GetSettingsString("gpsEmulationLon", VBlib.App.moGpsPoint.Longitude.ToString());
+                uiLatitude.Text = vb14.GetSettingsString("gpsEmulationLat", VBlib.App.moGpsPoint.StringLat());
+                uiLongitude.Text = vb14.GetSettingsString("gpsEmulationLon", VBlib.App.moGpsPoint.StringLon());
             }
-            //p.k.GetSettingsString(uiLatitude, "gpsEmulationLat", App.moGpsPoint.Latitude.ToString());
-            //p.k.GetSettingsString(uiLongitude, "gpsEmulationLon", App.moGpsPoint.Longitude.ToString());
 
             uiFileCache.GetSettingsBool("settingsFileCache");
         }
@@ -263,14 +258,9 @@ namespace EnviroStatus
                     vb14.SetSettingsString("gpsEmulationLat", uiLatitude.Value.ToString());
                     vb14.SetSettingsString("gpsEmulationLon", uiLongitude.Value.ToString());
 #if _PK_NUMBOX_
-                    VBlib.App.moGpsPoint.Latitude = uiLatitude.Value;
-                    VBlib.App.moGpsPoint.Longitude = uiLongitude.Value;
+                    VBlib.App.moGpsPoint = new pkar.BasicGeopos(uiLatitude.Value, uiLongitude.Value);
 #else
-                    double dTmpDeg;
-                    double.TryParse(uiLatitude.Text, out dTmpDeg);
-                    App.moGpsPoint.Latitude = dTmpDeg;
-                    double.TryParse(uiLongitude.Text, out dTmpDeg);
-                    App.moGpsPoint.Longitude = dTmpDeg;
+                    VBlib.App.moGpsPoint = new pkar.BasicGeopos(uiLatitude.Text, uiLongitude.Text);
 #endif
                 }
                 catch 

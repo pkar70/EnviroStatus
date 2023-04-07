@@ -57,7 +57,8 @@ namespace EnviroStatus
                 if (oCmd.Label == sYes) vb14.ClipPut(sMsg);
                 if (oCmd.Label == "Map")
                 {
-                    Uri oUri = new Uri("https://bing.com/maps/default.aspx?lvl=7&cp=" + oItem.dLat.ToString() + "~" + oItem.dLon.ToString());
+                    // nie OSM, bo chcemy mieć też możliwość widoku satelitarnego
+                    Uri oUri = oItem.oGeo.ToUri("bing");
                     oUri.OpenBrowser();
                 }
 
@@ -74,7 +75,7 @@ namespace EnviroStatus
         }
 
 
-        private async System.Threading.Tasks.Task WczytajDanePunktuAsync(VBlib.MyBasicGeoposition oPoint)
+        private async System.Threading.Tasks.Task WczytajDanePunktuAsync(pkar.BasicGeopos oPoint)
         {
             // uruchamiamy kazde zrodlo - niech sobie WWW sciaga rownolegle
             vb14.DumpCurrMethod();
@@ -153,8 +154,7 @@ namespace EnviroStatus
 
             this.ProgRingShow(true);
 
-            VBlib.MyBasicGeoposition oPoint;
-            oPoint = await App.GetCurrentPointAsync();
+            pkar.BasicGeopos oPoint = await App.GetCurrentPointAsync();
             vb14.DebugOut("uiGPS_Click() got point");
             await WczytajDanePunktuAsync(oPoint);
             vb14.DebugOut("uiGPS_Click() data wczytane");
@@ -338,7 +338,7 @@ namespace EnviroStatus
 #endif 
 
             vb14.SetSettingsString("fav_" + sName, sTmp);
-            vb14.SetSettingsString("favgps_" + sName, VBlib.App.moGpsPoint.Latitude + "|" + VBlib.App.moGpsPoint.Longitude);
+            vb14.SetSettingsString("favgps_" + sName, VBlib.App.moGpsPoint.FormatLink("%lat|%lon"));
 
             foreach (VBlib.Source_Base oZrodlo in VBlib.App.gaSrc)
                 oZrodlo.FavTemplateSave();

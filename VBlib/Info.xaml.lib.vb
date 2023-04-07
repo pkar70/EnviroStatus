@@ -58,7 +58,9 @@ Public Class Info
         * Burze, informacja o burzach w okolicy oraz ostrzeżenia pogodowe (burze.dzis.net)<br />
         * EEAair, czyli unijny GIOŚ (European Environmental Agency)<br />
         * Airly, którego sensory mierzą głównie zapylenie ('peemy')<br />
-        * DarkSky, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. UV index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną (i te dane prezentuję)<br />
+        * DarkSky, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. UV index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną (i te dane prezentuję) - to źródło przestanie działać po 31 III 2023<br />
+        * VisualCrossing, który co prawda jest serwisem prognozy pogody a nie siecią sensorów, ale udostępnia dane o oficjalnych alertach pogodowych, a także m.in. tzw. UV index, stopień zachmurzenia, widzialność, punkt rosy oraz temperaturę odczuwalną; także wschód/zachód Słońca i Księżyca (i te dane prezentuję)<br />
+
         * RadioactiveAtHome, sensory uczestniczące w tym projekcie mierzą promieniowanie tła<br />
         * PAA, czyli Państwowa Agencja Atomistyki - oficjalne dane o promieniowaniu tła<br />
         * Foreca, z której biorę dane o najzimniejszym oraz najcieplejszym miejscu na świecie<br />
@@ -72,7 +74,7 @@ Public Class Info
         <p>
             Ze względów technicznych, część danych ściągana jest są za pomocą API,
             zaś pozostałe przez symulację strony.
-            Ze względu zaś na warunki udostępniania danych przez Airly oraz DarkSky,
+            Ze względu zaś na warunki udostępniania danych przez Airly, DarkSky oraz VisualCrossing,
             należy sobie założyć na ich portalu konto.
             w ten sposob uzyskany API key należy wpisać w ustawieniach aplikacji (bez niego aplikacja nie dostanie się do ich pomiarów)
         </p>
@@ -115,7 +117,8 @@ Public Class Info
         <p>This app shows (sad) truth about air pollution in your vincinity.</p>
         <p>It simply collects (merges) data from different sources:</p>
         <!-- gwiazdka, i br, zeby nie bylo zmniejszenia tekstu -->
-        * DarkSky, although it is weather forecast service and not a sensors network, but it also presents official weather alerts, and e.g. UV index, cloud coverage, visibility, dew point and apparent temperature<br />
+        * DarkSky, although it is weather forecast service and not a sensors network, but it also presents official weather alerts, and e.g. UV index, cloud coverage, visibility, dew point and apparent temperature (would stop working after March 31, 2023)<br />
+        * VisualCrossing, although it is weather forecast service and not a sensors network, but it also presents official weather alerts, and e.g. UV index, cloud coverage, visibility, dew point and apparent temperature, also sunrise/sunset, moonrise/moonset, moonphase<br />
         * Foreca, for current maximum and minimum world temperature<br />
         * Seismic, earthquakes data (with strongest effect in your location, and sum of quakes within range)<br />
         * NOAA, cosmic weather (solar wind, radio perturbances, etc.)
@@ -135,7 +138,7 @@ Public Class Info
         <p>
             For technical reasons, data from four sources are received by API,
             and from rest - via web page simulation.
-            And for Airly and DarkSky rules, you have to create account on their portal.
+            And for Airly, DarkSky and VisualCrossing rules, you have to create account on their portal.
             after creating account, you get API key - please enter it in app settings.
         </p>
         <p>

@@ -386,4 +386,25 @@
   <data name="uiZasieg2" xml:space="preserve">
     <value>Poland</value>
   </data>
+  <data name="resKsiezyc" xml:space="preserve">
+    <value>Moon</value>
+  </data>
+  <data name="resMoonPhase" xml:space="preserve">
+    <value>Moon phase</value>
+  </data>
+  <data name="resSlonce" xml:space="preserve">
+    <value>Sun</value>
+  </data>
+  <data name="resSnowDepth" xml:space="preserve">
+    <value>Snow depth</value>
+  </data>
+  <data name="resPomiarWilg" xml:space="preserve">
+    <value>Humidity</value>
+  </data>
+  <data name="resPomiarWindGust" xml:space="preserve">
+    <value>Wind gust</value>
+  </data>
+  <data name="uiZasieg3" xml:space="preserve">
+    <value>(priv)</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.ObjectModel
+Imports pkar.DotNetExtensions
 
 Public Class Source_RadioAtHome
     Inherits Source_Base
@@ -49,7 +50,7 @@ Public Class Source_RadioAtHome
     ''' <param name="dMaxOdl">double.Max gdy nie sprawdzamy</param>
     ''' <param name="sId">"" gdy każdy sensor</param>
     ''' <returns></returns>
-    Private Async Function GetPomiaryAsync(oPos As MyBasicGeoposition, dMaxOdl As Double, sId As String, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
+    Private Async Function GetPomiaryAsync(oPos As pkar.BasicGeopos, dMaxOdl As Double, sId As String, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         moListaPomiarow = New Collection(Of JedenPomiar)
@@ -67,35 +68,37 @@ Public Class Source_RadioAtHome
                 Dim oNew = New JedenPomiar(SRC_POMIAR_SOURCE)
                 sPage = sPage.Substring(iInd + ITEM_PREFIX.Length)
                 iInd = sPage.IndexOf(",")
-                oNew.dLat = sPage.Substring(0, iInd)
+                Dim tempLat As String = sPage.Substring(0, iInd)
                 sPage = sPage.Substring(iInd + 1)
                 iInd = sPage.IndexOf("]")
-                oNew.dLon = sPage.Substring(0, iInd)
+                oNew.oGeo = New pkar.BasicGeopos(tempLat, sPage.Substring(0, iInd))
+                oNew.dOdl = oPos.DistanceTo(oNew.oGeo)
                 sPage = sPage.Substring(iInd + 2)
-                oNew.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oNew.dLat, oNew.dLon))
+
+                DumpMessage($"Sensor {oNew.oGeo.FormatLink("%lat, %lon")} - odległość {oNew.dOdl}")
 
                 ' przy szukaniu wedle nazwy: zawsze prawdziwe, bo dMaxOdl = double.max
                 If oNew.dOdl / 1000 < dMaxOdl Then
                     ' {icon: icon_green}).bindPopup('Last sample: 0.11 uSv/h<br />Last contact: 2022-08-11 13:32:37<br/>24 hours average: 0.12 uSv/h<br />Sensor 73<br/><a href=http://radioactiveathome.org/scripts/graph/drawweekdotted.php?hostid=73>7 days plot</a><br/>Team: hidden<br />Nick: hidden').addTo(map);
 
                     oNew.sOdl = Odleglosc2String(oNew.dOdl)
-                    oNew.dWysok = 0
+                    'oNew.dWysok = 0
 
-                    oNew.sId = sPage.SubstringBetween("hostid=", ">")
+                    oNew.sId = sPage.SubstringBetweenExclusive("hostid=", ">")
 
                     If sId = "" OrElse oNew.sId = sId Then
 
                         ' pomiar
-                        oNew.sCurrValue = sPage.SubstringBetween("sample: ", "<").Replace("uSv", "μSv").Trim
+                        oNew.sCurrValue = sPage.SubstringBetweenExclusive("sample: ", "<").Replace("uSv", "μSv").Trim
                         oNew.dCurrValue = oNew.sCurrValue.Replace("μSv/h", "")
                         If oNew.dCurrValue = 0 Then oNew.dCurrValue = oNew.sCurrValue.Replace("μSv/h", "").Replace(".", ",")
 
                         oNew.sUnit = Unit4Pomiar(oNew.sPomiar)
 
-                        oNew.sTimeStamp = sPage.SubstringBetween("contact: ", "<")
+                        oNew.sTimeStamp = sPage.SubstringBetweenExclusive("contact: ", "<")
 
 
-                        Dim sDailyAvg As String = sPage.SubstringBetween("average: ", "<").Replace("uSv/h", "").Trim
+                        Dim sDailyAvg As String = sPage.SubstringBetweenExclusive("average: ", "<").Replace("uSv/h", "").Trim
                         ' addit, tu: daily
                         oNew.sAddit = GetLangString("resRAHdailyAvg") & ": " & sDailyAvg & " μSv/h"
 
@@ -115,19 +118,19 @@ Public Class Source_RadioAtHome
                         oNew.sSensorDescr = ""
 
                         Try
-                                ' <br/>Team: hidden<br />Nick: hidden').
-                                oNew.sSensorDescr = sPage.SubstringBetween("Team: ", "<") & ", " &
-                                      sPage.SubstringBetween("Nick: ", "'")
+                            ' <br/>Team: hidden<br />Nick: hidden').
+                            oNew.sSensorDescr = sPage.SubstringBetweenExclusive("Team: ", "<") & ", " &
+                                      sPage.SubstringBetweenExclusive("Nick: ", "'")
 
-                            Catch
-                            End Try
+                        Catch
+                        End Try
 
-                            oNew.sAdres = ""
-                            oNew.sPomiar = "μSv/h"
-                            AddPomiar(oNew)
-                        End If
-
+                        oNew.sAdres = ""
+                        oNew.sPomiar = "μSv/h"
+                        AddPomiar(oNew)
                     End If
+
+                End If
 
                 iInd = sPage.IndexOf(ITEM_PREFIX)
             End While
@@ -144,7 +147,7 @@ Public Class Source_RadioAtHome
     End Function
 
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 50
@@ -159,7 +162,7 @@ Public Class Source_RadioAtHome
     ''' <param name="bInTimer"></param>
     ''' <param name="moGpsPoint"></param>
     ''' <returns></returns>
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oGpsPoint As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Return Await GetPomiaryAsync(oGpsPoint, Double.MaxValue, sId, bInTimer)

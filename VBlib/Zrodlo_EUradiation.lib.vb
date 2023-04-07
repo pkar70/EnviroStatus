@@ -41,7 +41,7 @@ Public Class Source_EUradiation
         Return "nSv/h"
     End Function
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 50
@@ -77,9 +77,8 @@ Public Class Source_EUradiation
             Dim oNew As New JedenPomiar(SRC_POMIAR_SOURCE)
 
             oNew.sId = oStation.Item("Code").InnerText ' + decode
-            oNew.dLat = oStation.Item("Latitude").InnerText ' + decode
-            oNew.dLon = oStation.Item("Longitude").InnerText ' + decode
-            oNew.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oNew.dLat, oNew.dLon))
+            oNew.oGeo = New pkar.BasicGeopos(oStation.Item("Latitude").InnerText, oStation.Item("Longitude").InnerText) ' + decode
+            oNew.dOdl = oPos.DistanceTo(oNew.oGeo)
             oNew.sOdl = Odleglosc2String(oNew.dOdl)
 
             If oNew.dOdl > dMaxOdl Then Continue For
@@ -105,7 +104,7 @@ Public Class Source_EUradiation
         Return moListaPomiarow
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         moListaPomiarow = New Collection(Of JedenPomiar)()
         If Not GetSettingsBool(SRC_SETTING_NAME, SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 

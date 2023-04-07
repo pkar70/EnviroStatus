@@ -20,13 +20,13 @@ Partial Public Class Source_Burze
     End Sub
 
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Return Await GetDataFromFavSensorAsync("", "", False, oPos)
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         moListaPomiarow = New Collection(Of JedenPomiar)()
@@ -40,7 +40,8 @@ Partial Public Class Source_Burze
         Return moListaPomiarow
     End Function
 
-
+#If False Then
+    ' bo jest to w Nuget
     Private Function WspolrzDoDM(dWspolrzedna As Double) As String
         ' https://github.com/PiotrMachowski/Home-Assistant-custom-components-Burze.dzis.net/blob/master/custom_components/burze_dzis_net/binary_sensor.py
         ' return '{}.{:02}'.format(int(dmf), round(dmf % 1 * 60))
@@ -49,17 +50,21 @@ Partial Public Class Source_Burze
         Return (oTSpan.Minutes + oTSpan.Hours * 24).ToString & "." & oTSpan.Seconds.ToString("0#")
     End Function
 
-    Private Function GetDmForSoap(oPos As MyBasicGeoposition) As String
-        Return $"<y xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Latitude)}</y>" &
-               $"<x xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Longitude)}</x>" ' dla Krakowa ma być x=19, czyli długość geograficzna
+    ' bo po uzyciu nuget jest za proste by było oddzielną funkcją
+    Private Function GetDmForSoap(oPos As pkar.BasicGeopos) As String
+        'Return $"<y xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Latitude)}</y>" &
+        '       $"<x xsi:type=""xsd:float"">{WspolrzDoDM(oPos.Longitude)}</x>" ' dla Krakowa ma być x=19, czyli długość geograficzna
+        Return $"<y xsi:type=""xsd:float"">{oPos.StringLatDM("%d.%m")}</y>" &
+               $"<x xsi:type=""xsd:float"">{oPos.StringLonDM("%d.%m")}</x>" ' dla Krakowa ma być x=19, czyli długość geograficzna
     End Function
+#End If
 
     ''' <summary>
     ''' Dopisuje do moListaPomiarow po jednym JedenPomiar o każdym ostrzeżeniu
     ''' </summary>
     ''' <param name="oPos"></param>
     ''' <returns></returns>
-    Private Async Function OstrzezeniaRequest(oPos As MyBasicGeoposition) As Task
+    Private Async Function OstrzezeniaRequest(oPos As pkar.BasicGeopos) As Task
         DumpCurrMethod()
 
         Try
@@ -68,7 +73,9 @@ Partial Public Class Source_Burze
             soapgr = soapgr & "   <soapenv:Header/>"
             soapgr = soapgr & "   <soapenv:Body>"
             soapgr = soapgr & "      <soap:ostrzezenia_pogodowe soapenv:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">"
-            soapgr = soapgr & GetDmForSoap(oPos)
+            ' soapgr = soapgr & GetDmForSoap(oPos)
+            soapgr = soapgr & $"<y xsi:type=""xsd:float"">{oPos.StringLatDM("%d.%m")}</y>"
+            soapgr = soapgr & $"<x xsi:type=""xsd:float"">{oPos.StringLonDM("%d.%m")}</x>" ' dla Krakowa ma być x=19, czyli długość geograficzna
             soapgr = soapgr & "          <klucz xsi:type=""xsd:string"">" & SRC_MY_KEY & "</klucz>"
             soapgr = soapgr & "      </soap:ostrzezenia_pogodowe>"
             soapgr = soapgr & "   </soapenv:Body>"
@@ -195,7 +202,7 @@ Partial Public Class Source_Burze
     ''' </summary>
     ''' <param name="oPos"></param>
     ''' <returns></returns>
-    Private Async Function BurzaRequest(oPos As MyBasicGeoposition) As Task
+    Private Async Function BurzaRequest(oPos As pkar.BasicGeopos) As Task
         DumpCurrMethod()
 
         Try
@@ -212,7 +219,9 @@ Partial Public Class Source_Burze
             soapgr = soapgr & "   <soapenv:Header/>"
             soapgr = soapgr & "   <soapenv:Body>"
             soapgr = soapgr & "      <soap:szukaj_burzy soapenv:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/"">"
-            soapgr = soapgr & GetDmForSoap(oPos)
+            ' soapgr = soapgr & GetDmForSoap(oPos)
+            soapgr = soapgr & $"<y xsi:type=""xsd:float"">{oPos.StringLatDM("%d.%m")}</y>"
+            soapgr = soapgr & $"<x xsi:type=""xsd:float"">{oPos.StringLonDM("%d.%m")}</x>" ' dla Krakowa ma być x=19, czyli długość geograficzna
             soapgr = soapgr & "          <promien xsi:type=""xsd:int"">" & promien & "</promien>"   ' default: 25 km
             soapgr = soapgr & "          <klucz xsi:type=""xsd:string"">" & SRC_MY_KEY & "</klucz>"
             soapgr = soapgr & "      </soap:szukaj_burzy>"

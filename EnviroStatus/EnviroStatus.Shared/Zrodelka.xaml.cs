@@ -40,6 +40,8 @@ namespace EnviroStatus
             uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.World, currentZasieg));
             uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.Europe, currentZasieg));
             uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.Poland, currentZasieg));
+            if(p.k.IsThisMoje())
+                uiZasieg.Items.Add(GetZasiegComboItem((int)Zasieg.Prywatne, currentZasieg));
         }
 
         private void uiZasieg_Changed(object sender, RoutedEventArgs e)

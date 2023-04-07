@@ -35,10 +35,13 @@ Partial Public Class Source_Airly
     End Sub
 
     Private Shared Function NormalizePomiarName(sPomiar As String) As String
-        If (If(sPomiar, "")) = "PM10" Then Return "PM₁₀"
-        If (If(sPomiar, "")) = "PM1" Then Return "PM₁"
-        If (If(sPomiar, "")) = "PM25" Then Return "PM₂₅"
-        If (If(sPomiar.Substring(0, 2), "")) = "PM" Then Return sPomiar
+        If sPomiar = "PM10" Then Return "PM₁₀"
+        If sPomiar = "PM1" Then Return "PM₁"
+        If sPomiar = "PM25" Then Return "PM₂₅"
+        If sPomiar = "NO2" Then Return "NO₂"
+        If sPomiar = "O3" Then Return "O₃"
+
+        If sPomiar.Substring(0, 2) = "PM" Then Return sPomiar
         Return sPomiar.Substring(0, 1) & sPomiar.Substring(1).ToLower()
     End Function
 
@@ -89,10 +92,8 @@ Partial Public Class Source_Airly
             For Each oJsonMeasurement As Newtonsoft.Json.Linq.JObject In oJsonValues
                 Dim oNew = New JedenPomiar(oTemplate.sSource) With {
                     .sId = oTemplate.sId,
-                    .dLon = oTemplate.dLon,
-                    .dLat = oTemplate.dLat,
-                    .dWysok = oTemplate.dWysok,
-                    .dOdl = oTemplate.dOdl,
+                    .oGeo = oTemplate.oGeo,
+                .dOdl = oTemplate.dOdl,
                     .sOdl = Odleglosc2String(oTemplate.dOdl),
                     .sSensorDescr = oTemplate.sSensorDescr,
                     .sAdres = oTemplate.sAdres,
@@ -119,7 +120,7 @@ Partial Public Class Source_Airly
         End Try
     End Function
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 10
@@ -128,7 +129,7 @@ Partial Public Class Source_Airly
         If Not GetSettingsBool("sourceAirly", SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
         If GetSettingsString("sourceAirly_apikey").Length < 8 Then Return moListaPomiarow
         Dim sCmd As String
-        sCmd = "v2/installations/nearest?lat=" & oPos.Latitude.ToString(System.Globalization.NumberFormatInfo.InvariantInfo) & "&lng=" + oPos.Longitude.ToString(System.Globalization.NumberFormatInfo.InvariantInfo) & "&maxDistanceKM=" & dMaxOdl.ToString(System.Globalization.NumberFormatInfo.InvariantInfo) & "&maxResults=5"
+        sCmd = oPos.FormatLink("v2/installations/nearest?lat=%lat&lng=%lon") & "&maxDistanceKM=" & dMaxOdl.ToString(System.Globalization.NumberFormatInfo.InvariantInfo) & "&maxResults=5"
         Dim sPage As String = Await GetREST(sCmd)
         If sPage.Length < 10 Then Return moListaPomiarow
         Dim bError As Boolean = False
@@ -160,10 +161,12 @@ Partial Public Class Source_Airly
                 oTemplate.sId = oJsonSensor.GetNamedString("id")
                 Dim oJsonPoint As Newtonsoft.Json.Linq.JToken
                 oJsonPoint = oJsonSensor.GetNamedToken("location")
-                oTemplate.dLon = oJsonPoint.GetNamedNumber("longitude")
-                oTemplate.dLat = oJsonPoint.GetNamedNumber("latitude")
-                oTemplate.dWysok = oJsonSensor.GetNamedNumber("elevation", 0)
-                oTemplate.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oTemplate.dLat, oTemplate.dLon))
+                oTemplate.oGeo = New pkar.BasicGeopos(oJsonPoint.GetNamedNumber("longitude"),
+                        oJsonPoint.GetNamedNumber("latitude"), oJsonSensor.GetNamedNumber("elevation", 0))
+                'oTemplate.dLon = oJsonPoint.GetNamedNumber("longitude")
+                'oTemplate.dLat = oJsonPoint.GetNamedNumber("latitude")
+                'oTemplate.dWysok = oJsonSensor.GetNamedNumber("elevation", 0)
+                oTemplate.dOdl = oPos.DistanceTo(oTemplate.oGeo)
                 Dim oJsonSponsor As Newtonsoft.Json.Linq.JToken
                 oJsonSponsor = oJsonSensor.GetNamedToken("sponsor")
                 oTemplate.sSensorDescr = oJsonSponsor.GetNamedString("name", "")
@@ -179,7 +182,7 @@ Partial Public Class Source_Airly
         Return moListaPomiarow
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         moListaPomiarow = New Collection(Of JedenPomiar)()
         If Not GetSettingsBool("sourceAirly", SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 

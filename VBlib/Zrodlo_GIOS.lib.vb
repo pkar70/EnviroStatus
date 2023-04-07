@@ -87,9 +87,7 @@ Public Class Source_GIOS
             For Each oJsonMeasurement As Newtonsoft.Json.Linq.JToken In oJson
                 Dim oNew = New JedenPomiar(oTemplate.sSource) With {
                     .sId = oTemplate.sId,
-                    .dLon = oTemplate.dLon,
-                    .dLat = oTemplate.dLat,
-                    .dWysok = oTemplate.dWysok,
+                    .oGeo = oTemplate.oGeo,
                     .dOdl = oTemplate.dOdl,
                     .sOdl = Odleglosc2String(oTemplate.dOdl),
                     .sSensorDescr = oTemplate.sSensorDescr,
@@ -166,7 +164,7 @@ Public Class Source_GIOS
         End Try
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         moListaPomiarow = New Collection(Of JedenPomiar)()
         If Not GetSettingsBool("sourceGIOS", SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 
@@ -178,7 +176,7 @@ Public Class Source_GIOS
         Return moListaPomiarow
     End Function
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         moListaPomiarow = New Collection(Of JedenPomiar)()
@@ -213,10 +211,8 @@ Public Class Source_GIOS
                 oJsonObj = oJsonSensor.GetObject()
                 Dim oTemplate = New JedenPomiar(SRC_POMIAR_SOURCE)
                 oTemplate.sId = oJsonObj.GetNamedNumber("id").ToString()
-                oTemplate.dLon = oJsonObj.GetNamedString("gegrLon")
-                oTemplate.dLat = oJsonObj.GetNamedString("gegrLat")
-                oTemplate.dWysok = 0
-                oTemplate.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oTemplate.dLat, oTemplate.dLon))
+                oTemplate.oGeo = New pkar.BasicGeopos(oJsonObj.GetNamedString("gegrLon"), oJsonObj.GetNamedString("gegrLat"))
+                oTemplate.dOdl = oPos.DistanceTo(oTemplate.oGeo)
 
                 If oTemplate.dOdl / 1000 < dMaxOdl Then
                     oTemplate.sOdl = Odleglosc2String(oTemplate.dOdl)

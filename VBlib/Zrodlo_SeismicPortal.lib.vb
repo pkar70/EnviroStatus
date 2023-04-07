@@ -103,7 +103,7 @@ Public Class Source_SeismicPortal
         Return $"Total eartquakes: {iCount}" & vbCrLf & $"({sOldestTimestamp} - {sNewestTStamp})" & vbCrLf & vbCrLf & MakeOpisFromKJoules(dKJoules)
     End Function
 
-    Private Async Function WczytujDane(oPos As MyBasicGeoposition, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
+    Private Async Function WczytujDane(oPos As pkar.BasicGeopos, bInTimer As Boolean) As Task(Of Collection(Of JedenPomiar))
         Dim moListaPomiarow As New Collection(Of JedenPomiar)
         If Not GetSettingsBool(SRC_SETTING_NAME, SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
         Dim sPage As String = Await GetREST(SRC_RESTURI_BASE)
@@ -140,19 +140,24 @@ Public Class Source_SeismicPortal
             .sUnit = "mag"
         }
         Dim dMaxMag As Double = 0
+        Dim iQuakesCounter = 0
+        Dim dQuakesPowerSum = 0
         Dim iZasieg As Integer = DistanceNum2Metry(GetSettingsInt(SRC_SETTING_NAME & "_distance"))
 
         For Each oVal As Newtonsoft.Json.Linq.JToken In oJsonArr
             Dim oJsonProp As Newtonsoft.Json.Linq.JToken = oVal.GetObject().GetNamedToken("properties")
-            Dim dLat, dLon, dOdl, dMag As Double
-            dLat = oJsonProp.GetObject().GetNamedNumber("lat", 0)
-            dLon = oJsonProp.GetObject().GetNamedNumber("lon", 0)
-            dOdl = oPos.DistanceTo(New MyBasicGeoposition(dLat, dLon))
+            Dim dOdl, dMag As Double
+
+            Dim oEpicenter As New pkar.BasicGeopos(oJsonProp.GetObject().GetNamedNumber("lat", 0),
+                                                   oJsonProp.GetObject().GetNamedNumber("lon", 0),
+                                                   oJsonProp.GetObject().GetNamedNumber("depth", 0))
+
+            dOdl = oPos.DistanceTo(oEpicenter)
             dMag = oJsonProp.GetObject().GetNamedNumber("mag", 0)
 
             If dOdl / 1000 < iZasieg Then
-                oNewSum.dLat += 1
-                oNewSum.dLon = oNewSum.dLon + EnergyKJoulesFromMag(dMag)
+                iQuakesCounter += 1
+                dQuakesPowerSum += EnergyKJoulesFromMag(dMag)
                 oNewSum.dCurrValue = Math.Max(oNewSum.dCurrValue, dMag)
                 oNewSum.sCurrValue = oJsonProp.GetObject().GetNamedString("time", "")
                 If oNewSum.sTimeStamp = "" Then oNewSum.sTimeStamp = oNewSum.sCurrValue
@@ -163,12 +168,10 @@ Public Class Source_SeismicPortal
 
             If dMag / dOdlTmp > dMaxMag Then
                 dMaxMag = dMag / dOdlTmp
-                oNearest.dLat = dLat
-                oNearest.dLon = dLon
+                oNearest.oGeo = oEpicenter
                 oNearest.dOdl = dOdl
                 oNearest.dCurrValue = dMag
                 oNearest.sTimeStamp = oJsonProp.GetObject().GetNamedString("time", "")
-                oNearest.dWysok = oJsonProp.GetObject().GetNamedNumber("depth", 0)
                 oNearest.sAdres = oJsonProp.GetObject().GetNamedString("flynn_region", "")
             End If
         Next
@@ -179,25 +182,23 @@ Public Class Source_SeismicPortal
         oNearest.sTimeStamp = oNearest.sTimeStamp.Replace("T", " ")
         oNewSum.sTimeStamp = oNewSum.sTimeStamp.Replace("T", " ")
         oNewSum.sCurrValue = oNewSum.sCurrValue.Replace("T", " ")
-        oNewSum.sAddit = MakeOpisDokladnySum(oNewSum.dLon, CInt(oNewSum.dLat), oNewSum.sCurrValue, oNewSum.sTimeStamp)
+        oNewSum.sAddit = MakeOpisDokladnySum(dQuakesPowerSum, iQuakesCounter, oNewSum.sCurrValue, oNewSum.sTimeStamp)
         oNewSum.sCurrValue = oNewSum.dCurrValue.ToString() & " " & oNewSum.sUnit
-        oNewSum.dLat = 0
-        oNewSum.dLon = 0
         If oNearest.dCurrValue > 0 Then moListaPomiarow.Add(oNearest)
         If oNewSum.dCurrValue > 0 Then moListaPomiarow.Add(oNewSum)
         Return moListaPomiarow
     End Function
 
     ' Public Overrides Async Function GetNearest(ByVal oPos As Windows.Devices.Geolocation.BasicGeoposition) As System.Threading.Tasks.Task(Of Collection(Of JedenPomiar))
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Return Await WczytujDane(oPos, False)
     End Function
 
     '    Public Overrides Async Function GetDataFromFavSensor(ByVal sId As String, ByVal sAddit As String, ByVal bInTimer As Boolean) As System.Threading.Tasks.Task(Of Collection(Of JedenPomiar))
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, moGpsPoint As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
-        Dim oPos As New MyBasicGeoposition(sId, sAddit)
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, moGpsPoint As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
+        Dim oPos As New pkar.BasicGeopos(sId, sAddit)
         Return Await WczytujDane(oPos, bInTimer)
     End Function
 

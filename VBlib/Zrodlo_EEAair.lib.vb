@@ -60,6 +60,8 @@ Public Class Source_EEAair
         Dim sTmp As String = "SamplingPoint?spo=" & oTemplate.sId
         Dim sPage As String = Await GetREST(sTmp)
         If sPage.Length < 10 Then Return
+
+        ' znajdź które kolumny nas interesują (wedle header row)
         Dim aLines = sPage.Split(vbLf)
         Dim aFields = aLines(0).Split(",")
         Dim iVal As Integer = 0, iProp As Integer = 0, iDate As Integer = 0
@@ -72,17 +74,27 @@ Public Class Source_EEAair
             i += 1
         End While
 
-        sTmp = aLines(aLines.GetUpperBound(0))
-        If sTmp.Length < 15 Then sTmp = aLines(aLines.GetUpperBound(0) - 1)
-        aFields = sTmp.Split(","c)
+        Dim sMaxDate As String = "1970"
+        Dim sMaxLine As String = ""
+        For iLp As Integer = 1 To aLines.GetUpperBound(0)
+            Dim sLine As String = aLines(iLp)
+            If sLine.Length < 15 Then Continue For
+            aFields = aLines(iLp).Split(",")
+            If aFields(iDate) > sMaxDate Then
+                sMaxDate = aFields(iDate)
+                sMaxLine = sLine
+            End If
+        Next
+
+        'sMaxLine = aLines(aLines.GetUpperBound(0))
+        'If sMaxLine.Length < 15 Then sMaxLine = aLines(aLines.GetUpperBound(0) - 1)
+        aFields = sMaxLine.Split(","c)
         Dim dVal As Double
         If Not Double.TryParse(aFields(iVal), dVal) Then Return
         If dVal = -1 Then Return
         Dim oNew = New JedenPomiar(oTemplate.sSource) With {
             .sId = oTemplate.sId,
-            .dLon = oTemplate.dLon,
-            .dLat = oTemplate.dLat,
-            .dWysok = oTemplate.dWysok,
+            .oGeo = oTemplate.oGeo,
             .dOdl = oTemplate.dOdl,
             .sOdl = Odleglosc2String(oTemplate.dOdl),
             .sAdres = oTemplate.sAdres
@@ -97,7 +109,7 @@ Public Class Source_EEAair
         moListaPomiarow.Add(oNew)
     End Function
 
-    Public Overrides Async Function GetNearestAsync(oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetNearestAsync(oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         DumpCurrMethod()
 
         Dim dMaxOdl As Double = 10
@@ -107,7 +119,7 @@ Public Class Source_EEAair
         Dim sData As String = DateTime.UtcNow.AddMinutes(-15).ToString("yyyyMMddHH") & "0000"
 
         For Each sPolu As String In {"PM10", "PM25", "NO2", "O3", "SO2", "CO"}
-            sCmd = "Hourly?polu=" & sPolu & "&dt=" & sData
+            sCmd = $"Hourly?polu={sPolu}&dt={sData}"
             Dim sPage As String = Await GetREST(sCmd)
             If sPage.Length < 10 Then Return moListaPomiarow
             Dim aLines = sPage.Split(vbLf)
@@ -164,11 +176,9 @@ Public Class Source_EEAair
                 dLat = Math.Asin((Math.Exp(2 * dLat / constR) - 1) / (Math.Exp(2 * dLat / constR) + 1)) / constD
                 Dim oTemplate = New JedenPomiar(SRC_POMIAR_SOURCE)
                 oTemplate.sId = aFields(iId)
-                oTemplate.dLon = dLon
-                oTemplate.dLat = dLat
-                Dim argresult = oTemplate.dWysok
-                If Not Double.TryParse(aFields(iAlt), argresult) Then oTemplate.dWysok = 0
-                oTemplate.dOdl = oPos.DistanceTo(New MyBasicGeoposition(oTemplate.dLat, oTemplate.dLon))
+                oTemplate.oGeo = New pkar.BasicGeopos(dLat, dLon, 0)
+                Double.TryParse(aFields(iAlt), oTemplate.oGeo.Altitude) ' if fail, then value is set to 0
+                oTemplate.dOdl = oPos.DistanceTo(oTemplate.oGeo)
                 oTemplate.sOdl = Odleglosc2String(oTemplate.dOdl)
                 oTemplate.sAdres = aFields(iName)
                 If (If(oTemplate.sAdres, "")) = "PKremovedPK" Then oTemplate.sAdres = sName
@@ -182,7 +192,7 @@ Public Class Source_EEAair
         Return moListaPomiarow
     End Function
 
-    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As MyBasicGeoposition) As Task(Of Collection(Of JedenPomiar))
+    Public Overrides Async Function GetDataFromFavSensorAsync(sId As String, sAddit As String, bInTimer As Boolean, oPos As pkar.BasicGeopos) As Task(Of Collection(Of JedenPomiar))
         moListaPomiarow = New Collection(Of JedenPomiar)()
         If Not GetSettingsBool(SRC_SETTING_NAME, SRC_DEFAULT_ENABLE) Then Return moListaPomiarow
 
