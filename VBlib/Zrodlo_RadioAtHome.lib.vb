@@ -62,15 +62,15 @@ Public Class Source_RadioAtHome
 
         ' 2022.08.11
         ' L.marker([59.92, 30.31], {icon: icon_green}).bindPopup('Last sample: 0.11 uSv/h<br />Last contact: 2022-08-11 13:32:37<br/>24 hours average: 0.12 uSv/h<br />Sensor 73<br/><a href=http://radioactiveathome.org/scripts/graph/drawweekdotted.php?hostid=73>7 days plot</a><br/>Team: hidden<br />Nick: hidden').addTo(map);
-        Try
-
-            While iInd > 0
-                Dim oNew = New JedenPomiar(SRC_POMIAR_SOURCE)
+        While iInd > 0
+            Dim oNew = New JedenPomiar(SRC_POMIAR_SOURCE)
                 sPage = sPage.Substring(iInd + ITEM_PREFIX.Length)
                 iInd = sPage.IndexOf(",")
                 Dim tempLat As String = sPage.Substring(0, iInd)
                 sPage = sPage.Substring(iInd + 1)
                 iInd = sPage.IndexOf("]")
+            Try
+                ' że jeden jest lat=lon=1000?
                 oNew.oGeo = New pkar.BasicGeopos(tempLat, sPage.Substring(0, iInd))
                 oNew.dOdl = oPos.DistanceTo(oNew.oGeo)
                 sPage = sPage.Substring(iInd + 2)
@@ -132,11 +132,11 @@ Public Class Source_RadioAtHome
 
                 End If
 
-                iInd = sPage.IndexOf(ITEM_PREFIX)
-            End While
+            Catch
+            End Try
+            iInd = sPage.IndexOf(ITEM_PREFIX)
+        End While
 
-        Catch
-        End Try
 
         If moListaPomiarow.Count < 1 Then
             If Not bInTimer Then Await DialogBoxAsync($"ERROR: no station in range ({SRC_SETTING_NAME})")
